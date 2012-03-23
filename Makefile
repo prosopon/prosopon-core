@@ -1,34 +1,26 @@
 SHELL=/bin/bash
 
-#
-#	define version of c compiler, linker, and lex
-#
 CC = gcc
 LINK = gcc
 LEX = flex
 BISON = bison
 
-#
-#	define yacc lex and compiler flags
-#
-BISON_FLAGS = --debug -d
-LEX_FLAGS = -dv -ll
-CFLAGS = -g
+CFLAGS = -std=c99
 
-SRC = prosopon.c lex.yy.c gram.tab.c
+SRC_DIR = src
 
-all : $(SRC)
-	g++ $(CFLAGS) $(SRC) -o prosopon
+OBJS = pro_actor.o pro_behavior.o pro_env.o pro_lookup.o pro_object.o pro_state.o
 
-lex.yy.c : scan.l
-	$(LEX) $(LEX_FLAGS) scan.l
+OUT_DIR = build
+OUT_OBJS = $(addprefix $(OUT_DIR)/,$(OBJS))
 
-gram.tab.c : gram.y
-	$(BISON) $(BISON_FLAGS) gram.y
+
+all : $(OUT_OBJS)
+	gcc -shared -Wl,-install_name,libprosopon.so.1 -o $(OUT_DIR)/libprosopon.so.1.0.1 $<
+
+$(OUT_DIR)/%.o : $(SRC_DIR)/%.c
+	gcc $(CFLAGS) -c -fPIC $< -o $@
 
 clean :
-	rm -f gram.tab.* lex.yy.c *.o prosopon
-	rm -rf prosopon.dSYM
-
-
+	rm -f $(OUT_DIR)/*
 

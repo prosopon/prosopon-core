@@ -21,9 +21,21 @@ typedef struct pro_env pro_env;
 typedef struct pro_lookup pro_lookup;
 
 /**
- *
+ * Function representing the behavior of an actor.
+ * 
+ * @param t A lookup for self.
+ * @param data Additional user defined data passed to the behavior.
  */
-typedef struct pro_actor_behavior pro_actor_behavior;
+typedef void(pro_actor_behavior)(pro_state*, pro_lookup* t, void* data);
+
+/**
+ * Function representing the behavior of an actor.
+ * 
+ * @param data Additional user defined data passed to the constructor.
+ *
+ * @return A lookup to the constructed object.
+ */
+typedef pro_lookup*(pro_constructor)(pro_state*, void* data);
 
 
 #pragma mark Types
@@ -81,7 +93,6 @@ PRO_API void (pro_lookup_bind) (pro_state*, const pro_lookup* lookup, const char
 
 #pragma mark Constructor
 
-typedef void(pro_constructor)(pro_state*);
 
 PRO_API pro_lookup* (pro_constructor_create) (pro_state*, pro_constructor*);
 

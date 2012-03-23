@@ -10,7 +10,7 @@
 struct pro_internal_lookup
 {
     pro_internal_lookup* next;
-    const char* identifier;
+    char* identifier;
     pro_lookup* lookup;
 };
 
