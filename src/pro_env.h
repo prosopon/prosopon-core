@@ -6,15 +6,15 @@
 #include "pro_lookup.h"
 
 
-/**
- * An opaque structure that holds scope information. 
- */
+
 typedef struct pro_env pro_env;
 
 
 typedef struct pro_internal_lookup pro_internal_lookup;
 
-
+/**
+ * A structure that holds scope information. 
+ */
 struct pro_env
 {
     pro_env* previous; // The previous environment on the stack.
