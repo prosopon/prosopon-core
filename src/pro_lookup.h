@@ -4,10 +4,12 @@
 #include "prosopon.h"
 #include "prosopon_config.h"
 
+struct pro_env;
+
 
 struct pro_lookup
 {
-    pro_env* env;
+    struct pro_env* env;
     unsigned int index;
 };
 

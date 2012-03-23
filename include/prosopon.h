@@ -5,15 +5,20 @@
 
 
 /**
+ * @mainpage
+ *
+ * @author Matt Bierner
+ * @version 0.1.0
+ *
+ * @section intro_sec Introduction
+ */
+
+
+/**
  * An opaque structure that holds information about the state of the prosopon
  * machine.
  */
 typedef struct pro_state pro_state;
-
-/**
- * An opaque structure that holds scope information. 
- */
-typedef struct pro_env pro_env;
 
 /**
  * An opaque structure used to resolve identifiers.
@@ -40,11 +45,15 @@ typedef pro_lookup*(pro_constructor)(pro_state*, void* data);
 
 #pragma mark Types
 
+/**
+ * The basic type of an object.
+ */
 typedef enum
 {
     PRO_NONE_TYPE = 0,
     PRO_MESSAGE_TYPE,
-    PRO_ACTOR_TYPE
+    PRO_ACTOR_TYPE,
+    PRO_TYPE_MAX
 } pro_type;
 
 
