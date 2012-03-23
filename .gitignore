@@ -10,6 +10,10 @@ bin
 build
 libprosopon.so.*
 
+# Doc Files #
+#############
+doc
+
 # Project Files #
 #################
 .project

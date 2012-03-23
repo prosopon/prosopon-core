@@ -2,8 +2,10 @@ SHELL=/bin/bash
 
 CC = gcc
 LINK = gcc
+DOC = doxygen
 
 CFLAGS = -std=c99 -I./include
+DOC_FLAGS = 
 
 SRC_DIR = src
 TEST_DIR = test
@@ -30,6 +32,12 @@ test : $(OUT_OBJS) $(OUT_DIR)/test.o
 $(OUT_DIR)/test.o : $(TEST_DIR)/test.c
 	$(CC) $(CFLAGS) -c -fPIC $< -o $@
 
+.PHONY : doc
+doc :
+	doxygen Doxyfile
+
+
+.PHONY : clean
 clean :
 	rm -f $(OUT_DIR)/*
 	if [ -f libprosopon.so.* ]; then rm libprosopon.so.*; fi
