@@ -11,11 +11,17 @@
 		890024ED1511A3590012E749 /* pro_object.c in Sources */ = {isa = PBXBuildFile; fileRef = 890024CE1511A3070012E749 /* pro_object.c */; };
 		890024EE1511A35B0012E749 /* pro_env.c in Sources */ = {isa = PBXBuildFile; fileRef = 890024CA1511A3070012E749 /* pro_env.c */; };
 		890024EF1511A35C0012E749 /* pro_actor.c in Sources */ = {isa = PBXBuildFile; fileRef = 890024C61511A3070012E749 /* pro_actor.c */; };
-		890024F01511A35F0012E749 /* prosopon_config.h in Headers */ = {isa = PBXBuildFile; fileRef = 890024D31511A3070012E749 /* prosopon_config.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		890024F11511A3630012E749 /* prosopon.h in Headers */ = {isa = PBXBuildFile; fileRef = 890024D21511A3070012E749 /* prosopon.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		89BADB2C15195B4200407C3B /* pro_lookup.c in Sources */ = {isa = PBXBuildFile; fileRef = 890024CC1511A3070012E749 /* pro_lookup.c */; };
 		89F11127151CC62800317A20 /* libcunit.1.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 89F11126151CC62800317A20 /* libcunit.1.dylib */; };
 		89F1112B151CC91500317A20 /* test.c in Sources */ = {isa = PBXBuildFile; fileRef = 89F11129151CC90C00317A20 /* test.c */; };
+		89F1112C151CD14200317A20 /* pro_actor.c in Sources */ = {isa = PBXBuildFile; fileRef = 890024C61511A3070012E749 /* pro_actor.c */; };
+		89F1112D151CD14200317A20 /* pro_behavior.c in Sources */ = {isa = PBXBuildFile; fileRef = 890024C81511A3070012E749 /* pro_behavior.c */; };
+		89F1112E151CD14200317A20 /* pro_env.c in Sources */ = {isa = PBXBuildFile; fileRef = 890024CA1511A3070012E749 /* pro_env.c */; };
+		89F1112F151CD14200317A20 /* pro_lookup.c in Sources */ = {isa = PBXBuildFile; fileRef = 890024CC1511A3070012E749 /* pro_lookup.c */; };
+		89F11130151CD14200317A20 /* pro_object.c in Sources */ = {isa = PBXBuildFile; fileRef = 890024CE1511A3070012E749 /* pro_object.c */; };
+		89F11131151CD14200317A20 /* pro_state.c in Sources */ = {isa = PBXBuildFile; fileRef = 890024D01511A3070012E749 /* pro_state.c */; };
+		89F11135151CD28E00317A20 /* prosopon.h in Headers */ = {isa = PBXBuildFile; fileRef = 89F11133151CD28E00317A20 /* prosopon.h */; };
+		89F11136151CD28E00317A20 /* prosopon_config.h in Headers */ = {isa = PBXBuildFile; fileRef = 89F11134151CD28E00317A20 /* prosopon_config.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -43,13 +49,13 @@
 		890024CF1511A3070012E749 /* pro_object.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pro_object.h; sourceTree = "<group>"; };
 		890024D01511A3070012E749 /* pro_state.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = pro_state.c; sourceTree = "<group>"; };
 		890024D11511A3070012E749 /* pro_state.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pro_state.h; sourceTree = "<group>"; };
-		890024D21511A3070012E749 /* prosopon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = prosopon.h; sourceTree = "<group>"; };
-		890024D31511A3070012E749 /* prosopon_config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = prosopon_config.h; sourceTree = "<group>"; };
 		890024E81511A3430012E749 /* libprosopon.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libprosopon.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
 		89BADB2E15195C3C00407C3B /* Makefile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.make; name = Makefile; path = "../prosopon-interpreter/Makefile"; sourceTree = "<group>"; };
 		89F1111B151CC40100317A20 /* test */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = test; sourceTree = BUILT_PRODUCTS_DIR; };
 		89F11126151CC62800317A20 /* libcunit.1.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libcunit.1.dylib; path = ../../../../../usr/local/lib/libcunit.1.dylib; sourceTree = "<group>"; };
 		89F11129151CC90C00317A20 /* test.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = test.c; sourceTree = "<group>"; };
+		89F11133151CD28E00317A20 /* prosopon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = prosopon.h; sourceTree = "<group>"; };
+		89F11134151CD28E00317A20 /* prosopon_config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = prosopon_config.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -74,8 +80,6 @@
 		890024C51511A3070012E749 /* src */ = {
 			isa = PBXGroup;
 			children = (
-				890024D21511A3070012E749 /* prosopon.h */,
-				890024D31511A3070012E749 /* prosopon_config.h */,
 				890024C71511A3070012E749 /* pro_actor.h */,
 				890024C61511A3070012E749 /* pro_actor.c */,
 				890024C91511A3070012E749 /* pro_behavior.h */,
@@ -97,6 +101,7 @@
 			children = (
 				89F11126151CC62800317A20 /* libcunit.1.dylib */,
 				89BADB2E15195C3C00407C3B /* Makefile */,
+				89F11132151CD28E00317A20 /* include */,
 				890024C51511A3070012E749 /* src */,
 				89F11128151CC90C00317A20 /* test */,
 				89DD609A14FC755D0072ADE5 /* Products */,
@@ -120,6 +125,15 @@
 			path = test;
 			sourceTree = "<group>";
 		};
+		89F11132151CD28E00317A20 /* include */ = {
+			isa = PBXGroup;
+			children = (
+				89F11133151CD28E00317A20 /* prosopon.h */,
+				89F11134151CD28E00317A20 /* prosopon_config.h */,
+			);
+			path = include;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -127,8 +141,8 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				890024F01511A35F0012E749 /* prosopon_config.h in Headers */,
-				890024F11511A3630012E749 /* prosopon.h in Headers */,
+				89F11135151CD28E00317A20 /* prosopon.h in Headers */,
+				89F11136151CD28E00317A20 /* prosopon_config.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -212,6 +226,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				89F1112C151CD14200317A20 /* pro_actor.c in Sources */,
+				89F1112D151CD14200317A20 /* pro_behavior.c in Sources */,
+				89F1112E151CD14200317A20 /* pro_env.c in Sources */,
+				89F1112F151CD14200317A20 /* pro_lookup.c in Sources */,
+				89F11130151CD14200317A20 /* pro_object.c in Sources */,
+				89F11131151CD14200317A20 /* pro_state.c in Sources */,
 				89F1112B151CC91500317A20 /* test.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

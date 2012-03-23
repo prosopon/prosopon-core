@@ -8,6 +8,7 @@
 #########
 bin
 build
+libprosopon.so.*
 
 # Project Files #
 #################

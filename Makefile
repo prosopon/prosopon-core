@@ -5,7 +5,7 @@ LINK = gcc
 LEX = flex
 BISON = bison
 
-CFLAGS = -std=c99
+CFLAGS = -std=c99 -I./include
 
 SRC_DIR = src
 
@@ -16,11 +16,12 @@ OUT_OBJS = $(addprefix $(OUT_DIR)/,$(OBJS))
 
 
 all : $(OUT_OBJS)
-	gcc -shared -Wl,-install_name,libprosopon.so.1 -o $(OUT_DIR)/libprosopon.so.1.0.1 $<
+	gcc -shared -Wl,-install_name,libprosopon.so.1 -o libprosopon.so.1.0.0 $<
 
 $(OUT_DIR)/%.o : $(SRC_DIR)/%.c
 	gcc $(CFLAGS) -c -fPIC $< -o $@
 
 clean :
 	rm -f $(OUT_DIR)/*
+	rm libprosopon.so.*
 
