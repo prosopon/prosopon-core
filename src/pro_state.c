@@ -11,7 +11,7 @@ PRO_API pro_state* pro_state_create(void)
     pro_state* s = malloc(sizeof(*s));
     if (s == 0)
         return 0;
-        
+    
     s->root_env = s->current_env = pro_env_new(s, 0, 0);
     return s;
 }
