@@ -3,6 +3,8 @@
 
 #include "prosopon_config.h"
 
+struct pro_env;
+
 
 /**
  * @mainpage
@@ -19,6 +21,11 @@
  * machine.
  */
 typedef struct pro_state pro_state;
+
+/**
+ * An opaque structure used to identify environments.
+ */
+typedef struct pro_env pro_env_lookup; 
 
 /**
  * An opaque structure used to resolve identifiers.
@@ -75,24 +82,41 @@ PRO_API void (pro_state_release) (pro_state*);
 #pragma mark Environment
 
 /**
- * Creates a new environment and pushes it onto the top of the env stack.
+ * Creates a new environment with a given parent.
+ * 
+ * @return The lookup for a newly created environment.
  */
-PRO_API void (pro_env_create) (pro_state*);
+PRO_API pro_env_lookup* (pro_env_create) (pro_state*, pro_env_lookup* parent);
 
 /**
- * Release the current environment for future collection and pops it off the stack.
+ * @return The lookup for the current environment. 
  */
-PRO_API void (pro_env_release) (pro_state*);
+PRO_API pro_env_lookup* (pro_env_get) (pro_state*);
+
+/**
+ * Pushes an environment onto the environment stack
+ */
+PRO_API void (pro_env_push) (pro_state*, pro_env_lookup*);
+
+/**
+ * Pops an environment off the environment stack.
+ */
+PRO_API void (pro_env_pop) (pro_state*);
+
+/**
+ * Release an environment for future collection.
+ */
+PRO_API void (pro_env_release) (pro_state*, pro_env_lookup*);
 
 /**
  * @return The lookup for the highest resolved lookup for a given name.
  */
-PRO_API pro_lookup* (pro_env_lookup) (pro_state*, const char* name);
+PRO_API pro_lookup* (pro_get_binding) (pro_state*, const char* name);
 
 /**
  * @return The primitive type value of a lookup.
  */
-PRO_API pro_type (pro_get_type) (pro_state*, pro_lookup* lookup);
+PRO_API pro_type (pro_lookup_get_type) (pro_state*, pro_lookup* lookup);
 
 /**
  * Binds a lookup to an identifier name.
@@ -101,7 +125,6 @@ PRO_API void (pro_lookup_bind) (pro_state*, const pro_lookup* lookup, const char
 
 
 #pragma mark Constructor
-
 
 PRO_API pro_lookup* (pro_constructor_create) (pro_state*, pro_constructor*);
 

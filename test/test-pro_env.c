@@ -44,25 +44,27 @@ static void test_new(void)
 }
 
 
-static void test_create_and_release(void)
+static void test_get(void)
 {
-    pro_env* old = state->current_env;
-    pro_env_create(state);
-    pro_env* new = state->current_env;
+    pro_env* current = pro_env_get(state);
+    CU_ASSERT(current == state->current_env);
+}
+
+
+static void test_create(void)
+{
+    pro_env* old = pro_env_get(state);
+    pro_env* new = pro_env_create(state, old);
     CU_ASSERT(0 != new);
     CU_ASSERT(new->parent == old);
-    CU_ASSERT(new->previous == old);
-    
-    pro_env_release(state);
-    pro_env* after_release = state->current_env;
-    CU_ASSERT(0 != after_release);
-    CU_ASSERT(old == after_release);
+    CU_ASSERT(0 == new->previous);
 }
 
 
 static CU_TestInfo tests[] = {
     {"new", test_new},
-    {"create and release", test_create_and_release},
+    {"get", test_get},
+    {"create", test_create},
     CU_TEST_INFO_NULL,
 };
 

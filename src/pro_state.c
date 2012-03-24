@@ -19,7 +19,7 @@ PRO_API pro_state* pro_state_create(void)
 PRO_API void pro_state_release(pro_state* s)
 {
     while (s->current_env) // relase all environments 
-        pro_env_release(s); 
+        pro_env_pop(s); 
     
     free(s); // free state memory
 }
