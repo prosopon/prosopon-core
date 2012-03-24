@@ -16,7 +16,7 @@ OUT_OBJS = $(addprefix $(OUT_DIR)/,$(OBJS))
 
 
 all : $(OUT_OBJS) 
-	$(LINK) -shared $^ -lc -Wl,-install_name,libprosopon.so.1 -o libprosopon.so.1.0.0 
+	$(LINK) -shared $^ -lc -Wl,-install_name,libprosopon.so.1 -o libprosopon.so.1
 
 $(OUT_DIR)/%.o : $(SRC_DIR)/%.c
 	$(CC) $(CFLAGS) -fPIC -c $^ -o $@
