@@ -33,6 +33,9 @@ $(OUT_DIR)/test.o : $(TEST_DIR)/test.c
 	$(CC) $(CFLAGS) -c -fPIC $< -o $@
 
 
+install:
+	cp libprosopon.so.1 /usr/local/lib/
+
 .PHONY : doc
 doc :
 	doxygen Doxyfile
