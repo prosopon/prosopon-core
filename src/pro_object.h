@@ -2,15 +2,10 @@
 #define prosopon_pro_object_h
 
 #include "prosopon.h"
-#include "prosopon_config.h"
+
 
 typedef struct pro_object pro_object;
 
-
-/**
- * A funciton that evaluates a given object. 
- */
-typedef void(pro_eval)(pro_state*, pro_object* t);
 
 /**
  * A function that compares two given objects.
@@ -27,34 +22,37 @@ typedef int(pro_compare)(pro_state*, pro_object* t, pro_object* obj);
 typedef int(pro_match)(pro_state*, pro_object*, pro_object*);
 
 
+typedef unsigned int pro_object_type;
+
+
 /**
  *
  */
 struct pro_object
 {
     pro_type type;
-    pro_eval* eval;
-    pro_compare* compare;
-    pro_match* match;
-    void* data;
+    pro_object_type object_type;
+    union
+    {
+        struct
+        {
+            pro_behavior* behavior;
+            void* data;
+        } actor;
+        struct
+        {
+            pro_constructor* constructor;
+            void* data;
+        } constructor;
+        pro_lookup_list* message;
+    } value;
 };
 
 
 PRO_INTERNAL pro_object* pro_object_create(pro_state*,
-    pro_eval* eval,
     pro_compare* compare,
     pro_match* match,
-    void* data);
-
-/**
- * @see pro_eval
- */
-PRO_INTERNAL void pro_object_eval(pro_state*, pro_object*);
-
-/**
- * @see pro_eval
- */
-PRO_INTERNAL void pro_object_eval(pro_state*, pro_object*);
-
+    void* data
+);
 
 #endif
