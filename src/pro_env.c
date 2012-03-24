@@ -22,9 +22,8 @@ static pro_internal_lookup* pro_env_get_internal_lookup(pro_state* s,
     const pro_lookup* lookup)
 {
     pro_env* env = lookup->env;
-    int index = lookup->index;
     pro_internal_lookup* internal_lookup = env->table;
-    while (index > 0)
+    for (int index = lookup->index; index > 0; --index)
         internal_lookup = internal_lookup->next;
     return internal_lookup;
 }
@@ -45,7 +44,23 @@ PRO_INTERNAL pro_env* pro_env_new(pro_state* s, pro_env* previous, pro_env* pare
 PRO_INTERNAL pro_lookup* pro_env_next_lookup(pro_state* s,
     pro_env_lookup* env)
 {
+    pro_internal_lookup* internal = malloc(sizeof(*internal));
+    internal->next = 0;
+    internal->identifier = 0;
+    internal->value = 0;
+
     pro_lookup* lookup = pro_lookup_new(s, env, env->size);
+
+    if (0 == env->table)
+        env->table = internal;
+    else
+    {
+        pro_internal_lookup* parent = env->table;
+        while (parent->next)
+            parent = parent->next;
+        parent->next = internal;
+    }
+        
     (env->size)++;
     return lookup;
 }
@@ -54,7 +69,8 @@ PRO_INTERNAL pro_lookup* pro_env_next_lookup(pro_state* s,
 PRO_INTERNAL pro_object** pro_env_lookup_value(pro_state* s,
     pro_lookup* lookup)
 {
-    return &(pro_env_get_internal_lookup(s, lookup)->value);
+    pro_internal_lookup* internal = pro_env_get_internal_lookup(s, lookup);
+    return &(internal->value);
 }
     
 

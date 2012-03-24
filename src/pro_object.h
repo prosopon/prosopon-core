@@ -29,6 +29,8 @@ struct pro_object
     } value;
 };
 
-
+/**
+ */
+PRO_INTERNAL pro_object* pro_object_new(pro_state*, pro_type type);
 
 #endif
