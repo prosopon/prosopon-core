@@ -78,6 +78,21 @@ PRO_API pro_state* (pro_state_create) (void);
  */
 PRO_API void (pro_state_release) (pro_state*);
 
+/**
+ * @return The lookup for the current environment. 
+ */
+PRO_API pro_env_lookup* (pro_get_env) (pro_state*);
+
+/**
+ * Pushes an environment onto the environment stack
+ */
+PRO_API void (pro_push_env) (pro_state*, pro_env_lookup*);
+
+/**
+ * Pops an environment off the environment stack.
+ */
+PRO_API void (pro_pop_env) (pro_state*);
+
 
 #pragma mark Environment
 
@@ -88,20 +103,6 @@ PRO_API void (pro_state_release) (pro_state*);
  */
 PRO_API pro_env_lookup* (pro_env_create) (pro_state*, pro_env_lookup* parent);
 
-/**
- * @return The lookup for the current environment. 
- */
-PRO_API pro_env_lookup* (pro_env_get) (pro_state*);
-
-/**
- * Pushes an environment onto the environment stack
- */
-PRO_API void (pro_env_push) (pro_state*, pro_env_lookup*);
-
-/**
- * Pops an environment off the environment stack.
- */
-PRO_API void (pro_env_pop) (pro_state*);
 
 /**
  * Release an environment for future collection.

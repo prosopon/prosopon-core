@@ -35,9 +35,17 @@ static void test_create(void)
 }
 
 
+static void test_get_env(void)
+{
+    pro_env* current = pro_get_env(state);
+    CU_ASSERT(current == state->current_env);
+}
+
+
 static CU_TestInfo tests[] = {
     {"create", test_create},
-    
+    {"get env", test_get_env},
+
     CU_TEST_INFO_NULL,
 };
 

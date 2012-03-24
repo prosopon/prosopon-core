@@ -44,16 +44,9 @@ static void test_new(void)
 }
 
 
-static void test_get(void)
-{
-    pro_env* current = pro_env_get(state);
-    CU_ASSERT(current == state->current_env);
-}
-
-
 static void test_create(void)
 {
-    pro_env* old = pro_env_get(state);
+    pro_env* old = pro_get_env(state);
     pro_env* new = pro_env_create(state, old);
     CU_ASSERT(0 != new);
     CU_ASSERT(new->parent == old);
@@ -61,10 +54,17 @@ static void test_create(void)
 }
 
 
+static void test_push_pop(void)
+{
+   // pro_env* old = pro_get_env(state);
+   // pro_env* new = pro_env_create(state, old);
+    //pro_pop_env(<#pro_state *#>, <#pro_env_lookup *#>)
+}
+
 static CU_TestInfo tests[] = {
     {"new", test_new},
-    {"get", test_get},
     {"create", test_create},
+    {"push and pop", test_push_pop},
     CU_TEST_INFO_NULL,
 };
 
