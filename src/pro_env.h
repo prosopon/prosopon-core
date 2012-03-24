@@ -2,8 +2,9 @@
 #define prosopon_pro_env_h
 
 #include "prosopon.h"
-#include "prosopon_config.h"
+
 #include "pro_lookup.h"
+#include "pro_object.h"
 
 
 
@@ -20,6 +21,7 @@ struct pro_env
     pro_env* previous; // The previous environment on the stack.
     pro_env* parent; // The parent environment used for delegation.
     
+    unsigned int size;
     pro_internal_lookup* table;
 };
 
@@ -27,7 +29,19 @@ struct pro_env
 /**
  * Internal function to create a new environment.
  */
-PRO_INTERNAL pro_env* pro_env_new(pro_state* s, pro_env* previous, pro_env* parent);
+PRO_INTERNAL pro_env* pro_env_new(pro_state*,
+    pro_env* previous, pro_env* parent);
+
+/**
+ */
+PRO_INTERNAL pro_lookup* pro_env_next_lookup(pro_state*,
+    pro_env_lookup* env);
+
+/**
+ */
+PRO_INTERNAL pro_object** pro_env_lookup_value(pro_state*,
+    pro_lookup* lookup);
+
 
 
 #endif
