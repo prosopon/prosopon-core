@@ -20,8 +20,8 @@
 		89F1112F151CD14200317A20 /* pro_lookup.c in Sources */ = {isa = PBXBuildFile; fileRef = 890024CC1511A3070012E749 /* pro_lookup.c */; };
 		89F11130151CD14200317A20 /* pro_object.c in Sources */ = {isa = PBXBuildFile; fileRef = 890024CE1511A3070012E749 /* pro_object.c */; };
 		89F11131151CD14200317A20 /* pro_state.c in Sources */ = {isa = PBXBuildFile; fileRef = 890024D01511A3070012E749 /* pro_state.c */; };
-		89F11135151CD28E00317A20 /* prosopon.h in Headers */ = {isa = PBXBuildFile; fileRef = 89F11133151CD28E00317A20 /* prosopon.h */; };
-		89F11136151CD28E00317A20 /* prosopon_config.h in Headers */ = {isa = PBXBuildFile; fileRef = 89F11134151CD28E00317A20 /* prosopon_config.h */; };
+		89F11135151CD28E00317A20 /* prosopon.h in Headers */ = {isa = PBXBuildFile; fileRef = 89F11133151CD28E00317A20 /* prosopon.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		89F11136151CD28E00317A20 /* prosopon_config.h in Headers */ = {isa = PBXBuildFile; fileRef = 89F11134151CD28E00317A20 /* prosopon_config.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		89F11139151CEF7D00317A20 /* test-pro_env.c in Sources */ = {isa = PBXBuildFile; fileRef = 89F11138151CEF7D00317A20 /* test-pro_env.c */; };
 		89F1113C151CF41600317A20 /* test-pro_state.c in Sources */ = {isa = PBXBuildFile; fileRef = 89F1113B151CF41600317A20 /* test-pro_state.c */; };
 /* End PBXBuildFile section */
@@ -364,6 +364,7 @@
 				89F11124151CC40100317A20 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
