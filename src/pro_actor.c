@@ -13,3 +13,14 @@ PRO_API pro_lookup* pro_actor_create(pro_state* s)
     return lookup;
 }
 
+PRO_API void pro_send(pro_state* s, pro_lookup* actor, pro_lookup* msg)
+{
+
+}
+
+
+PRO_API void pro_become(pro_state* s,
+    pro_lookup* actor, pro_behavior* new_beh, void* data)
+{
+
+}

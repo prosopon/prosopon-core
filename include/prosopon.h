@@ -48,7 +48,7 @@ struct pro_lookup_list
  * @param t A lookup for self.
  * @param data Additional user defined data passed to the behavior.
  */
-typedef void(pro_actor_behavior)(pro_state*, pro_lookup* t, void* data);
+typedef void(pro_behavior)(pro_state*, pro_lookup* t, void* data);
 
 /**
  * Function representing the behavior of an actor.
@@ -122,7 +122,8 @@ PRO_API void (pro_env_release) (pro_state*, pro_env_lookup*);
 /**
  * @return The lookup for the highest resolved lookup for a given name.
  */
-PRO_API pro_lookup* (pro_get_binding) (pro_state*, pro_env_lookup* env, const char* name);
+PRO_API pro_lookup* (pro_get_binding) (pro_state*,
+    pro_env_lookup* env, const char* name);
 
 /**
  * @return The primitive type value of a lookup.
@@ -145,7 +146,8 @@ PRO_API void (pro_bind) (pro_state*, const pro_lookup* lookup, const char* id);
  *
  * @return The lookup for the new constructor.
  */
-PRO_API pro_lookup* (pro_constructor_create) (pro_state*, pro_constructor*, void* data);
+PRO_API pro_lookup* (pro_constructor_create) (pro_state*,
+    pro_constructor*, void* data);
 
 /**
  * Calls a constructor with a list of arguments.
@@ -155,7 +157,8 @@ PRO_API pro_lookup* (pro_constructor_create) (pro_state*, pro_constructor*, void
  *
  * @return The result from the constructor.
  */
-PRO_API pro_lookup* (pro_constructor_call) (pro_state*, pro_lookup* constructor, pro_lookup_list* arguments);
+PRO_API pro_lookup* (pro_constructor_call) (pro_state*,
+    pro_lookup* constructor, pro_lookup_list* arguments);
 
 
 #pragma mark Message
@@ -201,8 +204,11 @@ PRO_API void (pro_send) (pro_state*, pro_lookup* actor, pro_lookup* msg);
 
 /**
  * Specify the behavior for an actor.
+ *
+ * @param data User defined data that is passed to the behavior function.
  */
-PRO_API void (pro_become) (pro_state*, pro_lookup* old, pro_actor_behavior* new_beh);
+PRO_API void (pro_become) (pro_state*,
+    pro_lookup* actor, pro_behavior* new_beh, void* data);
 
 
 

@@ -30,12 +30,11 @@ PRO_API pro_env_lookup* pro_env_create(pro_state* s, pro_env_lookup* parent)
     return pro_env_new(s, 0, parent);
 }
 
+
 PRO_API void pro_env_release(pro_state* s, pro_env_lookup* env)
 {
     // TODO 
 }
-
-
 
 
 PRO_API void pro_bind(pro_state* s, const pro_lookup* lookup, const char* id)
@@ -50,4 +49,23 @@ PRO_API void pro_bind(pro_state* s, const pro_lookup* lookup, const char* id)
             strcpy(internal->identifier, id);
         }
     }
+}
+
+
+PRO_API pro_lookup* pro_get_binding(pro_state* s,
+    pro_env_lookup* env, const char* name)
+{
+    pro_internal_lookup* lookup = env->table;
+    while (lookup)
+    {
+        if (strcmp(name, lookup->identifier) == 0)
+            return lookup->lookup;
+        else
+            lookup = lookup->next;
+    }
+    
+    if (env->parent)
+        return pro_get_binding(s, env->parent, name);
+    else
+        return 0;
 }
