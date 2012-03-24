@@ -33,6 +33,16 @@ typedef struct pro_env pro_env_lookup;
 typedef struct pro_lookup pro_lookup;
 
 /**
+ * A list of lookup values.
+ */
+typedef struct pro_lookup_list pro_lookup_list;
+struct pro_lookup_list
+{
+    pro_lookup_list* next;
+    pro_lookup* value;
+};
+
+/**
  * Function representing the behavior of an actor.
  * 
  * @param t A lookup for self.
@@ -47,7 +57,7 @@ typedef void(pro_actor_behavior)(pro_state*, pro_lookup* t, void* data);
  *
  * @return A lookup to the constructed object.
  */
-typedef pro_lookup*(pro_constructor)(pro_state*, void* data);
+typedef pro_lookup*(pro_constructor)(pro_state*, pro_lookup_list* arguments, void* data);
 
 
 #pragma mark Types
@@ -60,6 +70,7 @@ typedef enum
     PRO_NONE_TYPE = 0,
     PRO_MESSAGE_TYPE,
     PRO_ACTOR_TYPE,
+    PRO_CONSTRUCTOR_TYPE,
     PRO_TYPE_MAX
 } pro_type;
 
@@ -103,7 +114,6 @@ PRO_API void (pro_pop_env) (pro_state*);
  */
 PRO_API pro_env_lookup* (pro_env_create) (pro_state*, pro_env_lookup* parent);
 
-
 /**
  * Release an environment for future collection.
  */
@@ -112,22 +122,40 @@ PRO_API void (pro_env_release) (pro_state*, pro_env_lookup*);
 /**
  * @return The lookup for the highest resolved lookup for a given name.
  */
-PRO_API pro_lookup* (pro_get_binding) (pro_state*, const char* name);
+PRO_API pro_lookup* (pro_get_binding) (pro_state*, pro_env_lookup* env, const char* name);
 
 /**
  * @return The primitive type value of a lookup.
  */
-PRO_API pro_type (pro_lookup_get_type) (pro_state*, pro_lookup* lookup);
+PRO_API pro_type (pro_get_type) (pro_state*, pro_lookup* lookup);
 
 /**
  * Binds a lookup to an identifier name.
  */
-PRO_API void (pro_lookup_bind) (pro_state*, const pro_lookup* lookup, const char* id);
+PRO_API void (pro_bind) (pro_state*, const pro_lookup* lookup, const char* id);
 
 
 #pragma mark Constructor
 
-PRO_API pro_lookup* (pro_constructor_create) (pro_state*, pro_constructor*);
+/**
+ * Creates a new constructor in the current environment.
+ *
+ * @param data Additional user defined data passed to the constructor.
+ *             @see pro_constructor
+ *
+ * @return The lookup for the new constructor.
+ */
+PRO_API pro_lookup* (pro_constructor_create) (pro_state*, pro_constructor*, void* data);
+
+/**
+ * Calls a constructor with a list of arguments.
+ * 
+ * @param constructor The lookup for the constructor.
+ * @param arguments A list of lookups to pass to the constructor.
+ *
+ * @return The result from the constructor.
+ */
+PRO_API pro_lookup* (pro_constructor_call) (pro_state*, pro_lookup* constructor, pro_lookup_list* arguments);
 
 
 #pragma mark Message

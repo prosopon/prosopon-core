@@ -42,9 +42,22 @@ static void test_get_env(void)
 }
 
 
+static void test_push_pop(void)
+{
+    pro_env* old = pro_get_env(state);
+    pro_env* new = pro_env_create(state, old);
+    pro_push_env(state, new);
+    CU_ASSERT(old == new->previous);
+    
+    pro_pop_env(state);
+    CU_ASSERT(pro_get_env(state) == old);
+}
+
+
 static CU_TestInfo tests[] = {
     {"create", test_create},
     {"get env", test_get_env},
+    {"push and pop", test_push_pop},
 
     CU_TEST_INFO_NULL,
 };

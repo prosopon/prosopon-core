@@ -38,7 +38,7 @@ PRO_API void pro_env_release(pro_state* s, pro_env_lookup* env)
 
 
 
-PRO_API void pro_lookup_bind(pro_state* s, const pro_lookup* lookup, const char* id)
+PRO_API void pro_bind(pro_state* s, const pro_lookup* lookup, const char* id)
 {
     assert(lookup);
     for (pro_internal_lookup* internal = lookup->env->table; internal; internal = internal->next)
