@@ -109,7 +109,8 @@ PRO_API pro_lookup* pro_get_binding(pro_state* s,
     unsigned int index = 0;
     while (lookup)
     {
-        if (strcmp(name, lookup->identifier) == 0)
+        char* lookup_identifier = lookup->identifier;
+        if (lookup_identifier && strcmp(name, lookup_identifier) == 0)
             return pro_lookup_new(s, env, index);
         else
             lookup = lookup->next;

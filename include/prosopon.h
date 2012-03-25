@@ -48,7 +48,8 @@ struct pro_lookup_list
  * @param t A lookup for self.
  * @param data Additional user defined data passed to the behavior.
  */
-typedef void(pro_behavior)(pro_state*, pro_lookup* t, void* data);
+typedef void(pro_behavior)(pro_state*,
+    pro_lookup* t, pro_lookup* msg, void* data);
 
 /**
  * Function representing the behavior of an actor.
@@ -180,7 +181,8 @@ PRO_API unsigned int (pro_message_length) (pro_state*, pro_lookup* lookup);
  *
  * @return lookup or null if out of bounds.
  */
-PRO_API pro_lookup* (pro_message_get) (pro_state*, unsigned int idx);
+PRO_API pro_lookup* (pro_message_get) (pro_state*,
+    pro_lookup* lookup, unsigned int idx);
 
 /**
  * Appends an value to a message.
