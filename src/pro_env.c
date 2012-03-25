@@ -86,6 +86,7 @@ static pro_internal_lookup* pro_env_get_internal_lookup(pro_state* s,
 PRO_INTERNAL pro_env* pro_env_new(pro_state* s, pro_env* previous, pro_env* parent)
 {
     pro_env* e = malloc(sizeof(*e));
+    memset(e, 0, sizeof(*e));
     e->previous = previous;
     e->parent = parent;
     return e;
@@ -144,10 +145,15 @@ PRO_API void pro_bind(pro_state* s, pro_lookup* lookup, const char* id)
     if (internal)
     {
         pro_lookup_binding* binding = pro_lookup_binding_new(s, id, lookup, 0);
-        pro_lookup_binding* parent = env->bindings;
-        while (parent->next)
-            parent = parent->next;
-        parent->next = binding;
+        if (!env->bindings)
+            env->bindings = binding;
+        else
+        {
+            pro_lookup_binding* parent = env->bindings;
+            while (parent->next)
+                parent = parent->next;
+            parent->next = binding;
+        }
     }
 }
 
