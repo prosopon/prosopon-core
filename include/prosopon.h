@@ -27,10 +27,14 @@ typedef struct pro_state pro_state;
  */
 typedef struct pro_env pro_env_lookup; 
 
+extern pro_env_lookup* PRO_EMPTY_ENV_LOOKUP;
+
 /**
  * An opaque structure used to resolve identifiers.
  */
 typedef struct pro_lookup pro_lookup;
+
+extern pro_lookup* PRO_EMPTY_LOOKUP;
 
 /**
  * A list of lookup values.
@@ -216,6 +220,14 @@ PRO_API void (pro_send) (pro_state*, pro_lookup* actor, pro_lookup* msg);
 PRO_API void (pro_become) (pro_state*,
     pro_lookup* actor, pro_behavior* new_beh, void* data);
 
+
+#pragma mark Library Loading
+
+#ifdef PRO_LIBRARY_DYNAMIC_LOADING
+
+
+
+#endif
 
 
 #endif

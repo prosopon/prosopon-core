@@ -24,4 +24,7 @@
 #endif
 
 
+#define PRO_DYNAMIC_LIBRARY_LOADING 1
+
+
 #endif

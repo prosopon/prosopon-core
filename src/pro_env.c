@@ -137,6 +137,13 @@ PRO_API void pro_env_release(pro_state* s, pro_env_lookup* env)
 }
 
 
+PRO_API pro_type pro_get_type(pro_state* s, pro_lookup* lookup)
+{
+    pro_object** obj = pro_env_lookup_value(s, lookup);
+    return (*obj)->type;
+}
+
+
 PRO_API void pro_bind(pro_state* s, pro_lookup* lookup, const char* id)
 {
     assert(lookup);
@@ -145,7 +152,7 @@ PRO_API void pro_bind(pro_state* s, pro_lookup* lookup, const char* id)
     if (internal)
     {
         pro_lookup_binding* binding = pro_lookup_binding_new(s, id, lookup, 0);
-        if (!env->bindings)
+        if (0 == env->bindings)
             env->bindings = binding;
         else
         {
