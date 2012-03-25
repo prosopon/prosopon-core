@@ -15,7 +15,7 @@
 
 PRO_API pro_lookup* pro_actor_create(pro_state* s)
 {
-    pro_lookup* lookup= pro_env_next_lookup(s, pro_get_env(s));
+    pro_lookup* lookup = pro_env_next_lookup(s, pro_get_env(s));
     pro_object** obj = pro_env_lookup_value(s, lookup);
     *obj = pro_object_new(s, PRO_ACTOR_TYPE);
     return lookup;

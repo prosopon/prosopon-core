@@ -11,7 +11,6 @@
 		890024ED1511A3590012E749 /* pro_object.c in Sources */ = {isa = PBXBuildFile; fileRef = 890024CE1511A3070012E749 /* pro_object.c */; };
 		890024EE1511A35B0012E749 /* pro_env.c in Sources */ = {isa = PBXBuildFile; fileRef = 890024CA1511A3070012E749 /* pro_env.c */; };
 		890024EF1511A35C0012E749 /* pro_actor.c in Sources */ = {isa = PBXBuildFile; fileRef = 890024C61511A3070012E749 /* pro_actor.c */; };
-		89ACBEB4151E95FA003EA8EE /* pro_message.h in Headers */ = {isa = PBXBuildFile; fileRef = 89ACBEB3151E95FA003EA8EE /* pro_message.h */; };
 		89ACBEB7151E960D003EA8EE /* pro_message.c in Sources */ = {isa = PBXBuildFile; fileRef = 89ACBEB6151E960D003EA8EE /* pro_message.c */; };
 		89ACBEB8151E960D003EA8EE /* pro_message.c in Sources */ = {isa = PBXBuildFile; fileRef = 89ACBEB6151E960D003EA8EE /* pro_message.c */; };
 		89BADB2C15195B4200407C3B /* pro_lookup.c in Sources */ = {isa = PBXBuildFile; fileRef = 890024CC1511A3070012E749 /* pro_lookup.c */; };
@@ -161,7 +160,6 @@
 			files = (
 				89F11135151CD28E00317A20 /* prosopon.h in Headers */,
 				89F11136151CD28E00317A20 /* prosopon_config.h in Headers */,
-				89ACBEB4151E95FA003EA8EE /* pro_message.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

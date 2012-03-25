@@ -12,32 +12,39 @@ typedef struct pro_env pro_env;
 
 
 typedef struct pro_internal_lookup pro_internal_lookup;
+typedef struct pro_lookup_binding pro_lookup_binding;
 
 /**
  * A structure that holds scope information. 
  */
 struct pro_env
 {
-    pro_env* previous; // The previous environment on the stack.
-    pro_env* parent; // The parent environment used for delegation.
+    pro_env* previous; /**< The previous environment on the stack. */
+    pro_env* parent; /**< The parent environment used for delegation. */
     
+    pro_internal_lookup* lookups; /**< */
     unsigned int size;
-    pro_internal_lookup* table;
+
+    pro_lookup_binding* bindings;
 };
 
 
 /**
  * Internal function to create a new environment.
+ *
+ * @return A newly created environment.
  */
 PRO_INTERNAL pro_env* pro_env_new(pro_state*,
     pro_env* previous, pro_env* parent);
 
 /**
+ * @return An empty lookup in a environment.
  */
 PRO_INTERNAL pro_lookup* pro_env_next_lookup(pro_state*,
     pro_env_lookup* env);
 
 /**
+ * @return The object referance that the lookup points to.
  */
 PRO_INTERNAL pro_object** pro_env_lookup_value(pro_state*,
     pro_lookup* lookup);

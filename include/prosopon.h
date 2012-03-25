@@ -134,7 +134,11 @@ PRO_API pro_type (pro_get_type) (pro_state*, pro_lookup* lookup);
 /**
  * Binds a lookup to an identifier name.
  */
-PRO_API void (pro_bind) (pro_state*, const pro_lookup* lookup, const char* id);
+PRO_API void (pro_bind) (pro_state*, pro_lookup* lookup, const char* id);
+
+
+PRO_API int (pro_match)(pro_state*,
+    const pro_lookup* l1, const pro_lookup* l2);
 
 
 #pragma mark Constructor
