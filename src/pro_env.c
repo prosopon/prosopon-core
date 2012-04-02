@@ -115,7 +115,7 @@ PRO_INTERNAL pro_lookup* pro_env_next_lookup(pro_state* s,
 
 
 PRO_INTERNAL pro_object** pro_env_lookup_value(pro_state* s,
-    pro_lookup* lookup)
+    const pro_lookup* lookup)
 {
     pro_internal_lookup* internal = pro_env_get_internal_lookup(s, lookup);
     return &(internal->value);
@@ -134,13 +134,6 @@ PRO_API pro_env_lookup* pro_env_create(pro_state* s, pro_env_lookup* parent)
 PRO_API void pro_env_release(pro_state* s, pro_env_lookup* env)
 {
     // TODO 
-}
-
-
-PRO_API pro_type pro_get_type(pro_state* s, pro_lookup* lookup)
-{
-    pro_object** obj = pro_env_lookup_value(s, lookup);
-    return (*obj)->type;
 }
 
 

@@ -1,9 +1,19 @@
 #include "pro_state.h"
 
 #include "prosopon.h"
+#include "pro_type.h"
 
 #include <stdlib.h>
 
+
+#pragma mark Private
+
+#pragma mark -
+#pragma mark Intenal
+
+
+#pragma mark -
+#pragma mark PRO_API
 
 
 PRO_API pro_state* pro_state_create(void)
@@ -13,6 +23,9 @@ PRO_API pro_state* pro_state_create(void)
         return 0;
     
     s->root_env = s->current_env = pro_env_new(s, 0, 0);
+    s->libraries = 0;
+    
+    initialize_default_actor_types(s);
     return s;
 }
 

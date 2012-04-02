@@ -12,24 +12,26 @@ typedef struct pro_object pro_object;
  */
 struct pro_object
 {
+    
     pro_type type;
+    pro_actor_type actor_type;
     union
     {
         struct
         {
-            pro_behavior* behavior;
-            void* data;
+            pro_actor_type type;
+            pro_behavior behavior;
         } actor;
         struct
         {
-            pro_constructor* constructor;
-            void* data;
+            pro_constructor constructor;
         } constructor;
         pro_lookup_list* message;
     } value;
 };
 
 /**
+ *
  */
 PRO_INTERNAL pro_object* pro_object_new(pro_state*, pro_type type);
 

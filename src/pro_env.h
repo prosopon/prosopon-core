@@ -47,7 +47,7 @@ PRO_INTERNAL pro_lookup* pro_env_next_lookup(pro_state*,
  * @return The object referance that the lookup points to.
  */
 PRO_INTERNAL pro_object** pro_env_lookup_value(pro_state*,
-    pro_lookup* lookup);
+    const pro_lookup* lookup);
 
 
 

@@ -4,9 +4,17 @@
 
 #include "pro_env.h"
 
+#include <assert.h>
+
+
+#pragma mark Private
 
 #pragma mark -
-#pragma mark PRO_API
+#pragma mark Internal
+
+
+#pragma mark -
+#pragma mark Public
 
 
 PRO_API pro_lookup* pro_message_create(pro_state*s)
@@ -14,23 +22,27 @@ PRO_API pro_lookup* pro_message_create(pro_state*s)
     pro_lookup* lookup = pro_env_next_lookup(s, pro_get_env(s));
     pro_object** obj = pro_env_lookup_value(s, lookup);
     *obj = pro_object_new(s, PRO_MESSAGE_TYPE);
+    (*obj)->value.message = 0;
     return lookup;
 }
 
 
-PRO_API unsigned int pro_message_length(pro_state* s, pro_lookup* lookup)
+PRO_API unsigned int pro_message_length(pro_state* s, const pro_lookup* lookup)
 {
     pro_object** obj = pro_env_lookup_value(s, lookup);
     unsigned int length = 0;
     for (pro_lookup_list* msg = (*obj)->value.message; msg; msg = msg->next)
-        length++;
+        ++length;
     return length;
 }
 
 
-PRO_API pro_lookup* pro_message_get(pro_state* s, pro_lookup* lookup, unsigned int idx)
+PRO_API pro_lookup* pro_message_get(pro_state* s,
+    const pro_lookup* msg, unsigned int idx)
 {
-    pro_object** obj = pro_env_lookup_value(s, lookup);
+    assert(pro_get_type(s, msg) == PRO_MESSAGE_TYPE);
+
+    pro_object** obj = pro_env_lookup_value(s, msg);
     pro_lookup_list* list = (*obj)->value.message;
     while (idx)
     {
@@ -41,7 +53,15 @@ PRO_API pro_lookup* pro_message_get(pro_state* s, pro_lookup* lookup, unsigned i
 }
 
 
-PRO_API void pro_message_append(pro_state* s, pro_lookup* lookup)
+PRO_API void pro_message_append(pro_state* s,
+    const pro_lookup* msg, pro_lookup* lookup)
 {
+    assert(pro_get_type(s, msg) == PRO_MESSAGE_TYPE);
 
+    pro_object** obj = pro_env_lookup_value(s, msg);
+    if (!(*obj)->value.message)
+        (*obj)->value.message = pro_lookup_list_new(s, lookup, 0);
+    else
+        pro_lookup_list_append(s, (*obj)->value.message, lookup);
 }
+
