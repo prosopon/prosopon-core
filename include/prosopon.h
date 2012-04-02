@@ -98,12 +98,14 @@ typedef int(pro_match_impl)(pro_state*,
     const pro_lookup* t, const void* tData,
     const pro_lookup* o, const void* oData);
 
-
+typedef const char*(pro_to_string_impl)(pro_state*,
+    const pro_lookup* t, const void* tData);
 
 typedef struct pro_actor_type_info pro_actor_type_info;
 struct pro_actor_type_info
 {
     pro_match_impl* match;
+    pro_to_string_impl* to_string;
 };
 
 PRO_API void (pro_register_actor_type) (pro_state*,

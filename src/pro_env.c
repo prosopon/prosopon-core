@@ -140,6 +140,7 @@ PRO_API void pro_env_release(pro_state* s, pro_env_lookup* env)
 PRO_API void pro_bind(pro_state* s, pro_lookup* lookup, const char* id)
 {
     assert(lookup);
+    
     pro_env* env = pro_get_env(s);
     pro_internal_lookup* internal = pro_env_get_internal_lookup(s, lookup);
     if (internal)

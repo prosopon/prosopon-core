@@ -32,5 +32,8 @@ PRO_API int pro_match(pro_state* s, const pro_lookup* l1, const pro_lookup* l2)
 PRO_API const char* pro_to_string(pro_state* s,
     const pro_lookup* t)
 {
-    return "test";
+    pro_actor_type type = pro_get_actor_type(s, t);
+    const pro_actor_type_info* info = pro_get_actor_type_info(s, type);
+    pro_object** o = pro_env_lookup_value(s, t);
+    return info->to_string(s, t, (*o)->value.actor.behavior.data);
 }

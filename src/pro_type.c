@@ -14,8 +14,15 @@ static int default_match(pro_state* s,
     return -1;
 }
 
+static const char* defaul_to_string(pro_state* s,
+    const pro_lookup* t, const void* tData)
+{
+    return "";
+}
+
 static const pro_actor_type_info pro_default_actor_type_info = {
-    .match = default_match
+    .match = default_match,
+    .to_string = defaul_to_string
 };
 
 
