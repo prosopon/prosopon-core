@@ -17,7 +17,7 @@ PRO_INTERNAL pro_object* pro_object_new(pro_state* s, pro_type type)
 
 
 
-PRO_API int pro_match(pro_state* s, const pro_ref l1, const pro_ref l2)
+PRO_API int pro_match(pro_state* s, pro_ref l1, pro_ref l2)
 {
     pro_actor_type type = pro_get_actor_type(s, l1);
     const pro_actor_type_info* info = pro_get_actor_type_info(s, type);
@@ -30,7 +30,7 @@ PRO_API int pro_match(pro_state* s, const pro_ref l1, const pro_ref l2)
 
 
 PRO_API const char* pro_to_string(pro_state* s,
-    const pro_ref t)
+    pro_ref t)
 {
     pro_actor_type type = pro_get_actor_type(s, t);
     const pro_actor_type_info* info = pro_get_actor_type_info(s, type);

@@ -16,7 +16,7 @@ PRO_API pro_ref pro_constructor_create(pro_state* s,
 
 
 PRO_API pro_ref pro_constructor_call(pro_state* s,
-    pro_ref constructor, pro_lookup_list* arguments)
+    pro_ref constructor, pro_ref_list arguments)
 {
     pro_object* obj = *pro_env_lookup_value(s, constructor);
     pro_constructor* c = &obj->value.constructor.constructor;

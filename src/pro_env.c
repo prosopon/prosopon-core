@@ -70,7 +70,7 @@ static pro_lookup_binding* pro_lookup_binding_new(pro_state* s,
  * @return The internal lookup.
  */
 static pro_internal_lookup* pro_env_get_internal_lookup(pro_state* s, 
-    const pro_ref lookup)
+    pro_ref lookup)
 {
     pro_env* env = lookup->env;
     pro_internal_lookup* internal_lookup = env->lookups;
@@ -115,7 +115,7 @@ PRO_INTERNAL pro_ref pro_env_next_lookup(pro_state* s,
 
 
 PRO_INTERNAL pro_object** pro_env_lookup_value(pro_state* s,
-    const pro_ref lookup)
+    pro_ref lookup)
 {
     pro_internal_lookup* internal = pro_env_get_internal_lookup(s, lookup);
     return &(internal->value);

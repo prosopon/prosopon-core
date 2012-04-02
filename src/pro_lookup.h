@@ -6,6 +6,8 @@
 struct pro_env;
 
 
+typedef struct pro_lookup pro_lookup;
+
 struct pro_lookup
 {
     struct pro_env* env;
@@ -25,21 +27,21 @@ PRO_INTERNAL pro_ref pro_lookup_new(pro_state*,
  * @return Zero if false or non zero if true.
  */
 PRO_INTERNAL int pro_lookup_equal(pro_state*,
-    const pro_ref, const pro_ref);
+    pro_ref, pro_ref);
 
 
 
 /**
  * @return A new lookup list.
  */
-PRO_INTERNAL pro_lookup_list* pro_lookup_list_new(pro_state*,
-    pro_ref value, pro_lookup_list* next);
+PRO_INTERNAL pro_ref_list pro_lookup_list_new(pro_state*,
+    pro_ref value, pro_ref_list next);
 
 /**
  *
  */
 PRO_INTERNAL void pro_lookup_list_append(pro_state*,
-    pro_lookup_list* t, pro_ref value);
+    pro_ref_list t, pro_ref value);
 
 
 

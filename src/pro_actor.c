@@ -24,7 +24,7 @@ PRO_API pro_ref pro_actor_create(pro_state* s, pro_actor_type type)
 }
 
 
-PRO_API pro_actor_type pro_get_actor_type(pro_state* s, const pro_ref actor)
+PRO_API pro_actor_type pro_get_actor_type(pro_state* s, pro_ref actor)
 {
     assert(pro_get_type(s, actor) == PRO_ACTOR_TYPE);
 
@@ -33,7 +33,7 @@ PRO_API pro_actor_type pro_get_actor_type(pro_state* s, const pro_ref actor)
 }
 
 
-PRO_API void pro_send(pro_state* s, const pro_ref actor, const pro_ref msg)
+PRO_API void pro_send(pro_state* s, pro_ref actor, pro_ref msg)
 {
     assert(pro_get_type(s, actor) == PRO_ACTOR_TYPE);
     assert(pro_get_type(s, msg) == PRO_MESSAGE_TYPE);

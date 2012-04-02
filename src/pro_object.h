@@ -27,7 +27,7 @@ struct pro_object
         {
             pro_constructor constructor;
         } constructor;
-        pro_lookup_list* message;
+        pro_ref_list message;
     } value;
 };
 
