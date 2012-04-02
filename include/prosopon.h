@@ -25,16 +25,16 @@ typedef struct pro_state pro_state;
 /**
  * An opaque structure used to identify environments.
  */
-typedef struct pro_env pro_env_lookup; 
+typedef struct pro_env* pro_env_ref; 
 
-extern pro_env_lookup* PRO_EMPTY_ENV_LOOKUP;
+extern pro_env_ref PRO_EMPTY_ENV_REF;
 
 /**
  * An opaque structure used to resolve identifiers.
  */
-typedef struct pro_lookup pro_lookup;
+typedef struct pro_lookup* pro_ref;
 
-extern pro_lookup* PRO_EMPTY_LOOKUP;
+extern pro_ref PRO_EMPTY_LOOKUP;
 
 /**
  * A list of lookup values.
@@ -43,7 +43,7 @@ typedef struct pro_lookup_list pro_lookup_list;
 struct pro_lookup_list
 {
     pro_lookup_list* next;
-    pro_lookup* value;
+    pro_ref value;
 };
 
 /**
@@ -53,7 +53,7 @@ struct pro_lookup_list
  * @param data Additional user defined data passed to the behavior.
  */
 typedef void(pro_behavior_impl)(pro_state*,
-    const pro_lookup* t, const pro_lookup* msg, void* data);
+    const pro_ref t, const pro_ref msg, void* data);
 
 typedef struct pro_behavior pro_behavior;
 struct pro_behavior
@@ -67,7 +67,7 @@ struct pro_behavior
  *
  * @return A lookup to the constructed object or null if none.
  */
-typedef pro_lookup*(pro_constructor_impl)(pro_state*,
+typedef pro_ref(pro_constructor_impl)(pro_state*,
     pro_lookup_list* arguments, void* data);
 
 typedef struct pro_constructor pro_constructor;
@@ -95,11 +95,11 @@ typedef const char* pro_actor_type;
 extern pro_actor_type PRO_DEFAULT_ACTOR_TYPE;
 
 typedef int(pro_match_impl)(pro_state*,
-    const pro_lookup* t, const void* tData,
-    const pro_lookup* o, const void* oData);
+    const pro_ref t, const void* tData,
+    const pro_ref o, const void* oData);
 
 typedef const char*(pro_to_string_impl)(pro_state*,
-    const pro_lookup* t, const void* tData);
+    const pro_ref t, const void* tData);
 
 typedef struct pro_actor_type_info pro_actor_type_info;
 struct pro_actor_type_info
@@ -112,7 +112,7 @@ PRO_API void (pro_register_actor_type) (pro_state*,
     pro_actor_type, const pro_actor_type_info*);
 
 PRO_API const void* (pro_request_actor_data) (pro_state*,
-    pro_lookup*);
+    pro_ref);
 
 
 #pragma mark State
@@ -132,12 +132,12 @@ PRO_API void (pro_state_release) (pro_state*);
 /**
  * @return The lookup for the current environment. 
  */
-PRO_API pro_env_lookup* (pro_get_env) (pro_state*);
+PRO_API pro_env_ref (pro_get_env) (pro_state*);
 
 /**
  * Pushes an environment onto the environment stack
  */
-PRO_API void (pro_push_env) (pro_state*, pro_env_lookup*);
+PRO_API void (pro_push_env) (pro_state*, pro_env_ref);
 
 /**
  * Pops an environment off the environment stack.
@@ -152,41 +152,41 @@ PRO_API void (pro_pop_env) (pro_state*);
  * 
  * @return The lookup for a newly created environment.
  */
-PRO_API pro_env_lookup* (pro_env_create) (pro_state*, pro_env_lookup* parent);
+PRO_API pro_env_ref (pro_env_create) (pro_state*, pro_env_ref parent);
 
 /**
  * Release an environment for future collection.
  */
-PRO_API void (pro_env_release) (pro_state*, pro_env_lookup*);
+PRO_API void (pro_env_release) (pro_state*, pro_env_ref);
 
 /**
  * @return The lookup for the highest resolved lookup for a given name.
  */
-PRO_API pro_lookup* (pro_get_binding) (pro_state*,
-    pro_env_lookup* env, const char* name);
+PRO_API pro_ref (pro_get_binding) (pro_state*,
+    pro_env_ref env, const char* name);
 
 /**
  * @return The type value of a lookup.
  */
 PRO_API pro_type (pro_get_type) (pro_state*,
-    const pro_lookup* lookup);
+    const pro_ref lookup);
 
 /**
  * Binds a lookup to an identifier name.
  */
-PRO_API void (pro_bind) (pro_state*, pro_lookup* lookup, const char* id);
+PRO_API void (pro_bind) (pro_state*, pro_ref lookup, const char* id);
 
 /**
  * 
  */
 PRO_API int (pro_match)(pro_state*,
-    const pro_lookup* l1, const pro_lookup* l2);
+    const pro_ref l1, const pro_ref l2);
 
 /**
  * 
  */
 PRO_API const char* (pro_to_string)(pro_state*,
-    const pro_lookup*);
+    const pro_ref);
 
 #pragma mark Constructor
 
@@ -198,7 +198,7 @@ PRO_API const char* (pro_to_string)(pro_state*,
  *
  * @return The lookup for the new constructor.
  */
-PRO_API pro_lookup* (pro_constructor_create) (pro_state*,
+PRO_API pro_ref (pro_constructor_create) (pro_state*,
     pro_constructor);
 
 /**
@@ -209,8 +209,8 @@ PRO_API pro_lookup* (pro_constructor_create) (pro_state*,
  *
  * @return The result from the constructor.
  */
-PRO_API pro_lookup* (pro_constructor_call) (pro_state*,
-    pro_lookup* constructor, pro_lookup_list* arguments);
+PRO_API pro_ref (pro_constructor_call) (pro_state*,
+    pro_ref constructor, pro_lookup_list* arguments);
 
 
 #pragma mark Message
@@ -220,27 +220,27 @@ PRO_API pro_lookup* (pro_constructor_call) (pro_state*,
  *
  * @return The lookup for the new message.
  */
-PRO_API pro_lookup* (pro_message_create) (pro_state*);
+PRO_API pro_ref (pro_message_create) (pro_state*);
 
 /**
  * @return The number of objects a message contains.
  */
 PRO_API unsigned int (pro_message_length) (pro_state*,
-    const pro_lookup* lookup);
+    const pro_ref lookup);
 
 /**
  * Get a value from a message.
  *
  * @return lookup or null if out of bounds.
  */
-PRO_API pro_lookup* (pro_message_get) (pro_state*,
-    const pro_lookup* lookup, unsigned int idx);
+PRO_API pro_ref (pro_message_get) (pro_state*,
+    const pro_ref lookup, unsigned int idx);
 
 /**
  * Appends an value to a message.
  */
 PRO_API void (pro_message_append) (pro_state*,
-    const pro_lookup* msg, pro_lookup* lookup);
+    const pro_ref msg, pro_ref lookup);
 
 
 #pragma mark Actor
@@ -250,23 +250,23 @@ PRO_API void (pro_message_append) (pro_state*,
  *
  * @return The lookup for the new actor.
  */
-PRO_API pro_lookup* (pro_actor_create) (pro_state*, pro_actor_type type);
+PRO_API pro_ref (pro_actor_create) (pro_state*, pro_actor_type type);
 
 /**
  * @return The type value of a lookup.
  */
-PRO_API pro_actor_type (pro_get_actor_type) (pro_state*, const pro_lookup* lookup);
+PRO_API pro_actor_type (pro_get_actor_type) (pro_state*, const pro_ref lookup);
 
 /**
  * Sends a message to an actor.
  */
 PRO_API void (pro_send) (pro_state*,
-    const pro_lookup* actor, const pro_lookup* msg);
+    const pro_ref actor, const pro_ref msg);
 
 /**
  * Specify the behavior for an actor.
  */
-PRO_API void (pro_become) (pro_state*, pro_lookup* actor, pro_behavior);
+PRO_API void (pro_become) (pro_state*, pro_ref actor, pro_behavior);
 
 
 #pragma mark Library Loading

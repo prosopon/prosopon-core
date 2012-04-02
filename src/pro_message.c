@@ -17,9 +17,9 @@
 #pragma mark Public
 
 
-PRO_API pro_lookup* pro_message_create(pro_state*s)
+PRO_API pro_ref pro_message_create(pro_state*s)
 {
-    pro_lookup* lookup = pro_env_next_lookup(s, pro_get_env(s));
+    pro_ref lookup = pro_env_next_lookup(s, pro_get_env(s));
     pro_object** obj = pro_env_lookup_value(s, lookup);
     *obj = pro_object_new(s, PRO_MESSAGE_TYPE);
     (*obj)->value.message = 0;
@@ -27,7 +27,7 @@ PRO_API pro_lookup* pro_message_create(pro_state*s)
 }
 
 
-PRO_API unsigned int pro_message_length(pro_state* s, const pro_lookup* lookup)
+PRO_API unsigned int pro_message_length(pro_state* s, const pro_ref lookup)
 {
     pro_object** obj = pro_env_lookup_value(s, lookup);
     unsigned int length = 0;
@@ -37,8 +37,8 @@ PRO_API unsigned int pro_message_length(pro_state* s, const pro_lookup* lookup)
 }
 
 
-PRO_API pro_lookup* pro_message_get(pro_state* s,
-    const pro_lookup* msg, unsigned int idx)
+PRO_API pro_ref pro_message_get(pro_state* s,
+    const pro_ref msg, unsigned int idx)
 {
     assert(pro_get_type(s, msg) == PRO_MESSAGE_TYPE);
 
@@ -54,7 +54,7 @@ PRO_API pro_lookup* pro_message_get(pro_state* s,
 
 
 PRO_API void pro_message_append(pro_state* s,
-    const pro_lookup* msg, pro_lookup* lookup)
+    const pro_ref msg, pro_ref lookup)
 {
     assert(pro_get_type(s, msg) == PRO_MESSAGE_TYPE);
     assert(lookup);

@@ -21,7 +21,7 @@ struct pro_object
         {
             pro_actor_type type;
             pro_behavior behavior;
-            pro_env_lookup* env;
+            pro_env_ref env;
         } actor;
         struct
         {

@@ -28,7 +28,7 @@ struct pro_lookup_binding
 {
     pro_lookup_binding* next;
     char* identifier;
-    pro_lookup* lookup;
+    pro_ref lookup;
 };
 
 
@@ -53,7 +53,7 @@ static pro_internal_lookup* pro_internal_lookup_new(pro_state* s,
  * @return The new internal lookup.
  */
 static pro_lookup_binding* pro_lookup_binding_new(pro_state* s,
-    const char* identifier, pro_lookup* lookup, pro_lookup_binding* next)
+    const char* identifier, pro_ref lookup, pro_lookup_binding* next)
 {
     pro_lookup_binding* internal = malloc(sizeof(*internal));
     internal->lookup = lookup;
@@ -70,7 +70,7 @@ static pro_lookup_binding* pro_lookup_binding_new(pro_state* s,
  * @return The internal lookup.
  */
 static pro_internal_lookup* pro_env_get_internal_lookup(pro_state* s, 
-    const pro_lookup* lookup)
+    const pro_ref lookup)
 {
     pro_env* env = lookup->env;
     pro_internal_lookup* internal_lookup = env->lookups;
@@ -93,10 +93,10 @@ PRO_INTERNAL pro_env* pro_env_new(pro_state* s, pro_env* previous, pro_env* pare
 }
 
 
-PRO_INTERNAL pro_lookup* pro_env_next_lookup(pro_state* s,
-    pro_env_lookup* env)
+PRO_INTERNAL pro_ref pro_env_next_lookup(pro_state* s,
+    pro_env_ref env)
 {
-    pro_lookup* lookup = pro_lookup_new(s, env, env->size);
+    pro_ref lookup = pro_lookup_new(s, env, env->size);
     pro_internal_lookup* internal = pro_internal_lookup_new(s, 0, 0);
 
     if (0 == env->lookups)
@@ -115,7 +115,7 @@ PRO_INTERNAL pro_lookup* pro_env_next_lookup(pro_state* s,
 
 
 PRO_INTERNAL pro_object** pro_env_lookup_value(pro_state* s,
-    const pro_lookup* lookup)
+    const pro_ref lookup)
 {
     pro_internal_lookup* internal = pro_env_get_internal_lookup(s, lookup);
     return &(internal->value);
@@ -125,19 +125,19 @@ PRO_INTERNAL pro_object** pro_env_lookup_value(pro_state* s,
 #pragma mark -
 #pragma mark PRO_API
 
-PRO_API pro_env_lookup* pro_env_create(pro_state* s, pro_env_lookup* parent)
+PRO_API pro_env_ref pro_env_create(pro_state* s, pro_env_ref parent)
 {
     return pro_env_new(s, 0, parent);
 }
 
 
-PRO_API void pro_env_release(pro_state* s, pro_env_lookup* env)
+PRO_API void pro_env_release(pro_state* s, pro_env_ref env)
 {
     // TODO 
 }
 
 
-PRO_API void pro_bind(pro_state* s, pro_lookup* lookup, const char* id)
+PRO_API void pro_bind(pro_state* s, pro_ref lookup, const char* id)
 {
     assert(lookup);
     
@@ -159,8 +159,8 @@ PRO_API void pro_bind(pro_state* s, pro_lookup* lookup, const char* id)
 }
 
 
-PRO_API pro_lookup* pro_get_binding(pro_state* s,
-    pro_env_lookup* env, const char* name)
+PRO_API pro_ref pro_get_binding(pro_state* s,
+    pro_env_ref env, const char* name)
 {
     for (pro_lookup_binding* binding = env->bindings; binding; binding = binding->next)
     {

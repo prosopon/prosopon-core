@@ -24,7 +24,7 @@ static int cleanup(void)
 
 static int global = 0;
 
-static pro_lookup* contructor(pro_state* s, pro_lookup_list* arguments, void* d)
+static pro_ref contructor(pro_state* s, pro_lookup_list* arguments, void* d)
 {
     int* val = d;
     global = *val;

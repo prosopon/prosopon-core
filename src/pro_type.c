@@ -9,13 +9,13 @@
 #pragma mark Private
 
 static int default_match(pro_state* s,
-    const pro_lookup* t, const void* tData, const pro_lookup* o, const void* oData)
+    const pro_ref t, const void* tData, const pro_ref o, const void* oData)
 {
     return -1;
 }
 
 static const char* defaul_to_string(pro_state* s,
-    const pro_lookup* t, const void* tData)
+    const pro_ref t, const void* tData)
 {
     return "";
 }
@@ -92,7 +92,7 @@ PRO_API void pro_register_actor_type(pro_state* s,
 }
 
 
-PRO_API pro_type pro_get_type(pro_state* s, const pro_lookup* lookup)
+PRO_API pro_type pro_get_type(pro_state* s, const pro_ref lookup)
 {
     pro_object** obj = pro_env_lookup_value(s, lookup);
     return (*obj)->type;

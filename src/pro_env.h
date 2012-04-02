@@ -40,14 +40,14 @@ PRO_INTERNAL pro_env* pro_env_new(pro_state*,
 /**
  * @return An empty lookup in a environment.
  */
-PRO_INTERNAL pro_lookup* pro_env_next_lookup(pro_state*,
-    pro_env_lookup* env);
+PRO_INTERNAL pro_ref pro_env_next_lookup(pro_state*,
+    pro_env_ref env);
 
 /**
  * @return The object referance that the lookup points to.
  */
 PRO_INTERNAL pro_object** pro_env_lookup_value(pro_state*,
-    const pro_lookup* lookup);
+    const pro_ref lookup);
 
 
 

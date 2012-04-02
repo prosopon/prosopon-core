@@ -4,10 +4,10 @@
 #include "pro_env.h"
 
 
-PRO_API pro_lookup* pro_constructor_create(pro_state* s,
+PRO_API pro_ref pro_constructor_create(pro_state* s,
     pro_constructor c)
 {
-    pro_lookup* lookup= pro_env_next_lookup(s, pro_get_env(s));
+    pro_ref lookup= pro_env_next_lookup(s, pro_get_env(s));
     pro_object** obj = pro_env_lookup_value(s, lookup);
     *obj = pro_object_new(s, PRO_CONSTRUCTOR_TYPE);
     (*obj)->value.constructor.constructor = c;
@@ -15,8 +15,8 @@ PRO_API pro_lookup* pro_constructor_create(pro_state* s,
 }
 
 
-PRO_API pro_lookup* pro_constructor_call(pro_state* s,
-    pro_lookup* constructor, pro_lookup_list* arguments)
+PRO_API pro_ref pro_constructor_call(pro_state* s,
+    pro_ref constructor, pro_lookup_list* arguments)
 {
     pro_object* obj = *pro_env_lookup_value(s, constructor);
     pro_constructor* c = &obj->value.constructor.constructor;

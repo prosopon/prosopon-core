@@ -4,7 +4,7 @@
 #include "pro_type.h"
 
 #include <stdlib.h>
-
+#include <assert.h>
 
 #pragma mark Private
 
@@ -38,15 +38,17 @@ PRO_API void pro_state_release(pro_state* s)
 }
 
 
-PRO_API pro_env_lookup* pro_get_env(pro_state* s)
+PRO_API pro_env_ref pro_get_env(pro_state* s)
 {
     return s->current_env;
 }
 
 
-PRO_API void pro_push_env(pro_state* s, pro_env_lookup* env)
+PRO_API void pro_push_env(pro_state* s, pro_env_ref env)
 {
     pro_env* current_env = s->current_env;
+    assert(env);
+    assert(env != current_env);
     env->previous = current_env;
     s->current_env = env;
 }
