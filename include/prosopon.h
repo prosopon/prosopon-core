@@ -110,7 +110,10 @@ struct pro_actor_type_info
 
 PRO_API void (pro_register_actor_type) (pro_state*,
     pro_actor_type, const pro_actor_type_info*);
-    
+
+PRO_API const void* (pro_request_actor_data) (pro_state*,
+    pro_lookup*);
+
 
 #pragma mark State
 

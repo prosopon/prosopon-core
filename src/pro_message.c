@@ -57,7 +57,8 @@ PRO_API void pro_message_append(pro_state* s,
     const pro_lookup* msg, pro_lookup* lookup)
 {
     assert(pro_get_type(s, msg) == PRO_MESSAGE_TYPE);
-
+    assert(lookup);
+    
     pro_object** obj = pro_env_lookup_value(s, msg);
     if (!(*obj)->value.message)
         (*obj)->value.message = pro_lookup_list_new(s, lookup, 0);
