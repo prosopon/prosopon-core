@@ -22,7 +22,7 @@ PRO_API pro_ref pro_actor_create(pro_state_ref s, pro_actor_type type)
     pro_object** obj = pro_env_lookup_value(s, lookup);
     *obj = pro_object_new(s, PRO_ACTOR_TYPE);
     (*obj)->value.actor.type = type;
-    (*obj)->value.actor.env = pro_env_create(s, current_env);
+    pro_env_create(s, current_env, &((*obj)->value.actor.env));
     return lookup;
 }
 

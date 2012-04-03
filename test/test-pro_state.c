@@ -46,7 +46,8 @@ static void test_push_pop(void)
 {
     pro_env_ref old;
     pro_get_env(state, &old);
-    pro_env_ref new = pro_env_create(state, old);
+    pro_env_ref new;
+    pro_env_create(state, old, &new);
     pro_push_env(state, new);
     CU_ASSERT(new->value == state->stack->value->value);
     CU_ASSERT(old->value == state->stack->next->value->value);

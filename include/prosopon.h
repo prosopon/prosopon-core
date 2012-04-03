@@ -175,14 +175,15 @@ PRO_API pro_error (pro_pop_env) (pro_state_ref);
 /**
  * Creates a new environment with a given parent.
  * 
- * @return The lookup for a newly created environment.
+ * @param[out] env A referance to the new environment.
  */
-PRO_API pro_env_ref (pro_env_create) (pro_state_ref, pro_env_ref parent);
+PRO_API pro_error (pro_env_create) (pro_state_ref, pro_env_ref parent,
+    PRO_OUT pro_env_ref* env);
 
 /**
  * Release an environment for future collection.
  */
-PRO_API void (pro_env_release) (pro_state_ref, pro_env_ref);
+PRO_API pro_error (pro_env_release) (pro_state_ref, pro_env_ref);
 
 /**
  * @return The lookup for the highest resolved lookup for a given name.
@@ -204,7 +205,7 @@ PRO_API void (pro_bind) (pro_state_ref, pro_ref, const char*);
 /**
  * 
  */
-PRO_API int (pro_match)(pro_state_ref, pro_ref, pro_ref);
+PRO_API int (pro_match) (pro_state_ref, pro_ref, pro_ref);
 
 /**
  * 

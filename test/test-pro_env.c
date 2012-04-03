@@ -43,7 +43,19 @@ static void test_create(void)
     pro_env_ref old;
     pro_get_env(state, &old);
     
-    pro_env_ref new = pro_env_create(state, old);
+    pro_env_ref new;
+    pro_env_create(state, old, &new);
+    CU_ASSERT(0 != new);
+    CU_ASSERT(new->value->parent == old);
+}
+
+static void test_create_invalid(void)
+{
+    pro_env_ref old;
+    pro_get_env(state, &old);
+    
+    pro_env_ref new;
+    pro_env_create(state, old, &new);
     CU_ASSERT(0 != new);
     CU_ASSERT(new->value->parent == old);
 }
@@ -52,6 +64,8 @@ static void test_create(void)
 static CU_TestInfo tests[] = {
     {"new", test_new},
     {"create", test_create},
+    {"create_invalid", test_create_invalid},
+
     CU_TEST_INFO_NULL,
 };
 

@@ -124,15 +124,21 @@ PRO_INTERNAL pro_object** pro_env_lookup_value(pro_state_ref s,
 #pragma mark -
 #pragma mark PRO_API
 
-PRO_API pro_env_ref pro_env_create(pro_state_ref s, pro_env_ref parent)
+PRO_API pro_error pro_env_create(pro_state_ref s, pro_env_ref parent,
+    PRO_OUT pro_env_ref* env_out)
 {
-    return pro_env_lookup_new(s, pro_env_new(s, parent));
+    pro_env_lookup* env = pro_env_lookup_new(s, pro_env_new(s, parent));
+    if (0 == env)
+        return PRO_OUT_OF_MEMORY;
+    *env_out = env; 
+    return PRO_OK;
 }
 
 
-PRO_API void pro_env_release(pro_state_ref s, pro_env_ref env)
+PRO_API pro_error pro_env_release(pro_state_ref s, pro_env_ref env)
 {
-    // TODO 
+    // TODO
+    return PRO_OK;
 }
 
 
