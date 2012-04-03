@@ -38,25 +38,29 @@ PRO_API pro_actor_type pro_get_actor_type(pro_state_ref s, pro_ref actor)
 }
 
 
-PRO_API void pro_send(pro_state_ref s, pro_ref actor, pro_ref msg)
+PRO_API pro_error pro_send(pro_state_ref s, pro_ref actor, pro_ref msg)
 {
+    if (!s) return PRO_INVALID_OPERATION;
+    
+    pro_error err;
     pro_type actor_type;
-    pro_get_type(s, actor, &actor_type);
-    assert(PRO_ACTOR_TYPE == actor_type);
+    if ((err = pro_get_type(s, actor, &actor_type)) != PRO_OK) return err;
+    if (PRO_ACTOR_TYPE != actor_type) return PRO_INVALID_ARGUMENT;
     
     pro_type msg_type;
-    pro_get_type(s, msg, &msg_type);
-    assert(PRO_MESSAGE_TYPE == msg_type);
+    if ((err = pro_get_type(s, msg, &msg_type)) != PRO_OK) return err;
+    if (PRO_MESSAGE_TYPE != msg_type) return PRO_INVALID_ARGUMENT;
     
     pro_object* obj = *pro_env_lookup_value(s, actor);
     pro_push_env(s, obj->value.actor.env);
     const pro_behavior* behavior = &obj->value.actor.behavior;  
     behavior->impl(s, actor, msg, behavior->data);
     pro_pop_env(s);
+    return PRO_OK;
 }
 
 
-PRO_API void pro_become(pro_state_ref s,
+PRO_API pro_error pro_become(pro_state_ref s,
     pro_ref actor, pro_behavior new_beh)
 {
     pro_type actor_type;
@@ -65,6 +69,7 @@ PRO_API void pro_become(pro_state_ref s,
     
     pro_object* obj = *pro_env_lookup_value(s, actor);
     obj->value.actor.behavior = new_beh;
+    return PRO_OK;
 }
 
 

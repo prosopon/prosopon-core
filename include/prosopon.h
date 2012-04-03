@@ -27,7 +27,10 @@ typedef enum
     PRO_OUT_OF_MEMORY,
     PRO_INVALID_ARGUMENT,
     PRO_INVALID_OPERATION,
-    PRO_INVALID_VALUE
+    PRO_INVALID_VALUE,
+    PRO_CONSTRUCTOR_ERROR,
+    PRO_BEHAVIOR_ERROR,
+    PRO_ERROR_MAX
 } pro_error;
 
 
@@ -208,8 +211,14 @@ PRO_API pro_error (pro_get_type) (pro_state_ref,
 
 /**
  * Binds a lookup to an identifier name.
+ *
+ * @return
+ *   PRO_OK if successful
+ *   PRO_INVALID_OPERATION if the state is not valid or id is null.
+ *   PRO_OUT_OF_MEMORY if memory cannot be allocated.
+ *   PRO_INVALID_ARGUMENT If ref is invalid.
  */
-PRO_API pro_error (pro_bind) (pro_state_ref, pro_ref, const char*);
+PRO_API pro_error (pro_bind) (pro_state_ref, pro_ref ref, const char* id);
 
 /**
  * 
@@ -228,13 +237,10 @@ PRO_API const char* (pro_to_string)(pro_state_ref,
 /**
  * Creates a new constructor in the current environment.
  *
- * @param data Additional user defined data passed to the constructor.
- *             @see pro_constructor
- *
  * @return The lookup for the new constructor.
  */
-PRO_API pro_ref (pro_constructor_create) (pro_state_ref,
-    pro_constructor);
+PRO_API pro_error (pro_constructor_create) (pro_state_ref, pro_constructor,
+    PRO_OUT pro_ref* constructor);
 
 /**
  * Calls a constructor with a list of arguments.
@@ -244,8 +250,8 @@ PRO_API pro_ref (pro_constructor_create) (pro_state_ref,
  *
  * @return The result from the constructor.
  */
-PRO_API pro_ref (pro_constructor_call) (pro_state_ref,
-    pro_ref constructor, pro_ref_list arguments);
+PRO_API pro_error (pro_constructor_call) (pro_state_ref,
+    pro_ref constructor, pro_ref_list arguments, PRO_OUT pro_ref* result);
 
 
 #pragma mark Message
@@ -255,24 +261,26 @@ PRO_API pro_ref (pro_constructor_call) (pro_state_ref,
  *
  * @return The lookup for the new message.
  */
-PRO_API pro_ref (pro_message_create) (pro_state_ref);
+PRO_API pro_error (pro_message_create) (pro_state_ref, PRO_OUT pro_ref* msg);
 
 /**
  * @return The number of objects a message contains.
  */
-PRO_API unsigned int (pro_message_length) (pro_state_ref, pro_ref);
+PRO_API pro_error (pro_message_length) (pro_state_ref, pro_ref,
+    PRO_OUT unsigned int* length);
 
 /**
  * Get a value from a message.
  *
  * @return lookup or null if out of bounds.
  */
-PRO_API pro_ref (pro_message_get) (pro_state_ref, pro_ref, unsigned int index);
+PRO_API pro_error (pro_message_get) (pro_state_ref, pro_ref, unsigned int index, 
+    PRO_OUT pro_ref* result);
 
 /**
  * Appends an value to a message.
  */
-PRO_API void (pro_message_append) (pro_state_ref, pro_ref msg, pro_ref value);
+PRO_API pro_error (pro_message_append) (pro_state_ref, pro_ref msg, pro_ref value);
 
 
 #pragma mark Actor
@@ -292,13 +300,13 @@ PRO_API pro_actor_type (pro_get_actor_type) (pro_state_ref, pro_ref lookup);
 /**
  * Sends a message to an actor.
  */
-PRO_API void (pro_send) (pro_state_ref,
+PRO_API pro_error (pro_send) (pro_state_ref,
     pro_ref actor, pro_ref msg);
 
 /**
  * Specify the behavior for an actor.
  */
-PRO_API void (pro_become) (pro_state_ref, pro_ref actor, pro_behavior);
+PRO_API pro_error (pro_become) (pro_state_ref, pro_ref actor, pro_behavior);
 
 
 #pragma mark Library Loading

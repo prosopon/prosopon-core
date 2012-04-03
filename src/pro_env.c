@@ -146,7 +146,7 @@ PRO_API pro_error pro_bind(pro_state_ref s, pro_ref ref, const char* id)
 {
     if (!s) return PRO_INVALID_OPERATION;
     if (PRO_EMPTY_REF == ref) return PRO_INVALID_ARGUMENT;
-    if (0 == id) return PRO_INVALID_ARGUMENT;
+    if (0 == id) return PRO_INVALID_OPERATION;
 
     pro_env_ref env_ref;
     pro_get_env(s, &env_ref);

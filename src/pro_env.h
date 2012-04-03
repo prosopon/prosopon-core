@@ -21,7 +21,7 @@ struct pro_env
 {
     pro_env_ref parent; /**< The parent environment used for delegation. */
     
-    pro_internal_lookup* lookups; /**< */
+    pro_internal_lookup* lookups;
     unsigned int size;
 
     pro_lookup_binding* bindings;
