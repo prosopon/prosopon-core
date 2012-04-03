@@ -4,7 +4,7 @@
 #include "pro_state.h"
 
 
-static pro_state* state = 0;
+static pro_state_ref state = 0;
 
 
 static int init(void)
@@ -24,7 +24,7 @@ static int cleanup(void)
 
 static int global = 0;
 
-static pro_ref contructor(pro_state* s, pro_ref_list arguments, void* d)
+static pro_ref contructor(pro_state_ref s, pro_ref_list arguments, void* d)
 {
     int* val = d;
     global = *val;

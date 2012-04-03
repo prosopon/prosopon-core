@@ -22,6 +22,6 @@ PRO_INTERNAL pro_library_list* pro_library_list_new(const char* file,
  * Has a library been loaded.
  * @return 0 if false else true
  */
-PRO_INTERNAL int pro_library_loaded(pro_state*, const char* file);
+PRO_INTERNAL int pro_library_loaded(pro_state_ref, const char* file);
 
 #endif

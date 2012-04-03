@@ -4,7 +4,7 @@
 #include "pro_state.h"
 
 
-static pro_state* state = 0;
+static pro_state_ref state = 0;
 
 
 static int init(void)
@@ -27,7 +27,7 @@ static int cleanup(void)
 
 static void test_create(void)
 {
-    pro_state* s = pro_state_create();
+    pro_state_ref s = pro_state_create();
     CU_ASSERT(0 != s);
     CU_ASSERT(0 != s->root_env);
     CU_ASSERT(0 != s->current_env);

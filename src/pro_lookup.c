@@ -6,7 +6,7 @@
 pro_ref PRO_EMPTY_REF = 0;
 
 
-PRO_INTERNAL pro_lookup* pro_lookup_new(pro_state* s,
+PRO_INTERNAL pro_lookup* pro_lookup_new(pro_state_ref s,
     pro_env_ref env, unsigned int index)
 {
     pro_lookup* t = malloc(sizeof(*t));
@@ -15,14 +15,14 @@ PRO_INTERNAL pro_lookup* pro_lookup_new(pro_state* s,
     return t;
 }
 
-PRO_INTERNAL int pro_lookup_equal(pro_state* s, pro_ref o1, pro_ref o2)
+PRO_INTERNAL int pro_lookup_equal(pro_state_ref s, pro_ref o1, pro_ref o2)
 {
     return (o1->env == o2->env && o1->index == o2->index);
 }
 
 
 
-PRO_INTERNAL pro_env_lookup* pro_env_lookup_new(pro_state* s,
+PRO_INTERNAL pro_env_lookup* pro_env_lookup_new(pro_state_ref s,
     struct pro_env* value)
 {
     pro_env_lookup* t = malloc(sizeof(*t));
@@ -31,7 +31,7 @@ PRO_INTERNAL pro_env_lookup* pro_env_lookup_new(pro_state* s,
 }
 
 
-PRO_INTERNAL pro_ref_list pro_lookup_list_new(pro_state* s,
+PRO_INTERNAL pro_ref_list pro_lookup_list_new(pro_state_ref s,
     pro_ref value, pro_ref_list next)
 {
     pro_ref_list t = malloc(sizeof(*t));
@@ -41,7 +41,7 @@ PRO_INTERNAL pro_ref_list pro_lookup_list_new(pro_state* s,
 }
 
 
-PRO_INTERNAL void pro_lookup_list_append(pro_state* s,
+PRO_INTERNAL void pro_lookup_list_append(pro_state_ref s,
     pro_ref_list t, pro_ref value)
 {
     pro_ref_list parent = t;

@@ -8,13 +8,13 @@
 
 #pragma mark Private
 
-static int default_match(pro_state* s,
+static int default_match(pro_state_ref s,
     pro_ref t, const void* tData, pro_ref o, const void* oData)
 {
     return -1;
 }
 
-static const char* defaul_to_string(pro_state* s,
+static const char* defaul_to_string(pro_state_ref s,
     pro_ref t, const void* tData)
 {
     return "";
@@ -29,7 +29,7 @@ static const pro_actor_type_info pro_default_actor_type_info = {
 #pragma mark -
 #pragma mark Internal
 
-PRO_INTERNAL pro_actor_type_info_list* pro_actor_type_info_list_new(pro_state* s, 
+PRO_INTERNAL pro_actor_type_info_list* pro_actor_type_info_list_new(pro_state_ref s, 
     pro_actor_type type, pro_actor_type_info* value, pro_actor_type_info_list* next)
 {
     pro_actor_type_info_list* t = malloc(sizeof(*t));
@@ -43,12 +43,12 @@ PRO_INTERNAL pro_actor_type_info_list* pro_actor_type_info_list_new(pro_state* s
 pro_actor_type PRO_DEFAULT_ACTOR_TYPE = 0;
 
 
-PRO_INTERNAL void initialize_default_actor_types(pro_state* s)
+PRO_INTERNAL void initialize_default_actor_types(pro_state_ref s)
 {
     pro_register_actor_type(s, PRO_DEFAULT_ACTOR_TYPE, &pro_default_actor_type_info);
 }
 
-PRO_INTERNAL const pro_actor_type_info* pro_get_actor_type_info(pro_state* s, 
+PRO_INTERNAL const pro_actor_type_info* pro_get_actor_type_info(pro_state_ref s, 
     pro_actor_type type)
 {
     pro_actor_type_info_list* list = s->actor_types;
@@ -73,7 +73,7 @@ PRO_INTERNAL const pro_actor_type_info* pro_get_actor_type_info(pro_state* s,
 #pragma mark Public
 
 
-PRO_API void pro_register_actor_type(pro_state* s,
+PRO_API void pro_register_actor_type(pro_state_ref s,
     const char* identifier, const pro_actor_type_info* info)
 {
     pro_actor_type_info_list* list = malloc(sizeof(*list));
@@ -92,7 +92,7 @@ PRO_API void pro_register_actor_type(pro_state* s,
 }
 
 
-PRO_API pro_type pro_get_type(pro_state* s, pro_ref lookup)
+PRO_API pro_type pro_get_type(pro_state_ref s, pro_ref lookup)
 {
     pro_object** obj = pro_env_lookup_value(s, lookup);
     return (*obj)->type;

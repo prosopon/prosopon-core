@@ -37,7 +37,7 @@ struct pro_lookup_binding
  *
  * @return The new internal lookup.
  */
-static pro_internal_lookup* pro_internal_lookup_new(pro_state* s,
+static pro_internal_lookup* pro_internal_lookup_new(pro_state_ref s,
     pro_object* value, pro_internal_lookup* next)
 {
     pro_internal_lookup* internal = malloc(sizeof(*internal));
@@ -52,7 +52,7 @@ static pro_internal_lookup* pro_internal_lookup_new(pro_state* s,
  *
  * @return The new internal lookup.
  */
-static pro_lookup_binding* pro_lookup_binding_new(pro_state* s,
+static pro_lookup_binding* pro_lookup_binding_new(pro_state_ref s,
     const char* identifier, pro_ref lookup, pro_lookup_binding* next)
 {
     pro_lookup_binding* internal = malloc(sizeof(*internal));
@@ -69,7 +69,7 @@ static pro_lookup_binding* pro_lookup_binding_new(pro_state* s,
  *
  * @return The internal lookup.
  */
-static pro_internal_lookup* pro_env_get_internal_lookup(pro_state* s, 
+static pro_internal_lookup* pro_env_get_internal_lookup(pro_state_ref s, 
     pro_ref lookup)
 {
     pro_env_ref env = lookup->env;
@@ -83,7 +83,7 @@ static pro_internal_lookup* pro_env_get_internal_lookup(pro_state* s,
 #pragma mark -
 #pragma mark PRO_INTERNAL
 
-PRO_INTERNAL pro_env* pro_env_new(pro_state* s, pro_env_ref parent)
+PRO_INTERNAL pro_env* pro_env_new(pro_state_ref s, pro_env_ref parent)
 {
     pro_env* e = malloc(sizeof(*e));
     memset(e, 0, sizeof(*e));
@@ -92,7 +92,7 @@ PRO_INTERNAL pro_env* pro_env_new(pro_state* s, pro_env_ref parent)
 }
 
 
-PRO_INTERNAL pro_ref pro_env_next_lookup(pro_state* s,
+PRO_INTERNAL pro_ref pro_env_next_lookup(pro_state_ref s,
     pro_env_ref env)
 {
     pro_ref lookup = pro_lookup_new(s, env, env->value->size);
@@ -113,7 +113,7 @@ PRO_INTERNAL pro_ref pro_env_next_lookup(pro_state* s,
 }
 
 
-PRO_INTERNAL pro_object** pro_env_lookup_value(pro_state* s,
+PRO_INTERNAL pro_object** pro_env_lookup_value(pro_state_ref s,
     pro_ref lookup)
 {
     pro_internal_lookup* internal = pro_env_get_internal_lookup(s, lookup);
@@ -124,19 +124,19 @@ PRO_INTERNAL pro_object** pro_env_lookup_value(pro_state* s,
 #pragma mark -
 #pragma mark PRO_API
 
-PRO_API pro_env_ref pro_env_create(pro_state* s, pro_env_ref parent)
+PRO_API pro_env_ref pro_env_create(pro_state_ref s, pro_env_ref parent)
 {
     return pro_env_lookup_new(s, pro_env_new(s, parent));
 }
 
 
-PRO_API void pro_env_release(pro_state* s, pro_env_ref env)
+PRO_API void pro_env_release(pro_state_ref s, pro_env_ref env)
 {
     // TODO 
 }
 
 
-PRO_API void pro_bind(pro_state* s, pro_ref lookup, const char* id)
+PRO_API void pro_bind(pro_state_ref s, pro_ref lookup, const char* id)
 {
     assert(lookup);
     
@@ -160,7 +160,7 @@ PRO_API void pro_bind(pro_state* s, pro_ref lookup, const char* id)
 }
 
 
-PRO_API pro_ref pro_get_binding(pro_state* s,
+PRO_API pro_ref pro_get_binding(pro_state_ref s,
     pro_env_ref env, const char* name)
 {
     for (pro_lookup_binding* binding = env->value->bindings; binding; binding = binding->next)

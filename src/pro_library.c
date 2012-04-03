@@ -12,7 +12,7 @@
 
 #pragma mark Private
 
-static void initialize_library(pro_state* s, void* lib_handle)
+static void initialize_library(pro_state_ref s, void* lib_handle)
 {
     assert(lib_handle);
     pro_library_init* init = dlsym(lib_handle, "prosopon_library_initialization");
@@ -24,7 +24,7 @@ static void initialize_library(pro_state* s, void* lib_handle)
     init(s);
 }
 
-static void add_loaded_library(pro_state* s, const char* file)
+static void add_loaded_library(pro_state_ref s, const char* file)
 {
     pro_library_list* t = pro_library_list_new(file, 0);
     if (!s->libraries)
@@ -50,7 +50,7 @@ PRO_INTERNAL pro_library_list* pro_library_list_new(const char* file,
 }
 
 
-PRO_INTERNAL int pro_library_loaded(pro_state* s, const char* file)
+PRO_INTERNAL int pro_library_loaded(pro_state_ref s, const char* file)
 {
     pro_library_list* library = s->libraries;
     while (library)
@@ -65,7 +65,7 @@ PRO_INTERNAL int pro_library_loaded(pro_state* s, const char* file)
 
 #pragma mark PRO_API
 
-PRO_API void pro_library_load(pro_state* s, const char* file)
+PRO_API void pro_library_load(pro_state_ref s, const char* file)
 {
     if (pro_library_loaded(s, file) != 0)
         return;

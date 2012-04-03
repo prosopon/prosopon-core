@@ -19,7 +19,7 @@ struct pro_state
 };
 
 
-pro_env_stack* pro_env_stack_new(pro_state* state, pro_env_ref value, pro_env_stack* next);
+pro_env_stack* pro_env_stack_new(pro_state_ref state, pro_env_ref value, pro_env_stack* next);
 
 
 

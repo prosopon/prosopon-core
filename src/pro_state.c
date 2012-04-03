@@ -18,7 +18,7 @@ struct pro_env_stack
     pro_env_ref value;
 };
 
-pro_env_stack* pro_env_stack_new(pro_state* state, pro_env_ref value, pro_env_stack* next)
+pro_env_stack* pro_env_stack_new(pro_state_ref state, pro_env_ref value, pro_env_stack* next)
 {
     pro_env_stack* t = malloc(sizeof(*t));
     t->value = value;
@@ -31,9 +31,9 @@ pro_env_stack* pro_env_stack_new(pro_state* state, pro_env_ref value, pro_env_st
 #pragma mark PRO_API
 
 
-PRO_API pro_state* pro_state_create(void)
+PRO_API pro_state_ref pro_state_create(void)
 {
-    pro_state* s = malloc(sizeof(*s));
+    pro_state_ref s = malloc(sizeof(*s));
     if (s == 0)
         return 0;
     
@@ -45,7 +45,7 @@ PRO_API pro_state* pro_state_create(void)
     return s;
 }
 
-PRO_API void pro_state_release(pro_state* s)
+PRO_API void pro_state_release(pro_state_ref s)
 {
     while (s->stack) // relase all environments 
         pro_pop_env(s); 
@@ -54,13 +54,13 @@ PRO_API void pro_state_release(pro_state* s)
 }
 
 
-PRO_API pro_env_ref pro_get_env(pro_state* s)
+PRO_API pro_env_ref pro_get_env(pro_state_ref s)
 {
     return pro_env_lookup_new(s, s->stack->value->value);
 }
 
 
-PRO_API void pro_push_env(pro_state* s, pro_env_ref env)
+PRO_API void pro_push_env(pro_state_ref s, pro_env_ref env)
 {
     pro_env_ref current_env = s->stack->value;
     assert(env);
@@ -69,7 +69,7 @@ PRO_API void pro_push_env(pro_state* s, pro_env_ref env)
 }
 
 
-PRO_API void pro_pop_env(pro_state* s)
+PRO_API void pro_pop_env(pro_state_ref s)
 {
     s->stack = s->stack->next;
 }

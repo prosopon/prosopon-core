@@ -34,6 +34,6 @@ struct pro_object
 /**
  *
  */
-PRO_INTERNAL pro_object* pro_object_new(pro_state*, pro_type type);
+PRO_INTERNAL pro_object* pro_object_new(pro_state_ref, pro_type type);
 
 #endif

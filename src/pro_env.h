@@ -33,18 +33,18 @@ struct pro_env
  *
  * @return A newly created environment.
  */
-PRO_INTERNAL pro_env* pro_env_new(pro_state*, pro_env_ref parent);
+PRO_INTERNAL pro_env* pro_env_new(pro_state_ref, pro_env_ref parent);
 
 /**
  * @return An empty lookup in a environment.
  */
-PRO_INTERNAL pro_ref pro_env_next_lookup(pro_state*,
+PRO_INTERNAL pro_ref pro_env_next_lookup(pro_state_ref,
     pro_env_ref env);
 
 /**
  * @return The object reference that the lookup points to.
  */
-PRO_INTERNAL pro_object** pro_env_lookup_value(pro_state*,
+PRO_INTERNAL pro_object** pro_env_lookup_value(pro_state_ref,
     pro_ref lookup);
 
 
