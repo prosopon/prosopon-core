@@ -12,12 +12,6 @@
 #pragma mark -
 #pragma mark Intenal
 
-struct pro_env_stack
-{
-    pro_env_stack* next;
-    pro_env_ref value;
-};
-
 pro_env_stack* pro_env_stack_new(pro_state_ref state, pro_env_ref value, pro_env_stack* next)
 {
     pro_env_stack* t = malloc(sizeof(*t));
@@ -59,6 +53,8 @@ PRO_API pro_error pro_state_release(pro_state_ref s)
 
 PRO_API pro_error pro_get_env(pro_state_ref s, PRO_OUT pro_env_ref* out_env)
 {
+    if (!s)
+        return PRO_INVALID_OPERATION;
     *out_env = pro_env_lookup_new(s, s->stack->value->value);
     return PRO_OK;
 }

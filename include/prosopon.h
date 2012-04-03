@@ -148,12 +148,19 @@ PRO_API pro_error (pro_state_create) (PRO_OUT pro_state_ref* state);
 PRO_API pro_error (pro_state_release) (pro_state_ref);
 
 /**
- * @return The reference to the current environment. 
+ * @param[out] env The reference to the current environment. 
+ *
+ * @return
+ *   PRO_OK if successful
+ *   PRO_INVALID_OPERATION if the state is not valid.
  */
-PRO_API pro_error (pro_get_env) (pro_state_ref, PRO_OUT pro_env_ref*);
+PRO_API pro_error (pro_get_env) (pro_state_ref, PRO_OUT pro_env_ref* env);
 
 /**
  * Pushes an environment onto the environment stack
+ *
+ * @return
+ *   PRO_OK if successful
  */
 PRO_API pro_error (pro_push_env) (pro_state_ref, pro_env_ref);
 
@@ -204,6 +211,7 @@ PRO_API int (pro_match)(pro_state_ref, pro_ref, pro_ref);
  */
 PRO_API const char* (pro_to_string)(pro_state_ref,
     pro_ref);
+
 
 #pragma mark Constructor
 

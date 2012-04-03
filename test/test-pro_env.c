@@ -11,7 +11,7 @@ static pro_state_ref state;
 
 static int init(void)
 {
-    state = pro_state_create();
+    pro_state_create(&state);
     return state == 0;
 }
 
@@ -28,29 +28,24 @@ static int cleanup(void)
 
 static void test_new(void)
 {
-    pro_env* env1 = pro_env_new(state, 0, 0);
+    pro_env* env1 = pro_env_new(state, 0);
     CU_ASSERT(0 != env1);
-    CU_ASSERT(0 == env1->previous);
     CU_ASSERT(0 == env1->parent);
 
-    pro_env* env2 = pro_env_new(state, env1, env1);
+    pro_env* env2 = pro_env_new(state, pro_env_lookup_new(state, env1));
     CU_ASSERT(0 != env2);
-    CU_ASSERT(env1 == env2->previous);
-    CU_ASSERT(env1 == env2->parent);
-    
-    pro_env* env3 = pro_env_new(state, env2, env1);
-    CU_ASSERT(env2 == env3->previous);
-    CU_ASSERT(env1 == env3->parent);
+    CU_ASSERT(env1 == env2->parent->value);
 }
 
 
 static void test_create(void)
 {
-    pro_env* old = pro_get_env(state);
-    pro_env* new = pro_env_create(state, old);
+    pro_env_ref old;
+    pro_get_env(state, &old);
+    
+    pro_env_ref new = pro_env_create(state, old);
     CU_ASSERT(0 != new);
-    CU_ASSERT(new->parent == old);
-    CU_ASSERT(0 == new->previous);
+    CU_ASSERT(new->value->parent == old);
 }
 
 

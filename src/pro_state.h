@@ -6,6 +6,7 @@
 #include "pro_type.h"
 
 
+typedef struct pro_state pro_state;
 typedef struct pro_env_stack pro_env_stack;
 
 struct pro_state
@@ -18,6 +19,12 @@ struct pro_state
     pro_actor_type_info_list* actor_types;
 };
 
+
+struct pro_env_stack
+{
+    pro_env_stack* next;
+    pro_env_ref value;
+};
 
 pro_env_stack* pro_env_stack_new(pro_state_ref state, pro_env_ref value, pro_env_stack* next);
 
