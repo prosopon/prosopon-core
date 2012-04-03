@@ -42,7 +42,9 @@ PRO_API unsigned int pro_message_length(pro_state_ref s, pro_ref lookup)
 PRO_API pro_ref pro_message_get(pro_state_ref s,
     pro_ref msg, unsigned int idx)
 {
-    assert(pro_get_type(s, msg) == PRO_MESSAGE_TYPE);
+    pro_type type;
+    pro_get_type(s, msg, &type);
+    assert(PRO_MESSAGE_TYPE == type);
 
     pro_object** obj = pro_env_lookup_value(s, msg);
     pro_ref_list list = (*obj)->value.message;
@@ -58,7 +60,9 @@ PRO_API pro_ref pro_message_get(pro_state_ref s,
 PRO_API void pro_message_append(pro_state_ref s,
     pro_ref msg, pro_ref lookup)
 {
-    assert(pro_get_type(s, msg) == PRO_MESSAGE_TYPE);
+    pro_type type;
+    pro_get_type(s, msg, &type);
+    assert(PRO_MESSAGE_TYPE == type);
     assert(lookup);
     
     pro_object** obj = pro_env_lookup_value(s, msg);

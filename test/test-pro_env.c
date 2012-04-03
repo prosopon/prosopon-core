@@ -49,15 +49,34 @@ static void test_create(void)
     CU_ASSERT(new->value->parent == old);
 }
 
+
 static void test_create_invalid(void)
 {
     pro_env_ref old;
     pro_get_env(state, &old);
     
     pro_env_ref new;
+    pro_error err = pro_env_create(0, old, &new);
+    CU_ASSERT(PRO_INVALID_OPERATION == err);
+}
+
+
+static void test_bind(void)
+{
+    pro_env_ref old;
+    pro_get_env(state, &old);
+    pro_env_ref new;
     pro_env_create(state, old, &new);
-    CU_ASSERT(0 != new);
-    CU_ASSERT(new->value->parent == old);
+    pro_push_env(state, new);
+    
+    pro_ref ref = pro_actor_create(state, PRO_DEFAULT_ACTOR_TYPE);
+    pro_bind(state, ref, "id");
+    
+    pro_ref found;
+    pro_get_binding(state, new, "id", &found);
+    CU_ASSERT(found->env == ref->env && found->index == ref->index);
+    
+    pro_pop_env(state);
 }
 
 
@@ -65,7 +84,7 @@ static CU_TestInfo tests[] = {
     {"new", test_new},
     {"create", test_create},
     {"create_invalid", test_create_invalid},
-
+    {"bind", test_bind},
     CU_TEST_INFO_NULL,
 };
 

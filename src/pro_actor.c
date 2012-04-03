@@ -29,7 +29,9 @@ PRO_API pro_ref pro_actor_create(pro_state_ref s, pro_actor_type type)
 
 PRO_API pro_actor_type pro_get_actor_type(pro_state_ref s, pro_ref actor)
 {
-    assert(pro_get_type(s, actor) == PRO_ACTOR_TYPE);
+    pro_type type;
+    pro_get_type(s, actor, &type);
+    assert(PRO_ACTOR_TYPE == type);
 
     pro_object** obj = pro_env_lookup_value(s, actor);
     return (*obj)->value.actor.type;
@@ -38,8 +40,13 @@ PRO_API pro_actor_type pro_get_actor_type(pro_state_ref s, pro_ref actor)
 
 PRO_API void pro_send(pro_state_ref s, pro_ref actor, pro_ref msg)
 {
-    assert(pro_get_type(s, actor) == PRO_ACTOR_TYPE);
-    assert(pro_get_type(s, msg) == PRO_MESSAGE_TYPE);
+    pro_type actor_type;
+    pro_get_type(s, actor, &actor_type);
+    assert(PRO_ACTOR_TYPE == actor_type);
+    
+    pro_type msg_type;
+    pro_get_type(s, msg, &msg_type);
+    assert(PRO_MESSAGE_TYPE == msg_type);
     
     pro_object* obj = *pro_env_lookup_value(s, actor);
     pro_push_env(s, obj->value.actor.env);
@@ -52,7 +59,9 @@ PRO_API void pro_send(pro_state_ref s, pro_ref actor, pro_ref msg)
 PRO_API void pro_become(pro_state_ref s,
     pro_ref actor, pro_behavior new_beh)
 {
-    assert(pro_get_type(s, actor) == PRO_ACTOR_TYPE);
+    pro_type actor_type;
+    pro_get_type(s, actor, &actor_type);
+    assert(PRO_ACTOR_TYPE == actor_type);
     
     pro_object* obj = *pro_env_lookup_value(s, actor);
     obj->value.actor.behavior = new_beh;
@@ -62,7 +71,10 @@ PRO_API void pro_become(pro_state_ref s,
 PRO_API const void* pro_request_actor_data(pro_state_ref s,
     pro_ref actor)
 {
-    assert(pro_get_type(s, actor) == PRO_ACTOR_TYPE);
+    pro_type actor_type;
+    pro_get_type(s, actor, &actor_type);
+    assert(PRO_ACTOR_TYPE == actor_type);
+    
     pro_object* obj = *pro_env_lookup_value(s, actor);
     return obj->value.actor.behavior.data;
 }

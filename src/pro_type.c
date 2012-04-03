@@ -91,11 +91,3 @@ PRO_API void pro_register_actor_type(pro_state_ref s,
     }
 }
 
-
-PRO_API pro_type pro_get_type(pro_state_ref s, pro_ref lookup)
-{
-    pro_object** obj = pro_env_lookup_value(s, lookup);
-    return (*obj)->type;
-}
-
-

@@ -16,6 +16,19 @@ PRO_INTERNAL pro_object* pro_object_new(pro_state_ref s, pro_type type)
 }
 
 
+#pragma mark -
+#pragma mark Public
+
+PRO_API pro_error pro_get_type(pro_state_ref s, pro_ref ref,
+    PRO_OUT pro_type* type)
+{
+    if (!s) return PRO_INVALID_OPERATION;
+    pro_object** obj = pro_env_lookup_value(s, ref);
+    if (0 == *obj) return PRO_INVALID_ARGUMENT;
+    *type = (*obj)->type;
+    return PRO_OK;
+}
+
 
 PRO_API int pro_match(pro_state_ref s, pro_ref l1, pro_ref l2)
 {

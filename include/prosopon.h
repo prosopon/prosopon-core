@@ -176,6 +176,10 @@ PRO_API pro_error (pro_pop_env) (pro_state_ref);
  * Creates a new environment with a given parent.
  * 
  * @param[out] env A referance to the new environment.
+ *
+ * @return
+ *   PRO_OK if successful
+ *   PRO_OUT_OF_MEMORY if memory cannot be allocated.
  */
 PRO_API pro_error (pro_env_create) (pro_state_ref, pro_env_ref parent,
     PRO_OUT pro_env_ref* env);
@@ -186,21 +190,26 @@ PRO_API pro_error (pro_env_create) (pro_state_ref, pro_env_ref parent,
 PRO_API pro_error (pro_env_release) (pro_state_ref, pro_env_ref);
 
 /**
- * @return The lookup for the highest resolved lookup for a given name.
+ * @param[out] ref The highest resolved referance or PRO_EMPTY_REF if none.
+ *
+ * @return
+ *   PRO_OK if successful
  */
-PRO_API pro_ref (pro_get_binding) (pro_state_ref,
-    pro_env_ref env, const char* name);
+PRO_API pro_error (pro_get_binding) (pro_state_ref,
+    pro_env_ref env, const char* name, PRO_OUT pro_ref* ref);
 
 /**
- * @return The type value of a lookup.
+ * @param[out] type The type value of a lookup.
+ * 
+ * @return 
  */
-PRO_API pro_type (pro_get_type) (pro_state_ref,
-    pro_ref lookup);
+PRO_API pro_error (pro_get_type) (pro_state_ref,
+    pro_ref lookup, PRO_OUT pro_type* type);
 
 /**
  * Binds a lookup to an identifier name.
  */
-PRO_API void (pro_bind) (pro_state_ref, pro_ref, const char*);
+PRO_API pro_error (pro_bind) (pro_state_ref, pro_ref, const char*);
 
 /**
  * 

@@ -63,7 +63,7 @@ PRO_API pro_error pro_get_env(pro_state_ref s, PRO_OUT pro_env_ref* out_env)
 PRO_API pro_error pro_push_env(pro_state_ref s, pro_env_ref env)
 {
     pro_env_ref current_env = s->stack->value;
-    assert(env);
+    assert(PRO_EMPTY_ENV_REF != env);
     assert(env != current_env);
     s->stack = pro_env_stack_new(s, env, s->stack);
     return PRO_OK;

@@ -95,7 +95,7 @@ PRO_INTERNAL pro_env* pro_env_new(pro_state_ref s, pro_env_ref parent)
 PRO_INTERNAL pro_ref pro_env_next_lookup(pro_state_ref s,
     pro_env_ref env)
 {
-    pro_ref lookup = pro_lookup_new(s, env, env->value->size);
+    pro_lookup* lookup = pro_lookup_new(s, env, env->value->size);
     pro_internal_lookup* internal = pro_internal_lookup_new(s, 0, 0);
 
     if (0 == env->value->lookups)
@@ -127,9 +127,9 @@ PRO_INTERNAL pro_object** pro_env_lookup_value(pro_state_ref s,
 PRO_API pro_error pro_env_create(pro_state_ref s, pro_env_ref parent,
     PRO_OUT pro_env_ref* env_out)
 {
+    if (!s) return PRO_INVALID_OPERATION;
     pro_env_lookup* env = pro_env_lookup_new(s, pro_env_new(s, parent));
-    if (0 == env)
-        return PRO_OUT_OF_MEMORY;
+    if (0 == env) return PRO_OUT_OF_MEMORY;
     *env_out = env; 
     return PRO_OK;
 }
@@ -142,18 +142,20 @@ PRO_API pro_error pro_env_release(pro_state_ref s, pro_env_ref env)
 }
 
 
-PRO_API void pro_bind(pro_state_ref s, pro_ref lookup, const char* id)
+PRO_API pro_error pro_bind(pro_state_ref s, pro_ref ref, const char* id)
 {
-    assert(lookup);
-    
+    if (!s) return PRO_INVALID_OPERATION;
+    if (PRO_EMPTY_REF == ref) return PRO_INVALID_ARGUMENT;
+    if (0 == id) return PRO_INVALID_ARGUMENT;
+
     pro_env_ref env_ref;
     pro_get_env(s, &env_ref);
     pro_env* env = env_ref->value;
     
-    pro_internal_lookup* internal = pro_env_get_internal_lookup(s, lookup);
+    pro_internal_lookup* internal = pro_env_get_internal_lookup(s, ref);
     if (internal)
     {
-        pro_lookup_binding* binding = pro_lookup_binding_new(s, id, lookup, 0);
+        pro_lookup_binding* binding = pro_lookup_binding_new(s, id, ref, 0);
         if (0 == env->bindings)
             env->bindings = binding;
         else
@@ -164,19 +166,30 @@ PRO_API void pro_bind(pro_state_ref s, pro_ref lookup, const char* id)
             parent->next = binding;
         }
     }
+    
+    return PRO_OK;
 }
 
 
-PRO_API pro_ref pro_get_binding(pro_state_ref s,
-    pro_env_ref env, const char* name)
+PRO_API pro_error pro_get_binding(pro_state_ref s,
+    pro_env_ref env, const char* name,  PRO_OUT pro_ref* ref)
 {
     for (pro_lookup_binding* binding = env->value->bindings; binding; binding = binding->next)
     {
         char* lookup_identifier = binding->identifier;
         if (lookup_identifier && strcmp(name, lookup_identifier) == 0)
-            return binding->lookup;                
+        {
+            *ref = binding->lookup;                
+            return PRO_OK;
+        }
     }
-    return env->value->parent ? pro_get_binding(s, env->value->parent, name) : PRO_EMPTY_REF;
+    
+    if (env->value->parent)
+        pro_get_binding(s, env->value->parent, name, ref);
+    else
+        *ref = PRO_EMPTY_REF;
+    
+    return PRO_OK;
 }
 
 
