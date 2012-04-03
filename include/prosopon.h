@@ -3,9 +3,6 @@
 
 #include "prosopon_config.h"
 
-struct pro_env;
-
-
 /**
  * @mainpage
  *
@@ -13,12 +10,29 @@ struct pro_env;
  * @version 0.1.0
  *
  * @section intro_sec Introduction
+ */ 
+
+/**
+ * Marks a parameter as output. 
  */
+#define PRO_OUT
+
+
+
+#pragma mark Error
+
+typedef enum
+{
+    PRO_OK = 0,
+    PRO_OUT_OF_MEMORY,
+    PRO_INVALID_ARGUMENT,
+    PRO_INVALID_OPERATION,
+    PRO_INVALID_VALUE
+} pro_error;
 
 
 /**
- * An opaque structure that holds information about the state of the prosopon
- * machine.
+ * An opaque reference to state of the prosopon machine.
  */
 typedef struct pro_state* pro_state_ref;
 
@@ -120,29 +134,33 @@ PRO_API const void* (pro_request_actor_data) (pro_state_ref,
 /**
  * Creates a new execution state.
  *
- * @return The newly created state or null if error.
+ * @param[out] state The newly created state.
+ *
+ * @return
+ *   PRO_OK if successful
+ *   PRO_OUT_OF_MEMORY if a new state cannot be allocated.
  */
-PRO_API pro_state_ref (pro_state_create) (void);
+PRO_API pro_error (pro_state_create) (PRO_OUT pro_state_ref* state);
 
 /**
  * Releases a state for future collection.
  */
-PRO_API void (pro_state_release) (pro_state_ref);
+PRO_API pro_error (pro_state_release) (pro_state_ref);
 
 /**
  * @return The reference to the current environment. 
  */
-PRO_API pro_env_ref (pro_get_env) (pro_state_ref);
+PRO_API pro_error (pro_get_env) (pro_state_ref, PRO_OUT pro_env_ref*);
 
 /**
  * Pushes an environment onto the environment stack
  */
-PRO_API void (pro_push_env) (pro_state_ref, pro_env_ref);
+PRO_API pro_error (pro_push_env) (pro_state_ref, pro_env_ref);
 
 /**
  * Pops an environment off the environment stack.
  */
-PRO_API void (pro_pop_env) (pro_state_ref);
+PRO_API pro_error (pro_pop_env) (pro_state_ref);
 
 
 #pragma mark Environment

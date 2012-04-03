@@ -140,7 +140,8 @@ PRO_API void pro_bind(pro_state_ref s, pro_ref lookup, const char* id)
 {
     assert(lookup);
     
-    pro_env_ref env_ref = pro_get_env(s);
+    pro_env_ref env_ref;
+    pro_get_env(s, &env_ref);
     pro_env* env = env_ref->value;
     
     pro_internal_lookup* internal = pro_env_get_internal_lookup(s, lookup);

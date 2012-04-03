@@ -15,11 +15,14 @@
 
 PRO_API pro_ref pro_actor_create(pro_state_ref s, pro_actor_type type)
 {
-    pro_ref lookup = pro_env_next_lookup(s, pro_get_env(s));
+    pro_env_ref current_env;
+    pro_get_env(s, &current_env);
+    
+    pro_ref lookup = pro_env_next_lookup(s, current_env);
     pro_object** obj = pro_env_lookup_value(s, lookup);
     *obj = pro_object_new(s, PRO_ACTOR_TYPE);
     (*obj)->value.actor.type = type;
-    (*obj)->value.actor.env = pro_env_create(s,pro_get_env(s));
+    (*obj)->value.actor.env = pro_env_create(s, current_env);
     return lookup;
 }
 

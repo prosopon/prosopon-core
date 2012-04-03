@@ -7,7 +7,9 @@
 PRO_API pro_ref pro_constructor_create(pro_state_ref s,
     pro_constructor c)
 {
-    pro_ref lookup= pro_env_next_lookup(s, pro_get_env(s));
+    pro_env_ref env;
+    pro_get_env(s, &env);
+    pro_ref lookup = pro_env_next_lookup(s, env);
     pro_object** obj = pro_env_lookup_value(s, lookup);
     *obj = pro_object_new(s, PRO_CONSTRUCTOR_TYPE);
     (*obj)->value.constructor.constructor = c;
