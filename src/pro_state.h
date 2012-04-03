@@ -5,10 +5,13 @@
 #include "pro_library.h"
 #include "pro_type.h"
 
+
+typedef struct pro_env_stack pro_env_stack;
+
 struct pro_state
 {
     pro_env* root_env;
-    pro_env* current_env;
+    pro_env_stack* stack;
     
     pro_library_list* libraries;
     
@@ -16,6 +19,7 @@ struct pro_state
 };
 
 
+pro_env_stack* pro_env_stack_new(pro_state* state, pro_env_ref value, pro_env_stack* next);
 
 
 

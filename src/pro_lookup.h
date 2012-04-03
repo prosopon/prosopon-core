@@ -7,19 +7,28 @@ struct pro_env;
 
 
 typedef struct pro_lookup pro_lookup;
+typedef struct pro_env_lookup pro_env_lookup;
+
 
 struct pro_lookup
 {
-    struct pro_env* env;
+    pro_env_ref env;
     unsigned int index;
 };
+
+
+struct pro_env_lookup
+{
+    struct pro_env* value;
+};
+
 
 
 /**
  * @return A new lookup.
  */
-PRO_INTERNAL pro_ref pro_lookup_new(pro_state*,
-    struct pro_env* env, unsigned int index);
+PRO_INTERNAL pro_lookup* pro_lookup_new(pro_state*,
+    pro_env_ref env, unsigned int index);
 
 /**
  * Tests if two lookups are equivlent.
@@ -29,6 +38,13 @@ PRO_INTERNAL pro_ref pro_lookup_new(pro_state*,
 PRO_INTERNAL int pro_lookup_equal(pro_state*,
     pro_ref, pro_ref);
 
+
+/**
+ * @return A new env lookup.
+ */
+PRO_INTERNAL pro_env_lookup* pro_env_lookup_new(pro_state*,
+    struct pro_env* value);
+    
 
 
 /**

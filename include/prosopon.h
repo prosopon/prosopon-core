@@ -25,7 +25,7 @@ typedef struct pro_state pro_state;
 /**
  * An opaque reference to an environment.
  */
-typedef struct pro_env* pro_env_ref; 
+typedef const struct pro_env_lookup* pro_env_ref; 
 
 extern pro_env_ref PRO_EMPTY_ENV_REF;
 
@@ -174,13 +174,12 @@ PRO_API pro_type (pro_get_type) (pro_state*,
 /**
  * Binds a lookup to an identifier name.
  */
-PRO_API void (pro_bind) (pro_state*, pro_ref lookup, const char*);
+PRO_API void (pro_bind) (pro_state*, pro_ref, const char*);
 
 /**
  * 
  */
-PRO_API int (pro_match)(pro_state*,
-    pro_ref l1, pro_ref l2);
+PRO_API int (pro_match)(pro_state*, pro_ref, pro_ref);
 
 /**
  * 
@@ -225,22 +224,19 @@ PRO_API pro_ref (pro_message_create) (pro_state*);
 /**
  * @return The number of objects a message contains.
  */
-PRO_API unsigned int (pro_message_length) (pro_state*,
-    pro_ref lookup);
+PRO_API unsigned int (pro_message_length) (pro_state*, pro_ref);
 
 /**
  * Get a value from a message.
  *
  * @return lookup or null if out of bounds.
  */
-PRO_API pro_ref (pro_message_get) (pro_state*,
-    pro_ref lookup, unsigned int idx);
+PRO_API pro_ref (pro_message_get) (pro_state*, pro_ref, unsigned int index);
 
 /**
  * Appends an value to a message.
  */
-PRO_API void (pro_message_append) (pro_state*,
-    pro_ref msg, pro_ref lookup);
+PRO_API void (pro_message_append) (pro_state*, pro_ref msg, pro_ref value);
 
 
 #pragma mark Actor

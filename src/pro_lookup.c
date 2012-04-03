@@ -3,8 +3,11 @@
 #include <stdlib.h>
 
 
-PRO_INTERNAL pro_ref pro_lookup_new(pro_state* s,
-    struct pro_env* env, unsigned int index)
+pro_ref PRO_EMPTY_REF = 0;
+
+
+PRO_INTERNAL pro_lookup* pro_lookup_new(pro_state* s,
+    pro_env_ref env, unsigned int index)
 {
     pro_lookup* t = malloc(sizeof(*t));
     t->env = env;
@@ -15,6 +18,16 @@ PRO_INTERNAL pro_ref pro_lookup_new(pro_state* s,
 PRO_INTERNAL int pro_lookup_equal(pro_state* s, pro_ref o1, pro_ref o2)
 {
     return (o1->env == o2->env && o1->index == o2->index);
+}
+
+
+
+PRO_INTERNAL pro_env_lookup* pro_env_lookup_new(pro_state* s,
+    struct pro_env* value)
+{
+    pro_env_lookup* t = malloc(sizeof(*t));
+    t->value = value;
+    return t;
 }
 
 
