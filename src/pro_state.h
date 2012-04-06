@@ -10,6 +10,9 @@ typedef struct pro_state pro_state;
 typedef struct pro_env_stack pro_env_stack;
 
 
+/**
+ * Structure that holds information about the state of the Prosopon machine
+ */
 struct pro_state
 {
     pro_env_ref root_env;
@@ -23,6 +26,9 @@ struct pro_state
 };
 
 
+/**
+ * Structure for a stack of envi
+ */
 struct pro_env_stack
 {
     pro_env_stack* next;

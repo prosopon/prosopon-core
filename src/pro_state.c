@@ -57,7 +57,7 @@ PRO_API pro_error pro_state_release(pro_state_ref s)
     while (!pro_env_lookup_equal(s, s->stack->value, s->root_env)) // relase all environments 
         pro_pop_env(s); 
     
-    //pro_env_release(s, s->root_env);
+    pro_env_release(s, s->root_env);
     
     free(s); // free state memory
     return PRO_OK;
@@ -102,6 +102,12 @@ PRO_API pro_error pro_pop_env(pro_state_ref s)
     // Dont allow popping the root.
     PRO_API_ASSERT(!(pro_env_lookup_equal(s, s->stack->value, s->root_env)),
         PRO_INVALID_OPERATION);
+    
+    pro_env_stack* old = s->stack;
     s->stack = s->stack->next;
+    
+    // Free previous stack entry.
+    pro_env_release(s, old->value); 
+    free(old);
     return PRO_OK;
 }
