@@ -28,15 +28,14 @@ pro_env_stack* pro_env_stack_new(pro_state_ref state, pro_env_ref value, pro_env
 #pragma mark -
 #pragma mark PRO_API
 
-
 PRO_API pro_error pro_state_create(PRO_OUT pro_state_ref* out_state)
 {
     pro_state_ref s = malloc(sizeof(*s));
     PRO_API_ASSERT(s, PRO_OUT_OF_MEMORY);
         
-    pro_env* root_env = pro_env_new(s, 0);
+    pro_env_ref root_env = pro_env_lookup_new(s, pro_env_new(s, 0));
     PRO_API_ASSERT(root_env, PRO_OUT_OF_MEMORY);
-    pro_env_stack* stack = pro_env_stack_new(s, pro_env_lookup_new(s, root_env), 0);
+    pro_env_stack* stack = pro_env_stack_new(s, root_env, 0);
     PRO_API_ASSERT(stack, PRO_OUT_OF_MEMORY);
 
     s->root_env = root_env;
@@ -53,8 +52,10 @@ PRO_API pro_error pro_state_create(PRO_OUT pro_state_ref* out_state)
 
 PRO_API pro_error pro_state_release(pro_state_ref s)
 {
-    while (s->stack) // relase all environments 
+    while (!pro_env_lookup_equal(s, s->stack->value, s->root_env)) // relase all environments 
         pro_pop_env(s); 
+    
+    //pro_env_release(s, s->root_env);
     
     free(s); // free state memory
     return PRO_OK;
@@ -95,6 +96,9 @@ PRO_API pro_error pro_push_env(pro_state_ref s, pro_env_ref env)
 PRO_API pro_error pro_pop_env(pro_state_ref s)
 {
     PRO_API_ASSERT(s, PRO_INVALID_OPERATION);
+    // Dont allow popping the root.
+    PRO_API_ASSERT(!(pro_env_lookup_equal(s, s->stack->value, s->root_env)),
+        PRO_INVALID_OPERATION);
     s->stack = s->stack->next;
     return PRO_OK;
 }

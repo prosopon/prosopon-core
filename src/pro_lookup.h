@@ -36,7 +36,7 @@ PRO_INTERNAL pro_lookup* pro_lookup_new(pro_state_ref,
  * @return Zero if false or non zero if true.
  */
 PRO_INTERNAL int pro_lookup_equal(pro_state_ref,
-    pro_ref, pro_ref);
+    const pro_lookup*, const pro_lookup*);
 
 
 /**
@@ -45,7 +45,15 @@ PRO_INTERNAL int pro_lookup_equal(pro_state_ref,
 PRO_INTERNAL pro_env_lookup* pro_env_lookup_new(pro_state_ref,
     struct pro_env* value);
     
-
+/**
+ * Tests if two env_lookups are equivlent.
+ *
+ * @return Zero if false or non zero if true.
+ */
+PRO_INTERNAL int pro_env_lookup_equal(pro_state_ref,
+    const pro_env_lookup*, const pro_env_lookup*);
+    
+    
 
 /**
  * @return A new lookup list.

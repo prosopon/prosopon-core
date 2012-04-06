@@ -12,7 +12,7 @@ typedef struct pro_env_stack pro_env_stack;
 
 struct pro_state
 {
-    pro_env* root_env;
+    pro_env_ref root_env;
     pro_env_stack* stack;
     
     pro_library_list* libraries;

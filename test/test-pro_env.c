@@ -69,7 +69,8 @@ static void test_bind(void)
     pro_env_create(state, old, &new);
     pro_push_env(state, new);
     
-    pro_ref ref = pro_actor_create(state, PRO_DEFAULT_ACTOR_TYPE);
+    pro_ref ref;
+    pro_actor_create(state, PRO_DEFAULT_ACTOR_TYPE, &ref);
     pro_bind(state, ref, "id");
     
     pro_ref found;
@@ -79,12 +80,43 @@ static void test_bind(void)
     pro_pop_env(state);
 }
 
+static void test_bind_parent(void)
+{
+    // create env parent.
+    pro_env_ref old;
+    pro_get_env(state, &old);
+    pro_env_ref parent;
+    pro_env_create(state, old, &parent);
+    pro_push_env(state, parent);
+    
+    // setup an actor in env parent bound to id
+    pro_ref ref;
+    pro_actor_create(state, PRO_DEFAULT_ACTOR_TYPE, &ref);
+    pro_bind(state, ref, "id");
+    
+    // Push a env top onto the stack with parent parent 
+    pro_env_ref top;
+    pro_env_create(state, parent, &top);
+    pro_push_env(state, top);
+    
+    // try getting the binding in the env top
+    pro_ref found;
+    pro_get_binding(state, top, "id", &found);
+    CU_ASSERT(found->env == ref->env && found->index == ref->index);
+    
+    pro_pop_env(state);
+    pro_pop_env(state);
+}
+
+
+
 
 static CU_TestInfo tests[] = {
     {"new", test_new},
     {"create", test_create},
     {"create_invalid", test_create_invalid},
     {"bind", test_bind},
+    {"bind_parent", test_bind_parent},
     CU_TEST_INFO_NULL,
 };
 

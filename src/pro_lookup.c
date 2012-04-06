@@ -18,7 +18,8 @@ PRO_INTERNAL pro_lookup* pro_lookup_new(pro_state* s,
     return t;
 }
 
-PRO_INTERNAL int pro_lookup_equal(pro_state* s, pro_ref o1, pro_ref o2)
+PRO_INTERNAL int pro_lookup_equal(pro_state* s,
+    const pro_lookup* o1, const pro_lookup* o2)
 {
     return (o1->env == o2->env && o1->index == o2->index);
 }
@@ -31,6 +32,14 @@ PRO_INTERNAL pro_env_lookup* pro_env_lookup_new(pro_state* s,
     t->value = value;
     return t;
 }
+
+
+PRO_INTERNAL int pro_env_lookup_equal(pro_state* s,
+    const pro_env_lookup* o1, const pro_env_lookup* o2)
+{
+    return (o1->value == o2->value);
+}
+
 
 
 PRO_INTERNAL pro_ref_list pro_lookup_list_new(pro_state* s,

@@ -24,7 +24,7 @@ static pro_message_node* pro_message_node_new(pro_state_ref s,
     return t;
 }
 
-#pragma -
+#pragma mark -
 #pragma mark Internal
 
 PRO_INTERNAL pro_message_queue* pro_message_queue_new(pro_state_ref s)

@@ -30,7 +30,7 @@ static void test_create(void)
     CU_ASSERT(0 != state);
     CU_ASSERT(0 != state->root_env);
     CU_ASSERT(0 != state->stack);
-    CU_ASSERT(state->root_env == state->stack->value->value);
+    CU_ASSERT(pro_env_lookup_equal(state, state->root_env, state->stack->value));
 }
 
 
@@ -56,12 +56,18 @@ static void test_push_pop(void)
     CU_ASSERT(old->value == state->stack->value->value);
 }
 
+static void test_pop_root(void)
+{
+    pro_error err = pro_pop_env(state);
+    CU_ASSERT(PRO_INVALID_OPERATION == err);
+}
+
 
 static CU_TestInfo tests[] = {
     {"create", test_create},
     {"get env", test_get_env},
     {"push and pop", test_push_pop},
-
+    {"pop root", test_pop_root},
     CU_TEST_INFO_NULL,
 };
 
