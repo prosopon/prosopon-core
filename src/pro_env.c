@@ -9,7 +9,7 @@
 #include <assert.h>
 
 
-#pragma private
+#pragma mark Private
 
 
 /**
@@ -75,7 +75,7 @@ static pro_internal_lookup* pro_env_get_internal_lookup(pro_state_ref s,
 {
     pro_env_ref env = lookup->env;
     pro_internal_lookup* internal_lookup = env->value->lookups;
-    for (int index = lookup->index; index > 0; --index)
+    for (unsigned int index = lookup->index; index > 0; --index)
         internal_lookup = internal_lookup->next;
     return internal_lookup;
 }

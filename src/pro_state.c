@@ -3,6 +3,7 @@
 #include "prosopon.h"
 #include "pro_type.h"
 #include "pro_common.h"
+#include "pro_messaging.h"
 
 #include <stdlib.h>
 #include <assert.h>
