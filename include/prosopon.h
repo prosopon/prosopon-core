@@ -226,9 +226,15 @@ PRO_API pro_error (pro_get_type) (pro_state_ref,
 PRO_API pro_error (pro_bind) (pro_state_ref, pro_ref ref, const char* id);
 
 /**
- * 
+ * Attempts to match two identifiers.
+ *
+ * @param[out] match One if the two items match else zero.
+ *
+ * @return
+ *   PRO_OK if successful
+ *   PRO_INVALID_OPERATION if the state is not valid or id is null.
  */
-PRO_API int (pro_match) (pro_state_ref, pro_ref, pro_ref);
+PRO_API pro_error (pro_match) (pro_state_ref, pro_ref, pro_ref, PRO_OUT int* match);
 
 /**
  * 

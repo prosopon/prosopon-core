@@ -30,16 +30,23 @@ PRO_API pro_error pro_get_type(pro_state_ref s, pro_ref ref,
 }
 
 
-PRO_API int pro_match(pro_state_ref s, pro_ref l1, pro_ref l2)
+PRO_API pro_error pro_match(pro_state_ref s, pro_ref l1, pro_ref l2, PRO_OUT int* out)
 {
+    if (pro_lookup_equal(s, l1, l2))
+    {
+        *out = 1;
+        return PRO_OK;
+    }
+        
     pro_actor_type type;
     pro_get_actor_type(s, l1, &type);
     const pro_actor_type_info* info = pro_get_actor_type_info(s, type);
     pro_object** o1 = pro_env_lookup_value(s, l1);
     pro_object** o2 = pro_env_lookup_value(s, l2);
-    return info->match(s,
+    *out = info->match(s,
         l1, (*o1)->value.actor.behavior.data,
         l2, (*o2)->value.actor.behavior.data);
+    return PRO_OK;
 }
 
 
