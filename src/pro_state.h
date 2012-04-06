@@ -4,10 +4,11 @@
 #include "pro_env.h"
 #include "pro_library.h"
 #include "pro_type.h"
-#include "pro_message_queue.h"
+
+struct pro_message_queue;
+struct pro_env_stack;
 
 typedef struct pro_state pro_state;
-typedef struct pro_env_stack pro_env_stack;
 
 
 /**
@@ -16,30 +17,13 @@ typedef struct pro_env_stack pro_env_stack;
 struct pro_state
 {
     pro_env_ref root_env;
-    pro_env_stack* stack;
+    struct pro_env_stack* stack;
     
     pro_library_list* libraries;
     
     pro_actor_type_info_list* actor_types;
     
-    pro_message_queue* message_queue;
+    struct pro_message_queue* message_queue;
 };
-
-
-/**
- * Structure for a stack of envi
- */
-struct pro_env_stack
-{
-    pro_env_stack* next;
-    pro_env_ref value;
-};
-
-
-PRO_INTERNAL pro_env_stack* pro_env_stack_new(pro_state_ref state,
-    pro_env_ref value, pro_env_stack* next);
-
-
-
 
 #endif

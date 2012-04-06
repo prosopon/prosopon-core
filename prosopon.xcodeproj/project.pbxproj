@@ -40,6 +40,9 @@
 		89F95432152E862D0060B211 /* pro_messaging.c in Sources */ = {isa = PBXBuildFile; fileRef = 89F95431152E862D0060B211 /* pro_messaging.c */; };
 		89F95433152E862D0060B211 /* pro_messaging.c in Sources */ = {isa = PBXBuildFile; fileRef = 89F95431152E862D0060B211 /* pro_messaging.c */; };
 		89F95435152E863F0060B211 /* pro_messaging.h in Headers */ = {isa = PBXBuildFile; fileRef = 89F95434152E863F0060B211 /* pro_messaging.h */; };
+		89F9543D152EA5230060B211 /* pro_env_stack.h in Headers */ = {isa = PBXBuildFile; fileRef = 89F9543C152EA5230060B211 /* pro_env_stack.h */; };
+		89F9543F152EA5310060B211 /* pro_env_stack.c in Sources */ = {isa = PBXBuildFile; fileRef = 89F9543E152EA5310060B211 /* pro_env_stack.c */; };
+		89F95440152EA5310060B211 /* pro_env_stack.c in Sources */ = {isa = PBXBuildFile; fileRef = 89F9543E152EA5310060B211 /* pro_env_stack.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -91,6 +94,8 @@
 		89F9542E152E6FE30060B211 /* pro_message_queue.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = pro_message_queue.c; sourceTree = "<group>"; };
 		89F95431152E862D0060B211 /* pro_messaging.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = pro_messaging.c; sourceTree = "<group>"; };
 		89F95434152E863F0060B211 /* pro_messaging.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pro_messaging.h; sourceTree = "<group>"; };
+		89F9543C152EA5230060B211 /* pro_env_stack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pro_env_stack.h; sourceTree = "<group>"; };
+		89F9543E152EA5310060B211 /* pro_env_stack.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = pro_env_stack.c; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -138,6 +143,8 @@
 				89F9542E152E6FE30060B211 /* pro_message_queue.c */,
 				89F95434152E863F0060B211 /* pro_messaging.h */,
 				89F95431152E862D0060B211 /* pro_messaging.c */,
+				89F9543C152EA5230060B211 /* pro_env_stack.h */,
+				89F9543E152EA5310060B211 /* pro_env_stack.c */,
 			);
 			path = src;
 			sourceTree = "<group>";
@@ -199,6 +206,7 @@
 				89A981AC1524FA7600C405FE /* pro_type.h in Headers */,
 				89F9542C152E6F830060B211 /* pro_message_queue.h in Headers */,
 				89F95435152E863F0060B211 /* pro_messaging.h in Headers */,
+				89F9543D152EA5230060B211 /* pro_env_stack.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -281,6 +289,7 @@
 				89A981A81524FA6400C405FE /* pro_type.c in Sources */,
 				89F9542F152E6FE30060B211 /* pro_message_queue.c in Sources */,
 				89F95432152E862D0060B211 /* pro_messaging.c in Sources */,
+				89F9543F152EA5310060B211 /* pro_env_stack.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -303,6 +312,7 @@
 				89A981A91524FA6400C405FE /* pro_type.c in Sources */,
 				89F95430152E6FE30060B211 /* pro_message_queue.c in Sources */,
 				89F95433152E862D0060B211 /* pro_messaging.c in Sources */,
+				89F95440152EA5310060B211 /* pro_env_stack.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
