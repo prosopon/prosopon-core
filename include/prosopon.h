@@ -169,6 +169,7 @@ PRO_API pro_error (pro_get_env) (pro_state_ref, PRO_OUT pro_env_ref* env);
  *
  * @return
  *   PRO_OK if successful
+ *   PRO_INVALID_OPERATIOn if pusing an env onto self.
  */
 PRO_API pro_error (pro_push_env) (pro_state_ref, pro_env_ref);
 
