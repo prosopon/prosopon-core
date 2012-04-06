@@ -87,7 +87,8 @@ PRO_API pro_error pro_push_env(pro_state_ref s, pro_env_ref env)
     PRO_API_ASSERT(s, PRO_INVALID_OPERATION);
     PRO_API_ASSERT(PRO_EMPTY_ENV_REF != env, PRO_INVALID_ARGUMENT);
     pro_env_ref current_env = s->stack->value;
-    PRO_API_ASSERT(env != current_env, PRO_INVALID_OPERATION);
+    // error if pushing env onto self.
+    PRO_API_ASSERT(!pro_env_lookup_equal(s, env, current_env), PRO_INVALID_OPERATION);
     s->stack = pro_env_stack_new(s, env, s->stack);
     return PRO_OK;
 }
