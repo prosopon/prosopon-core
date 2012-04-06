@@ -34,6 +34,7 @@
 		89F11136151CD28E00317A20 /* prosopon_config.h in Headers */ = {isa = PBXBuildFile; fileRef = 89F11134151CD28E00317A20 /* prosopon_config.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		89F11139151CEF7D00317A20 /* test-pro_env.c in Sources */ = {isa = PBXBuildFile; fileRef = 89F11138151CEF7D00317A20 /* test-pro_env.c */; };
 		89F1113C151CF41600317A20 /* test-pro_state.c in Sources */ = {isa = PBXBuildFile; fileRef = 89F1113B151CF41600317A20 /* test-pro_state.c */; };
+		89F9542C152E6F830060B211 /* pro_message_queue.h in Headers */ = {isa = PBXBuildFile; fileRef = 89F9542B152E6F820060B211 /* pro_message_queue.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -60,6 +61,7 @@
 		890024D01511A3070012E749 /* pro_state.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = pro_state.c; sourceTree = "<group>"; };
 		890024D11511A3070012E749 /* pro_state.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pro_state.h; sourceTree = "<group>"; };
 		890024E81511A3430012E749 /* libprosopon.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libprosopon.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
+		8993E271152B5E180077EE0A /* pro_common.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = pro_common.h; sourceTree = "<group>"; };
 		89A98186152136EF00C405FE /* pro_library.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pro_library.h; sourceTree = "<group>"; };
 		89A98189152136FD00C405FE /* pro_library.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = pro_library.c; sourceTree = "<group>"; };
 		89A9818E1522B4DD00C405FE /* test-pro_constructor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "test-pro_constructor.h"; sourceTree = "<group>"; };
@@ -80,6 +82,7 @@
 		89F11138151CEF7D00317A20 /* test-pro_env.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "test-pro_env.c"; sourceTree = "<group>"; };
 		89F1113A151CF3FB00317A20 /* test-pro_state.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "test-pro_state.h"; sourceTree = "<group>"; };
 		89F1113B151CF41600317A20 /* test-pro_state.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "test-pro_state.c"; sourceTree = "<group>"; };
+		89F9542B152E6F820060B211 /* pro_message_queue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pro_message_queue.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -104,6 +107,7 @@
 		890024C51511A3070012E749 /* src */ = {
 			isa = PBXGroup;
 			children = (
+				8993E271152B5E180077EE0A /* pro_common.h */,
 				890024C71511A3070012E749 /* pro_actor.h */,
 				890024C61511A3070012E749 /* pro_actor.c */,
 				890024CB1511A3070012E749 /* pro_env.h */,
@@ -122,6 +126,7 @@
 				89A98189152136FD00C405FE /* pro_library.c */,
 				89A981AB1524FA7600C405FE /* pro_type.h */,
 				89A981A71524FA6400C405FE /* pro_type.c */,
+				89F9542B152E6F820060B211 /* pro_message_queue.h */,
 			);
 			path = src;
 			sourceTree = "<group>";
@@ -181,6 +186,7 @@
 				89F11136151CD28E00317A20 /* prosopon_config.h in Headers */,
 				89A98187152136EF00C405FE /* pro_library.h in Headers */,
 				89A981AC1524FA7600C405FE /* pro_type.h in Headers */,
+				89F9542C152E6F830060B211 /* pro_message_queue.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -14,7 +14,7 @@ struct pro_object
 {
     
     pro_type type;
-    pro_actor_type actor_type;
+   // pro_actor_type actor_type;
     union
     {
         struct

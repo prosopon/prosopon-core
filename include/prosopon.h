@@ -290,12 +290,14 @@ PRO_API pro_error (pro_message_append) (pro_state_ref, pro_ref msg, pro_ref valu
  *
  * @return The lookup for the new actor.
  */
-PRO_API pro_ref (pro_actor_create) (pro_state_ref, pro_actor_type type);
+PRO_API pro_error (pro_actor_create) (pro_state_ref, pro_actor_type type,
+    PRO_OUT pro_ref*);
 
 /**
  * @return The type value of a lookup.
  */
-PRO_API pro_actor_type (pro_get_actor_type) (pro_state_ref, pro_ref lookup);
+PRO_API pro_error (pro_get_actor_type) (pro_state_ref, pro_ref lookup,
+    PRO_OUT pro_actor_type*);
 
 /**
  * Sends a message to an actor.

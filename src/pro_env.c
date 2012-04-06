@@ -2,6 +2,7 @@
 
 #include "prosopon.h"
 #include "pro_state.h"
+#include "pro_common.h"
 
 #include <stdlib.h>
 #include <string.h>
@@ -144,9 +145,9 @@ PRO_API pro_error pro_env_release(pro_state_ref s, pro_env_ref env)
 
 PRO_API pro_error pro_bind(pro_state_ref s, pro_ref ref, const char* id)
 {
-    if (!s) return PRO_INVALID_OPERATION;
-    if (PRO_EMPTY_REF == ref) return PRO_INVALID_ARGUMENT;
-    if (0 == id) return PRO_INVALID_OPERATION;
+    PRO_API_ASSERT(s, PRO_INVALID_OPERATION);
+    PRO_API_ASSERT(PRO_EMPTY_REF != ref, PRO_INVALID_ARGUMENT);
+    PRO_API_ASSERT(id, PRO_INVALID_OPERATION);
 
     pro_env_ref env_ref;
     pro_get_env(s, &env_ref);
@@ -185,11 +186,12 @@ PRO_API pro_error pro_get_binding(pro_state_ref s,
     }
     
     if (env->value->parent)
-        pro_get_binding(s, env->value->parent, name, ref);
+        return pro_get_binding(s, env->value->parent, name, ref);
     else
+    {
         *ref = PRO_EMPTY_REF;
-    
-    return PRO_OK;
+        return PRO_OK;
+    }
 }
 
 
