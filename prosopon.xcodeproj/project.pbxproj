@@ -35,6 +35,11 @@
 		89F11139151CEF7D00317A20 /* test-pro_env.c in Sources */ = {isa = PBXBuildFile; fileRef = 89F11138151CEF7D00317A20 /* test-pro_env.c */; };
 		89F1113C151CF41600317A20 /* test-pro_state.c in Sources */ = {isa = PBXBuildFile; fileRef = 89F1113B151CF41600317A20 /* test-pro_state.c */; };
 		89F9542C152E6F830060B211 /* pro_message_queue.h in Headers */ = {isa = PBXBuildFile; fileRef = 89F9542B152E6F820060B211 /* pro_message_queue.h */; };
+		89F9542F152E6FE30060B211 /* pro_message_queue.c in Sources */ = {isa = PBXBuildFile; fileRef = 89F9542E152E6FE30060B211 /* pro_message_queue.c */; };
+		89F95430152E6FE30060B211 /* pro_message_queue.c in Sources */ = {isa = PBXBuildFile; fileRef = 89F9542E152E6FE30060B211 /* pro_message_queue.c */; };
+		89F95432152E862D0060B211 /* pro_messaging.c in Sources */ = {isa = PBXBuildFile; fileRef = 89F95431152E862D0060B211 /* pro_messaging.c */; };
+		89F95433152E862D0060B211 /* pro_messaging.c in Sources */ = {isa = PBXBuildFile; fileRef = 89F95431152E862D0060B211 /* pro_messaging.c */; };
+		89F95435152E863F0060B211 /* pro_messaging.h in Headers */ = {isa = PBXBuildFile; fileRef = 89F95434152E863F0060B211 /* pro_messaging.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -83,6 +88,9 @@
 		89F1113A151CF3FB00317A20 /* test-pro_state.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "test-pro_state.h"; sourceTree = "<group>"; };
 		89F1113B151CF41600317A20 /* test-pro_state.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "test-pro_state.c"; sourceTree = "<group>"; };
 		89F9542B152E6F820060B211 /* pro_message_queue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pro_message_queue.h; sourceTree = "<group>"; };
+		89F9542E152E6FE30060B211 /* pro_message_queue.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = pro_message_queue.c; sourceTree = "<group>"; };
+		89F95431152E862D0060B211 /* pro_messaging.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = pro_messaging.c; sourceTree = "<group>"; };
+		89F95434152E863F0060B211 /* pro_messaging.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pro_messaging.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -127,6 +135,9 @@
 				89A981AB1524FA7600C405FE /* pro_type.h */,
 				89A981A71524FA6400C405FE /* pro_type.c */,
 				89F9542B152E6F820060B211 /* pro_message_queue.h */,
+				89F9542E152E6FE30060B211 /* pro_message_queue.c */,
+				89F95434152E863F0060B211 /* pro_messaging.h */,
+				89F95431152E862D0060B211 /* pro_messaging.c */,
 			);
 			path = src;
 			sourceTree = "<group>";
@@ -187,6 +198,7 @@
 				89A98187152136EF00C405FE /* pro_library.h in Headers */,
 				89A981AC1524FA7600C405FE /* pro_type.h in Headers */,
 				89F9542C152E6F830060B211 /* pro_message_queue.h in Headers */,
+				89F95435152E863F0060B211 /* pro_messaging.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -267,6 +279,8 @@
 				89ACBEB7151E960D003EA8EE /* pro_message.c in Sources */,
 				89A9818A152136FD00C405FE /* pro_library.c in Sources */,
 				89A981A81524FA6400C405FE /* pro_type.c in Sources */,
+				89F9542F152E6FE30060B211 /* pro_message_queue.c in Sources */,
+				89F95432152E862D0060B211 /* pro_messaging.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -287,6 +301,8 @@
 				89A9818B152136FD00C405FE /* pro_library.c in Sources */,
 				89A981921522B4F700C405FE /* test-pro_constructor.c in Sources */,
 				89A981A91524FA6400C405FE /* pro_type.c in Sources */,
+				89F95430152E6FE30060B211 /* pro_message_queue.c in Sources */,
+				89F95433152E862D0060B211 /* pro_messaging.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

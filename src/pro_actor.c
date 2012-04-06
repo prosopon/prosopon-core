@@ -5,6 +5,8 @@
 #include "pro_lookup.h"
 #include "pro_env.h"
 #include "pro_common.h"
+#include "pro_message_queue.h"
+#include "pro_state.h"
 
 #include <stdlib.h>
 #include <assert.h>
@@ -50,11 +52,7 @@ PRO_API pro_error pro_send(pro_state_ref s, pro_ref actor, pro_ref msg)
     PRO_API_ASSERT_TYPE(actor, PRO_ACTOR_TYPE, PRO_INVALID_ARGUMENT);
     PRO_API_ASSERT_TYPE(msg, PRO_MESSAGE_TYPE, PRO_INVALID_ARGUMENT);
 
-    pro_object* obj = *pro_env_lookup_value(s, actor);
-    pro_push_env(s, obj->value.actor.env);
-    const pro_behavior* behavior = &obj->value.actor.behavior;  
-    behavior->impl(s, actor, msg, behavior->data);
-    pro_pop_env(s);
+    pro_message_queue_enqueue(s, s->message_queue, msg, actor);
     return PRO_OK;
 }
 
@@ -74,9 +72,8 @@ PRO_API pro_error pro_become(pro_state_ref s,
 PRO_API const void* pro_request_actor_data(pro_state_ref s,
     pro_ref actor)
 {
-    pro_type actor_type;
-    pro_get_type(s, actor, &actor_type);
-    assert(PRO_ACTOR_TYPE == actor_type);
+   // PRO_API_ASSERT(s, PRO_INVALID_OPERATION);
+   // PRO_API_ASSERT_TYPE(actor, PRO_ACTOR_TYPE, PRO_INVALID_ARGUMENT);
     
     pro_object* obj = *pro_env_lookup_value(s, actor);
     return obj->value.actor.behavior.data;

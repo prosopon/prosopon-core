@@ -4,10 +4,11 @@
 #include "pro_env.h"
 #include "pro_library.h"
 #include "pro_type.h"
-
+#include "pro_message_queue.h"
 
 typedef struct pro_state pro_state;
 typedef struct pro_env_stack pro_env_stack;
+
 
 struct pro_state
 {
@@ -17,6 +18,8 @@ struct pro_state
     pro_library_list* libraries;
     
     pro_actor_type_info_list* actor_types;
+    
+    pro_message_queue* message_queue;
 };
 
 

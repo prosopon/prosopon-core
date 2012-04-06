@@ -44,6 +44,8 @@ PRO_API pro_error pro_state_create(PRO_OUT pro_state_ref* out_state)
     
     initialize_default_actor_types(s);
     
+    s->message_queue = pro_message_queue_new(s);
+    
     *out_state = s;
     return PRO_OK;
 }
@@ -54,6 +56,18 @@ PRO_API pro_error pro_state_release(pro_state_ref s)
         pro_pop_env(s); 
     
     free(s); // free state memory
+    return PRO_OK;
+}
+
+
+PRO_API pro_error pro_run(pro_state_ref s)
+{
+    while (!pro_message_queue_is_empty(s, s->message_queue))
+    {
+        pro_ref actor;
+        pro_ref msg = pro_message_queue_dequeue(s, s->message_queue, &actor);
+        pro_deliver_message(s, actor, msg);
+    }
     return PRO_OK;
 }
 

@@ -151,6 +151,11 @@ PRO_API pro_error (pro_state_create) (PRO_OUT pro_state_ref* state);
 PRO_API pro_error (pro_state_release) (pro_state_ref);
 
 /**
+ *
+ */
+PRO_API pro_error (pro_run) (pro_state_ref);
+
+/**
  * @param[out] env The reference to the current environment. 
  *
  * @return
