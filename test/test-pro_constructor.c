@@ -3,6 +3,8 @@
 #include "prosopon.h"
 #include "pro_state.h"
 
+#include <stdlib.h>
+
 
 static pro_state_ref state = 0;
 
@@ -24,11 +26,13 @@ static int cleanup(void)
 
 static int global = 0;
 
-static pro_ref contructor(pro_state_ref s, pro_ref_list arguments, void* d)
+static pro_ref sample_contructor(pro_state_ref s, pro_ref_list arguments, void* d)
 {
     int* val = d;
     global = *val;
-    return 0;//pro_actor_create(state);
+    pro_ref actor;
+    pro_actor_create(state, PRO_DEFAULT_ACTOR_TYPE, &actor);
+    return actor;
 }
 
 
@@ -39,17 +43,33 @@ static pro_ref contructor(pro_state_ref s, pro_ref_list arguments, void* d)
 
 static void test_create(void)
 {
-    /*pro_env_lookup* env = pro_env_create(state, pro_get_env(state));
-    pro_push_env(s, env);
-
-    const int old_global = global;
+    pro_env_ref parent;
+    pro_get_env(state, &parent);
+    pro_env_ref env;
+    pro_env_create(state, parent, &env);
+    pro_push_env(state, env);
 
     const int val = 5;
-    pro_lookup* c = pro_constructor_create(state, &val);
-    pro_constructor_call(s, c, 0);
+    pro_constructor constructor = {
+        .impl = sample_contructor,
+        .data = malloc(sizeof(val))
+    };
+    *((int*)constructor.data) = val;
     
-    CU_ASSERT(old_global + 1 == global);
-    pro_pop_env();*/
+    pro_ref c;
+    pro_constructor_create(state, constructor, &c);
+    pro_ref_list list;
+    
+    pro_type type;
+    pro_get_type(state, c, &type);
+    CU_ASSERT(PRO_CONSTRUCTOR_TYPE == type);
+    
+    // call the constructor
+    pro_ref result;
+    pro_constructor_call(state, c, list, &result);
+    
+    CU_ASSERT(global == val);
+    pro_pop_env(state);
 }
 
 static CU_TestInfo tests[] = {
