@@ -51,13 +51,10 @@ PRO_API pro_error pro_message_get(pro_state_ref s,
     pro_ref msg, unsigned int idx, PRO_OUT pro_ref* result)
 {
     PRO_API_ASSERT(s, PRO_INVALID_OPERATION);
+    PRO_API_ASSERT_TYPE(msg, PRO_MESSAGE_TYPE, PRO_INVALID_ARGUMENT);
 
-    pro_type type;
-    pro_get_type(s, msg, &type);
-    PRO_API_ASSERT(PRO_MESSAGE_TYPE == type, PRO_INVALID_ARGUMENT);
-
-    pro_object** obj = pro_env_lookup_value(s, msg);
-    pro_ref_list list = (*obj)->value.message;
+    pro_object* obj = *pro_env_lookup_value(s, msg);
+    pro_ref_list list = obj->value.message;
     while (idx)
     {
         if (!list)
@@ -74,10 +71,7 @@ PRO_API pro_error pro_message_append(pro_state_ref s,
     pro_ref msg, pro_ref ref)
 {
     PRO_API_ASSERT(s, PRO_INVALID_OPERATION);
-
-    pro_type type;
-    pro_get_type(s, msg, &type);
-    PRO_API_ASSERT(PRO_MESSAGE_TYPE == type, PRO_INVALID_ARGUMENT);
+    PRO_API_ASSERT_TYPE(msg, PRO_MESSAGE_TYPE, PRO_INVALID_ARGUMENT);
     PRO_API_ASSERT(ref, PRO_INVALID_OPERATION);
     
     pro_object** obj = pro_env_lookup_value(s, msg);
