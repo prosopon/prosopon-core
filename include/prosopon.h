@@ -1,7 +1,14 @@
 #ifndef prosopon_h
 #define prosopon_h
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #include "prosopon_config.h"
+
+#include <stddef.h>
+
 
 /**
  * @mainpage
@@ -69,15 +76,9 @@ struct pro_lookup_list
  * @param t A lookup for self.
  * @param data Additional user defined data passed to the behavior.
  */
-typedef void(pro_behavior_impl)(pro_state_ref,
+typedef void(pro_behavior)(pro_state_ref,
     pro_ref t, pro_ref msg, void* data);
 
-typedef struct pro_behavior pro_behavior;
-struct pro_behavior
-{
-    pro_behavior_impl* impl;
-    void* data;
-};
 
 /**
  * Function implementing a constructor behavior
@@ -105,31 +106,17 @@ typedef enum
     PRO_MESSAGE_TYPE,
     PRO_ACTOR_TYPE,
     PRO_CONSTRUCTOR_TYPE,
+    PRO_UD_TYPE,
     PRO_TYPE_MAX
 } pro_type;
 
+/**
+ *
+ */
 typedef const char* pro_actor_type;
 extern pro_actor_type PRO_DEFAULT_ACTOR_TYPE;
 
-typedef int(pro_match_impl)(pro_state_ref,
-    pro_ref t, const void* tData,
-    pro_ref o, const void* oData);
 
-typedef const char*(pro_to_string_impl)(pro_state_ref,
-    pro_ref t, const void* tData);
-
-typedef struct pro_actor_type_info pro_actor_type_info;
-struct pro_actor_type_info
-{
-    pro_match_impl* match;
-    pro_to_string_impl* to_string;
-};
-
-PRO_API void (pro_register_actor_type) (pro_state_ref,
-    pro_actor_type, const pro_actor_type_info*);
-
-PRO_API const void* (pro_request_actor_data) (pro_state_ref,
-    pro_ref);
 
 
 #pragma mark State
@@ -196,7 +183,7 @@ PRO_API pro_error (pro_pop_env) (pro_state_ref);
  *
  * @return
  *   PRO_OK if successful
- *   PRO_OUT_OF_MEMORY if memory cannot be allocated.
+ *   PRO_OUT_OF_MEMORY if memory cannot be alocated.
  */
 PRO_API pro_error (pro_env_create) (pro_state_ref, pro_env_ref parent,
     PRO_OUT pro_env_ref* env);
@@ -303,6 +290,22 @@ PRO_API pro_error (pro_message_get) (pro_state_ref, pro_ref, unsigned int index,
 PRO_API pro_error (pro_message_append) (pro_state_ref, pro_ref msg, pro_ref value);
 
 
+#pragma mark User Data
+
+
+typedef void(pro_ud_deconstructor)(pro_state_ref, pro_ref t, void* data);
+extern pro_ud_deconstructor* PRO_DEFAULT_UD_DECONSTRUCTOR;
+
+/**
+ */
+PRO_API pro_error (pro_ud_create) (pro_state_ref,
+    size_t size, pro_ud_deconstructor* deconstructor, PRO_OUT pro_ref*);
+
+PRO_API pro_error (pro_ud_read) (pro_state_ref, pro_ref, PRO_OUT const void**);
+
+PRO_API pro_error (pro_ud_write) (pro_state_ref, pro_ref, PRO_OUT void**);
+
+
 #pragma mark Actor
 
 /**
@@ -311,24 +314,23 @@ PRO_API pro_error (pro_message_append) (pro_state_ref, pro_ref msg, pro_ref valu
  * @return The lookup for the new actor.
  */
 PRO_API pro_error (pro_actor_create) (pro_state_ref, pro_actor_type type,
-    PRO_OUT pro_ref*);
+    pro_behavior beh, pro_ref data, PRO_OUT pro_ref*);
 
 /**
- * @return The type value of a lookup.
+ * @param[out] type The actor type value of a lookup.
  */
-PRO_API pro_error (pro_get_actor_type) (pro_state_ref, pro_ref lookup,
+PRO_API pro_error (pro_get_actor_type) (pro_state_ref, pro_ref,
     PRO_OUT pro_actor_type*);
 
 /**
  * Sends a message to an actor.
  */
-PRO_API pro_error (pro_send) (pro_state_ref,
-    pro_ref actor, pro_ref msg);
+PRO_API pro_error (pro_send) (pro_state_ref, pro_ref actor, pro_ref msg);
 
 /**
  * Specify the behavior for an actor.
  */
-PRO_API pro_error (pro_become) (pro_state_ref, pro_ref actor, pro_behavior);
+PRO_API pro_error (pro_become) (pro_state_ref, pro_ref actor, pro_ref new_beh);
 
 
 #pragma mark Library Loading
@@ -344,5 +346,10 @@ PRO_API void (pro_library_load) (pro_state_ref, const char* file);
 
 #endif
 
+
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif

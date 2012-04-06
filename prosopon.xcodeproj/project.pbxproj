@@ -43,6 +43,10 @@
 		89F9543D152EA5230060B211 /* pro_env_stack.h in Headers */ = {isa = PBXBuildFile; fileRef = 89F9543C152EA5230060B211 /* pro_env_stack.h */; };
 		89F9543F152EA5310060B211 /* pro_env_stack.c in Sources */ = {isa = PBXBuildFile; fileRef = 89F9543E152EA5310060B211 /* pro_env_stack.c */; };
 		89F95440152EA5310060B211 /* pro_env_stack.c in Sources */ = {isa = PBXBuildFile; fileRef = 89F9543E152EA5310060B211 /* pro_env_stack.c */; };
+		89F95442152F43E80060B211 /* prosopon_actor_type.h in Headers */ = {isa = PBXBuildFile; fileRef = 89F95441152F43E80060B211 /* prosopon_actor_type.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		89F95444152F9E970060B211 /* pro_user_data.h in Headers */ = {isa = PBXBuildFile; fileRef = 89F95443152F9E960060B211 /* pro_user_data.h */; };
+		89F95446152F9EA30060B211 /* pro_user_data.c in Sources */ = {isa = PBXBuildFile; fileRef = 89F95445152F9EA20060B211 /* pro_user_data.c */; };
+		89F95447152F9EA30060B211 /* pro_user_data.c in Sources */ = {isa = PBXBuildFile; fileRef = 89F95445152F9EA20060B211 /* pro_user_data.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -96,6 +100,9 @@
 		89F95434152E863F0060B211 /* pro_messaging.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pro_messaging.h; sourceTree = "<group>"; };
 		89F9543C152EA5230060B211 /* pro_env_stack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pro_env_stack.h; sourceTree = "<group>"; };
 		89F9543E152EA5310060B211 /* pro_env_stack.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = pro_env_stack.c; sourceTree = "<group>"; };
+		89F95441152F43E80060B211 /* prosopon_actor_type.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = prosopon_actor_type.h; sourceTree = "<group>"; };
+		89F95443152F9E960060B211 /* pro_user_data.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pro_user_data.h; sourceTree = "<group>"; };
+		89F95445152F9EA20060B211 /* pro_user_data.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = pro_user_data.c; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -145,6 +152,8 @@
 				89F95431152E862D0060B211 /* pro_messaging.c */,
 				89F9543C152EA5230060B211 /* pro_env_stack.h */,
 				89F9543E152EA5310060B211 /* pro_env_stack.c */,
+				89F95443152F9E960060B211 /* pro_user_data.h */,
+				89F95445152F9EA20060B211 /* pro_user_data.c */,
 			);
 			path = src;
 			sourceTree = "<group>";
@@ -189,6 +198,7 @@
 			children = (
 				89F11133151CD28E00317A20 /* prosopon.h */,
 				89F11134151CD28E00317A20 /* prosopon_config.h */,
+				89F95441152F43E80060B211 /* prosopon_actor_type.h */,
 			);
 			path = include;
 			sourceTree = "<group>";
@@ -202,11 +212,13 @@
 			files = (
 				89F11135151CD28E00317A20 /* prosopon.h in Headers */,
 				89F11136151CD28E00317A20 /* prosopon_config.h in Headers */,
+				89F95442152F43E80060B211 /* prosopon_actor_type.h in Headers */,
 				89A98187152136EF00C405FE /* pro_library.h in Headers */,
 				89A981AC1524FA7600C405FE /* pro_type.h in Headers */,
 				89F9542C152E6F830060B211 /* pro_message_queue.h in Headers */,
 				89F95435152E863F0060B211 /* pro_messaging.h in Headers */,
 				89F9543D152EA5230060B211 /* pro_env_stack.h in Headers */,
+				89F95444152F9E970060B211 /* pro_user_data.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -290,6 +302,7 @@
 				89F9542F152E6FE30060B211 /* pro_message_queue.c in Sources */,
 				89F95432152E862D0060B211 /* pro_messaging.c in Sources */,
 				89F9543F152EA5310060B211 /* pro_env_stack.c in Sources */,
+				89F95446152F9EA30060B211 /* pro_user_data.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -313,6 +326,7 @@
 				89F95430152E6FE30060B211 /* pro_message_queue.c in Sources */,
 				89F95433152E862D0060B211 /* pro_messaging.c in Sources */,
 				89F95440152EA5310060B211 /* pro_env_stack.c in Sources */,
+				89F95447152F9EA30060B211 /* pro_user_data.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

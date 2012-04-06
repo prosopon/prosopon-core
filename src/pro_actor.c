@@ -17,7 +17,7 @@
 
 
 PRO_API pro_error pro_actor_create(pro_state_ref s, pro_actor_type type,
-    PRO_OUT pro_ref* out_ref)
+    pro_behavior beh, pro_ref data, PRO_OUT pro_ref* out_ref)
 {
     PRO_API_ASSERT(s, PRO_INVALID_OPERATION);
 
@@ -29,6 +29,10 @@ PRO_API pro_error pro_actor_create(pro_state_ref s, pro_actor_type type,
     *obj = pro_object_new(s, PRO_ACTOR_TYPE);
     (*obj)->value.actor.type = type;
     pro_env_create(s, current_env, &((*obj)->value.actor.env));
+    
+    (*obj)->value.actor.behavior = beh;
+    (*obj)->value.actor.data = data;
+    
     *out_ref = lookup;
     return PRO_OK;
 }
@@ -58,13 +62,13 @@ PRO_API pro_error pro_send(pro_state_ref s, pro_ref actor, pro_ref msg)
 
 
 PRO_API pro_error pro_become(pro_state_ref s,
-    pro_ref actor, pro_behavior new_beh)
+    pro_ref actor, pro_ref new_beh)
 {
     PRO_API_ASSERT(s, PRO_INVALID_OPERATION);
     PRO_API_ASSERT_TYPE(actor, PRO_ACTOR_TYPE, PRO_INVALID_ARGUMENT);
     
     pro_object* obj = *pro_env_lookup_value(s, actor);
-    obj->value.actor.behavior = new_beh;
+    //obj->value.actor.behavior = new_beh;
     return PRO_OK;
 }
 

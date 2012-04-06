@@ -20,6 +20,7 @@ struct pro_object
         {
             pro_actor_type type;
             pro_behavior behavior;
+            pro_ref data;
             pro_env_ref env;
         } actor;
         struct
@@ -27,8 +28,15 @@ struct pro_object
             pro_constructor constructor;
         } constructor;
         pro_ref_list message;
+        struct
+        {
+            void* data;
+            size_t size;
+            pro_ud_deconstructor* deconstructor;
+        } ud;
     } value;
 };
+
 
 /**
  *
