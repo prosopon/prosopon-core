@@ -52,6 +52,8 @@ PRO_API pro_error pro_state_create(PRO_OUT pro_state_ref* out_state)
 
 PRO_API pro_error pro_state_release(pro_state_ref s)
 {
+    PRO_API_ASSERT(s, PRO_INVALID_OPERATION);
+    
     while (!pro_env_lookup_equal(s, s->stack->value, s->root_env)) // relase all environments 
         pro_pop_env(s); 
     

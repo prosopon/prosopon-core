@@ -147,6 +147,10 @@ PRO_API pro_error (pro_state_create) (PRO_OUT pro_state_ref* state);
 
 /**
  * Releases a state for future collection.
+ *
+ * @return
+ *   PRO_OK if successful
+ *   PRO_INVALID_OPERATION if the state is not valid.
  */
 PRO_API pro_error (pro_state_release) (pro_state_ref);
 
@@ -169,12 +173,16 @@ PRO_API pro_error (pro_get_env) (pro_state_ref, PRO_OUT pro_env_ref* env);
  *
  * @return
  *   PRO_OK if successful
- *   PRO_INVALID_OPERATIOn if pusing an env onto itself.
+ *   PRO_INVALID_OPERATION if state is not valid or pushing an env onto itself.
  */
 PRO_API pro_error (pro_push_env) (pro_state_ref, pro_env_ref);
 
 /**
  * Pops an environment off the environment stack.
+ *
+ * @return
+ *   PRO_OK if successful
+ *   PRO_INVALID_OPERATION if state is not valid or popping the root environment.
  */
 PRO_API pro_error (pro_pop_env) (pro_state_ref);
 

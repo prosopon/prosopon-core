@@ -72,6 +72,14 @@ static void test_push_self_on_self(void)
     CU_ASSERT(PRO_OK == err);
     err = pro_push_env(state, new);
     CU_ASSERT(PRO_INVALID_OPERATION == err);
+    
+    pro_pop_env(state);
+}
+
+static void test_release_invalid(void)
+{
+    pro_error err = pro_state_release(0);
+    CU_ASSERT(PRO_INVALID_OPERATION == err);
 }
 
 
@@ -81,6 +89,7 @@ static CU_TestInfo tests[] = {
     {"push and pop", test_push_pop},
     {"pop_root", test_pop_root},
     {"push_self_on_self", test_push_self_on_self},
+    {"release invalid", test_release_invalid},
     CU_TEST_INFO_NULL,
 };
 
