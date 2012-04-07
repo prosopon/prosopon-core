@@ -1,6 +1,5 @@
-#include "pro_message.h"
-
 #include "prosopon.h"
+
 #include "pro_env.h"
 #include "pro_common.h"
 #include "pro_object.h"

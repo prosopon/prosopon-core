@@ -78,7 +78,6 @@
 		89A981901522B4F700C405FE /* test-pro_constructor.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "test-pro_constructor.c"; sourceTree = "<group>"; };
 		89A981A71524FA6400C405FE /* pro_type.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = pro_type.c; sourceTree = "<group>"; };
 		89A981AB1524FA7600C405FE /* pro_type.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pro_type.h; sourceTree = "<group>"; };
-		89ACBEB3151E95FA003EA8EE /* pro_message.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pro_message.h; sourceTree = "<group>"; };
 		89ACBEB6151E960D003EA8EE /* pro_message.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = pro_message.c; sourceTree = "<group>"; };
 		89BADB2E15195C3C00407C3B /* Makefile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.make; name = Makefile; path = "../prosopon-interpreter/Makefile"; sourceTree = "<group>"; };
 		89CE9C94151E38BC00CE5511 /* pro_constructor.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = pro_constructor.c; sourceTree = "<group>"; };
@@ -134,7 +133,6 @@
 				890024D11511A3070012E749 /* pro_state.h */,
 				890024D01511A3070012E749 /* pro_state.c */,
 				89CE9C94151E38BC00CE5511 /* pro_constructor.c */,
-				89ACBEB3151E95FA003EA8EE /* pro_message.h */,
 				89ACBEB6151E960D003EA8EE /* pro_message.c */,
 				89A98186152136EF00C405FE /* pro_library.h */,
 				89A98189152136FD00C405FE /* pro_library.c */,
