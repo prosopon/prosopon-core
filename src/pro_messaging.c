@@ -9,8 +9,8 @@ PRO_INTERNAL void pro_deliver_message(pro_state_ref s,
 {
     pro_object* actor_obj = *pro_env_lookup_value(s, actor);
     pro_push_env(s, actor_obj->value.actor.env);
-    const pro_behavior* behavior = &actor_obj->value.actor.behavior;  
-    behavior->impl(s, actor, message, behavior->data);
+    pro_behavior* behavior = actor_obj->value.actor.behavior;  
+    behavior(s, actor, message, actor_obj->value.actor.data);
     pro_pop_env(s);
 }
 

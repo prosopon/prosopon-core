@@ -5,11 +5,11 @@
 
 
 typedef int(pro_match_impl)(pro_state_ref,
-    pro_ref t, const void* tData,
-    pro_ref o, const void* oData);
+    pro_ref t, pro_ref tData,
+    pro_ref o);
 
 typedef const char*(pro_to_string_impl)(pro_state_ref,
-    pro_ref t, const void* tData);
+    pro_ref t, pro_ref tData);
 
 typedef struct pro_actor_type_info pro_actor_type_info;
 struct pro_actor_type_info
@@ -21,7 +21,7 @@ struct pro_actor_type_info
 PRO_API void (pro_register_actor_type) (pro_state_ref,
     pro_actor_type, const pro_actor_type_info*);
 
-PRO_API const void* (pro_request_actor_data) (pro_state_ref,
-    pro_ref);
+PRO_API pro_error (pro_actor_request_ud) (pro_state_ref,
+    pro_ref, PRO_OUT pro_ref* ud);
 
 #endif

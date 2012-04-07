@@ -19,7 +19,7 @@ struct pro_object
         struct
         {
             pro_actor_type type;
-            pro_behavior behavior;
+            pro_behavior* behavior;
             pro_ref data;
             pro_env_ref env;
         } actor;

@@ -45,10 +45,9 @@ PRO_API pro_error pro_match(pro_state_ref s, pro_ref l1, pro_ref l2, PRO_OUT int
     pro_get_actor_type(s, l1, &type);
     const pro_actor_type_info* info = pro_get_actor_type_info(s, type);
     pro_object** o1 = pro_env_lookup_value(s, l1);
-    pro_object** o2 = pro_env_lookup_value(s, l2);
     *out = info->match(s,
-        l1, (*o1)->value.actor.behavior.data,
-        l2, (*o2)->value.actor.behavior.data);
+        l1, (*o1)->value.actor.data,
+        l2);
     return PRO_OK;
 }
 
@@ -60,5 +59,5 @@ PRO_API const char* pro_to_string(pro_state_ref s,
     pro_get_actor_type(s, t, &type);
     const pro_actor_type_info* info = pro_get_actor_type_info(s, type);
     pro_object** o = pro_env_lookup_value(s, t);
-    return info->to_string(s, t, (*o)->value.actor.behavior.data);
+    return info->to_string(s, t, (*o)->value.actor.data);
 }

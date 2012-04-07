@@ -77,7 +77,7 @@ struct pro_lookup_list
  * @param data Additional user defined data passed to the behavior.
  */
 typedef void(pro_behavior)(pro_state_ref,
-    pro_ref t, pro_ref msg, void* data);
+    pro_ref t, pro_ref msg, pro_ref ud);
 
 
 /**

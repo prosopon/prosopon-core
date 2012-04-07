@@ -1,4 +1,4 @@
-#include "pro_actor.h"
+ #include "pro_actor.h"
 
 #include "prosopon.h"
 
@@ -67,18 +67,20 @@ PRO_API pro_error pro_become(pro_state_ref s,
     PRO_API_ASSERT(s, PRO_INVALID_OPERATION);
     PRO_API_ASSERT_TYPE(actor, PRO_ACTOR_TYPE, PRO_INVALID_ARGUMENT);
     
-    pro_object* obj = *pro_env_lookup_value(s, actor);
+  //  pro_object* obj = *pro_env_lookup_value(s, actor);
     //obj->value.actor.behavior = new_beh;
     return PRO_OK;
 }
 
 
-PRO_API const void* pro_request_actor_data(pro_state_ref s,
-    pro_ref actor)
+PRO_API pro_error pro_actor_request_ud(pro_state_ref s,
+    pro_ref actor, PRO_OUT pro_ref* ud)
 {
    // PRO_API_ASSERT(s, PRO_INVALID_OPERATION);
    // PRO_API_ASSERT_TYPE(actor, PRO_ACTOR_TYPE, PRO_INVALID_ARGUMENT);
     
     pro_object* obj = *pro_env_lookup_value(s, actor);
-    return obj->value.actor.behavior.data;
+    *ud = obj->value.actor.data;
+    return PRO_OK;
 }
+

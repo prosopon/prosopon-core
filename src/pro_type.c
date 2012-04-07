@@ -9,13 +9,13 @@
 #pragma mark Private
 
 static int default_match(pro_state_ref s,
-    pro_ref t, const void* tData, pro_ref o, const void* oData)
+    pro_ref t, pro_ref tData, pro_ref o)
 {
     return -1;
 }
 
 static const char* defaul_to_string(pro_state_ref s,
-    pro_ref t, const void* tData)
+    pro_ref t, pro_ref tData)
 {
     return "";
 }
