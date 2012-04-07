@@ -33,6 +33,7 @@ PRO_INTERNAL pro_actor_type_info_list* pro_actor_type_info_list_new(pro_state_re
     pro_actor_type type, pro_actor_type_info* value, pro_actor_type_info_list* next)
 {
     pro_actor_type_info_list* t = malloc(sizeof(*t));
+    if (!t) return 0;
     t->type = type;
     t->value = value;
     t->next = next;

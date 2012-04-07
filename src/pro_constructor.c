@@ -32,7 +32,7 @@ PRO_API pro_error pro_constructor_call(pro_state_ref s,
     PRO_API_ASSERT(s, PRO_INVALID_OPERATION);
     PRO_API_ASSERT_TYPE(constructor, PRO_CONSTRUCTOR_TYPE, PRO_INVALID_ARGUMENT);
     
-    pro_object* obj = *pro_env_lookup_value(s, constructor);
+    pro_object* obj = pro_dereference(s, constructor);
     pro_constructor* impl = obj->value.constructor.constructor;
     pro_ref ud = obj->value.constructor.data;
     pro_ref out = impl(s, arguments, ud);

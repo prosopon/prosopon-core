@@ -14,6 +14,7 @@
 
 static void pro_default_ud_deconstructor(pro_state_ref s, pro_ref t, void* data)
 {
+    // noop
 }
 
 
@@ -49,7 +50,7 @@ PRO_API pro_error (pro_ud_read) (pro_state_ref s, pro_ref t,
     PRO_API_ASSERT(s, PRO_INVALID_OPERATION);
     PRO_API_ASSERT_TYPE(t, PRO_UD_TYPE, PRO_INVALID_ARGUMENT);
     
-    pro_object* obj = *pro_env_lookup_value(s, t);
+    pro_object* obj = pro_dereference(s, t);
     *ptr = obj->value.ud.data;
     return PRO_OK;
 }
@@ -60,7 +61,7 @@ PRO_API pro_error pro_ud_write(pro_state_ref s, pro_ref t, PRO_OUT void** ptr)
     PRO_API_ASSERT(s, PRO_INVALID_OPERATION);
     PRO_API_ASSERT_TYPE(t, PRO_UD_TYPE, PRO_INVALID_ARGUMENT);
 
-    pro_object* obj = *pro_env_lookup_value(s, t);
+    pro_object* obj = pro_dereference(s, t);
     *ptr = obj->value.ud.data;
     return PRO_OK;
 }

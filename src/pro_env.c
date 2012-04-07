@@ -123,13 +123,19 @@ PRO_INTERNAL pro_ref pro_env_next_lookup(pro_state_ref s,
 }
 
 
-PRO_INTERNAL pro_object** pro_env_lookup_value(pro_state_ref s,
-    pro_ref lookup)
+PRO_INTERNAL pro_object** pro_env_lookup_value(pro_state_ref s, pro_ref ref)
 {
-    pro_internal_lookup* internal = pro_env_get_internal_lookup(s, lookup);
+    pro_internal_lookup* internal = pro_env_get_internal_lookup(s, ref);
     return &(internal->value);
 }
-    
+
+
+PRO_INTERNAL pro_object* pro_dereference(pro_state_ref s, pro_ref ref)
+{
+    pro_internal_lookup* internal = pro_env_get_internal_lookup(s, ref);
+    return internal->value;
+}
+
 
 #pragma mark -
 #pragma mark PRO_API

@@ -7,7 +7,7 @@
 PRO_INTERNAL void pro_deliver_message(pro_state_ref s,
     pro_ref actor, pro_ref message)
 {
-    pro_object* actor_obj = *pro_env_lookup_value(s, actor);
+    pro_object* actor_obj = pro_dereference(s, actor);
     pro_push_env(s, actor_obj->value.actor.env);
     pro_behavior* behavior = actor_obj->value.actor.behavior;  
     behavior(s, actor, message, actor_obj->value.actor.data);

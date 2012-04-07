@@ -320,7 +320,6 @@ PRO_API pro_error (pro_message_append) (pro_state_ref,
     pro_ref msg, pro_ref value);
 
 
-
 #pragma mark User Data
 
 /**

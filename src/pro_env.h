@@ -43,7 +43,12 @@ PRO_INTERNAL pro_ref pro_env_next_lookup(pro_state_ref,
  * @return The object reference that the lookup points to.
  */
 PRO_INTERNAL struct pro_object** pro_env_lookup_value(pro_state_ref,
-    pro_ref lookup);
+    pro_ref ref);
+
+/**
+ * Dereferenaces a pro_ref
+ */
+PRO_INTERNAL struct pro_object* pro_dereference(pro_state_ref, pro_ref);
 
 
 

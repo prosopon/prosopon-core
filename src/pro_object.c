@@ -26,7 +26,7 @@ PRO_API pro_error pro_get_type(pro_state_ref s, pro_ref ref,
     PRO_API_ASSERT(s, PRO_INVALID_OPERATION);
     PRO_API_ASSERT(PRO_EMPTY_REF != ref, PRO_INVALID_ARGUMENT);
     
-    pro_object* obj = *pro_env_lookup_value(s, ref);
+    pro_object* obj = pro_dereference(s, ref);
     *type = obj->type;
     return PRO_OK;
 }

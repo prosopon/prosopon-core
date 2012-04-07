@@ -68,7 +68,7 @@ PRO_API pro_error pro_become(pro_state_ref s,
     PRO_API_ASSERT_TYPE(new_beh, PRO_ACTOR_TYPE, PRO_INVALID_ARGUMENT);
 
     pro_object** current_obj = pro_env_lookup_value(s, actor);
-    pro_object* new_actor_obj = *pro_env_lookup_value(s, actor);
+    pro_object* new_actor_obj = pro_dereference(s, new_beh);
     
     *current_obj = new_actor_obj;
     
@@ -82,7 +82,7 @@ PRO_API pro_error pro_actor_request_ud(pro_state_ref s,
    // PRO_API_ASSERT(s, PRO_INVALID_OPERATION);
    // PRO_API_ASSERT_TYPE(actor, PRO_ACTOR_TYPE, PRO_INVALID_ARGUMENT);
     
-    pro_object* obj = *pro_env_lookup_value(s, actor);
+    pro_object* obj = pro_dereference(s, actor);
     *ud = obj->value.actor.data;
     return PRO_OK;
 }

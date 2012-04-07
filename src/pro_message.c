@@ -54,7 +54,7 @@ PRO_API pro_error pro_message_get(pro_state_ref s,
     PRO_API_ASSERT(s, PRO_INVALID_OPERATION);
     PRO_API_ASSERT_TYPE(msg, PRO_MESSAGE_TYPE, PRO_INVALID_ARGUMENT);
 
-    pro_object* obj = *pro_env_lookup_value(s, msg);
+    pro_object* obj = pro_dereference(s, msg);
     pro_ref_list list = obj->value.message;
     while (idx)
     {
