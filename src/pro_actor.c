@@ -1,5 +1,3 @@
- #include "pro_actor.h"
-
 #include "prosopon.h"
 
 #include "pro_lookup.h"

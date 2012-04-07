@@ -1,5 +1,3 @@
-#include "pro_user_data.h"
-
 #include "prosopon.h"
 
 #include "pro_common.h"
