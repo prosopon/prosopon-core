@@ -1,6 +1,9 @@
 #ifndef prosopon_config_h
 #define prosopon_config_h
 
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #if __llvm__ || __GNUC__ >= 4
     /**
@@ -26,5 +29,9 @@
 
 #define PRO_DYNAMIC_LIBRARY_LOADING 1
 
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif

@@ -1,6 +1,10 @@
 #ifndef prosopon_prosopon_interface_type_h
 #define prosopon_prosopon_interface_type_h
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #include "prosopon.h"
 
 
@@ -23,5 +27,10 @@ PRO_API void (pro_register_actor_type) (pro_state_ref,
 
 PRO_API pro_error (pro_actor_request_ud) (pro_state_ref,
     pro_ref, PRO_OUT pro_ref* ud);
+
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif

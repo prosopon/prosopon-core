@@ -179,7 +179,7 @@ PRO_API pro_error (pro_pop_env) (pro_state_ref);
 /**
  * Creates a new environment with a given parent.
  * 
- * @param[out] env A referance to the new environment.
+ * @param[out] env A reference to the new environment.
  *
  * @return
  *   PRO_OK if successful
@@ -194,7 +194,7 @@ PRO_API pro_error (pro_env_create) (pro_state_ref, pro_env_ref parent,
 PRO_API pro_error (pro_env_release) (pro_state_ref, pro_env_ref);
 
 /**
- * @param[out] ref The highest resolved referance or PRO_EMPTY_REF if none.
+ * @param[out] ref The highest resolved reference or PRO_EMPTY_REF if none.
  *
  * @return
  *   PRO_OK if successful
@@ -292,17 +292,32 @@ PRO_API pro_error (pro_message_append) (pro_state_ref, pro_ref msg, pro_ref valu
 
 #pragma mark User Data
 
-
+/**
+ * Function called before a user data object is destroyed.
+ *
+ * @param t A reference to the user data object.
+ * @param data A pointer to the allocated data.
+ */
 typedef void(pro_ud_deconstructor)(pro_state_ref, pro_ref t, void* data);
+
 extern pro_ud_deconstructor* PRO_DEFAULT_UD_DECONSTRUCTOR;
 
 /**
+ * Creates a new user data object with a given size and deconstructor.
+ *
+ * @param[out] out_ref A reference to the new user data object.
  */
 PRO_API pro_error (pro_ud_create) (pro_state_ref,
-    size_t size, pro_ud_deconstructor* deconstructor, PRO_OUT pro_ref*);
+    size_t size, pro_ud_deconstructor* deconstructor, PRO_OUT pro_ref* out_ref);
 
+/**
+ * Requests access to user data data for reading.
+ */
 PRO_API pro_error (pro_ud_read) (pro_state_ref, pro_ref, PRO_OUT const void**);
 
+/**
+ * Requests access to user data data for writting.
+ */
 PRO_API pro_error (pro_ud_write) (pro_state_ref, pro_ref, PRO_OUT void**);
 
 
