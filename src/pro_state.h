@@ -40,6 +40,8 @@ struct pro_state
     struct pro_env_stack* stack;
 };
 
+PRO_INTERNAL pro_state* pro_state_fork(pro_state*);
+
 
 PRO_INTERNAL struct pro_library_list* pro_state_get_libraries(pro_state*);
 PRO_INTERNAL void pro_state_set_libraries(pro_state*, struct pro_library_list* val);

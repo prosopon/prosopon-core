@@ -120,7 +120,7 @@ PRO_INTERNAL pro_ref pro_env_next_lookup(pro_state_ref s,
     }
     
     if (0 == env->lookups)
-        env_ref->value->lookups = internal;
+        env->lookups = internal;
     else
     {
         pro_internal_lookup* parent = env->lookups;

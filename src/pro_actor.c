@@ -41,8 +41,8 @@ PRO_API pro_error pro_get_actor_type(pro_state_ref s, pro_ref actor,
     PRO_API_ASSERT(s, PRO_INVALID_OPERATION);
     PRO_API_ASSERT_TYPE(actor, PRO_ACTOR_TYPE, PRO_INVALID_ARGUMENT);
 
-    pro_object** obj = pro_env_lookup_value(s, actor);
-    *out_type = (*obj)->value.actor.type;
+    pro_object* obj = pro_dereference(s, actor);
+    *out_type = obj->value.actor.type;
     return PRO_OK;
 }
 

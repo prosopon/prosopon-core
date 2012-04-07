@@ -45,6 +45,23 @@ static pro_global_state* pro_global_state_new()
 #pragma mark -
 #pragma mark Intenal
 
+PRO_INTERNAL pro_state* pro_state_fork(pro_state* s)
+{
+    pro_state* n = pro_state_new(s->global);
+    
+    pro_env_ref root_env;
+    pro_get_env(s, &root_env);
+    
+    pro_env_stack* stack = pro_env_stack_new(n);
+    pro_env_stack_push(n, stack, root_env);
+    
+    n->root_env = root_env;
+    n->stack = stack;
+    
+    return n;
+}
+
+
 PRO_INTERNAL struct pro_library_list* pro_state_get_libraries(pro_state* s)
 {
     return s->global->libraries;

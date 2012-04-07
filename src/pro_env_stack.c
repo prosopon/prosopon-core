@@ -32,8 +32,7 @@ static pro_env_stack_node* pro_env_stack_node_new(pro_state_ref s,
 PRO_INTERNAL pro_env_stack* pro_env_stack_new(pro_state_ref s)
 {
     pro_env_stack* t = malloc(sizeof(*t));
-    if (!t)
-        return 0;
+    if (!t) return 0;
     t->top = 0;
     return t;
 }
