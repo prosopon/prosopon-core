@@ -27,11 +27,13 @@ static void initialize_library(pro_state_ref s, void* lib_handle)
 static void add_loaded_library(pro_state_ref s, const char* file)
 {
     pro_library_list* t = pro_library_list_new(file, 0);
-    if (!s->libraries)
-        s->libraries = t;
+    pro_library_list* libraries = pro_state_get_libraries(s);
+    
+    if (!libraries)
+        pro_state_set_libraries(s, t);
     else
     {
-        pro_library_list* parent = s->libraries;
+        pro_library_list* parent = libraries;
         while (parent->next)
             parent = parent->next;
         parent->next = t;
@@ -52,7 +54,7 @@ PRO_INTERNAL pro_library_list* pro_library_list_new(const char* file,
 
 PRO_INTERNAL int pro_library_loaded(pro_state_ref s, const char* file)
 {
-    pro_library_list* library = s->libraries;
+    pro_library_list* library = pro_state_get_libraries(s);
     while (library)
     {
         if (strcmp(file, library->file) == 0)

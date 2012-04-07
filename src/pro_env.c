@@ -103,10 +103,10 @@ PRO_INTERNAL pro_ref pro_env_next_lookup(pro_state_ref s,
     pro_env_ref env)
 {
     const pro_lookup* lookup = pro_lookup_new(s, env, env->value->size);
-    if (0 == lookup) return 0;
+    if (!lookup) return 0;
     
     pro_internal_lookup* internal = pro_internal_lookup_new(s, 0, 0);
-    if (0 == internal) return 0;
+    if (!internal) return 0;
     
     if (0 == env->value->lookups)
         env->value->lookups = internal;

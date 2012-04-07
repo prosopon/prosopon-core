@@ -14,9 +14,58 @@
 
 #pragma mark Private
 
+static pro_state* pro_state_new(pro_global_state* g)
+{
+    pro_state_ref s = malloc(sizeof(*s));
+    if (!s) return 0;
+    s->global = g;
+    return s;
+}
+
+static pro_global_state* pro_global_state_new()
+{
+    pro_global_state* g = malloc(sizeof(*g));
+    if (!g) return 0;
+    
+    pro_state* s = pro_state_new(g);
+    if (!s)
+    {
+        free(g);
+        return 0;
+    }
+    
+    g->main = s;
+    g->libraries = 0;
+    g->message_queue = pro_message_queue_new(s);
+
+    return g;
+}
+
 
 #pragma mark -
 #pragma mark Intenal
+
+PRO_INTERNAL struct pro_library_list* pro_state_get_libraries(pro_state* s)
+{
+    return s->global->libraries;
+}
+
+PRO_INTERNAL void pro_state_set_libraries(pro_state* s,
+    struct pro_library_list* val)
+{
+    s->global->libraries = val;
+}
+
+PRO_INTERNAL struct pro_actor_type_info_list* pro_state_get_actor_type_info(pro_state* s)
+{
+    return s->global->actor_types;
+}
+
+PRO_INTERNAL void pro_state_set_actor_type_info(pro_state* s,
+    struct pro_actor_type_info_list* val)
+{
+    s->global->actor_types = val;
+}
 
 
 #pragma mark -
@@ -24,9 +73,11 @@
 
 PRO_API pro_error pro_state_create(PRO_OUT pro_state_ref* out_state)
 {
-    pro_state_ref s = malloc(sizeof(*s));
-    PRO_API_ASSERT(s, PRO_OUT_OF_MEMORY);
-        
+    pro_global_state* g = pro_global_state_new();
+    PRO_API_ASSERT(g, PRO_OUT_OF_MEMORY);
+    
+    pro_state* s = g->main;
+    
     pro_env_ref root_env = pro_env_lookup_new(s, pro_env_new(s, 0));
     PRO_API_ASSERT(root_env, PRO_OUT_OF_MEMORY);
     pro_env_stack* stack = pro_env_stack_new(s);
@@ -35,11 +86,9 @@ PRO_API pro_error pro_state_create(PRO_OUT pro_state_ref* out_state)
 
     s->root_env = root_env;
     s->stack = stack;
-    s->libraries = 0;
     
     initialize_default_actor_types(s);
     
-    s->message_queue = pro_message_queue_new(s);
     
     *out_state = s;
     return PRO_OK;
@@ -62,10 +111,10 @@ PRO_API pro_error pro_state_release(pro_state_ref s)
 
 PRO_API pro_error pro_run(pro_state_ref s)
 {
-    while (!pro_message_queue_is_empty(s, s->message_queue))
+    while (!pro_message_queue_is_empty(s, s->global->message_queue))
     {
         pro_ref actor;
-        pro_ref msg = pro_message_queue_dequeue(s, s->message_queue, &actor);
+        pro_ref msg = pro_message_queue_dequeue(s, s->global->message_queue, &actor);
         pro_deliver_message(s, actor, msg);
     }
     return PRO_OK;

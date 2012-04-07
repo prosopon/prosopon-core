@@ -52,7 +52,7 @@ PRO_INTERNAL void initialize_default_actor_types(pro_state_ref s)
 PRO_INTERNAL const pro_actor_type_info* pro_get_actor_type_info(pro_state_ref s, 
     pro_actor_type type)
 {
-    pro_actor_type_info_list* list = s->actor_types;
+    pro_actor_type_info_list* list = pro_state_get_actor_type_info(s);
     while (list)
     {
         if (list->type == 0)
@@ -81,11 +81,13 @@ PRO_API void pro_register_actor_type(pro_state_ref s,
     list->value = info;
     list->type = identifier;
     
-    if (!s->actor_types)
-        s->actor_types = list;
+    pro_actor_type_info_list* types = pro_state_get_actor_type_info(s);
+    
+    if (!types)
+       pro_state_set_actor_type_info(s, list);
     else
     {
-        pro_actor_type_info_list* parent = s->actor_types;
+        pro_actor_type_info_list* parent = types;
         while (parent->next)
             parent = parent->next;
         parent->next = list;
