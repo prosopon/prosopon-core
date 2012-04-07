@@ -38,9 +38,9 @@ PRO_API pro_error pro_message_length(pro_state_ref s, pro_ref ref,
     PRO_API_ASSERT(s, PRO_INVALID_OPERATION);
     PRO_API_ASSERT_TYPE(ref, PRO_MESSAGE_TYPE, PRO_INVALID_ARGUMENT);
     
-    pro_object** obj = pro_env_lookup_value(s, ref);
+    pro_object* obj = pro_dereference(s, ref);
     unsigned int l = 0;
-    for (pro_ref_list msg = (*obj)->value.message; msg; msg = msg->next)
+    for (pro_ref_list msg = obj->value.message; msg; msg = msg->next)
         ++l;
     *length = l;
     return PRO_OK;
@@ -74,11 +74,11 @@ PRO_API pro_error pro_message_append(pro_state_ref s,
     PRO_API_ASSERT_TYPE(msg, PRO_MESSAGE_TYPE, PRO_INVALID_ARGUMENT);
     PRO_API_ASSERT(ref, PRO_INVALID_ARGUMENT);
     
-    pro_object** obj = pro_env_lookup_value(s, msg);
-    if (!(*obj)->value.message)
-        (*obj)->value.message = pro_lookup_list_new(s, ref, 0);
+    pro_object* obj = pro_dereference(s, msg);
+    if (!obj->value.message)
+        obj->value.message = pro_lookup_list_new(s, ref, 0);
     else
-        pro_lookup_list_append(s, (*obj)->value.message, ref);
+        pro_lookup_list_append(s, obj->value.message, ref);
     return PRO_OK;
 }
 
