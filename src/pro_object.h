@@ -4,12 +4,12 @@
 #include "prosopon.h"
 
 
-typedef struct pro_object pro_object;
 
 
 /**
  *
  */
+typedef struct pro_object pro_object;
 struct pro_object
 {
     

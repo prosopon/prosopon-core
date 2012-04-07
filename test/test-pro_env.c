@@ -1,9 +1,10 @@
-#include "test-pro_env.h"
+#include "test.h"
 
 #include "prosopon.h"
 
 #include "pro_state.h"
 #include "pro_env.h"
+#include "pro_lookup.h"
 
 
 static pro_state_ref state;
@@ -111,7 +112,38 @@ static void test_bind_parent(void)
     pro_pop_env(state);
 }
 
-
+static void test_bind_hide(void)
+{
+    // create env parent.
+    pro_env_ref old;
+    pro_get_env(state, &old);
+    pro_env_ref parent;
+    pro_env_create(state, old, &parent);
+    pro_push_env(state, parent);
+    
+    // setup an actor in env parent bound to id
+    pro_ref ref;
+    pro_actor_create(state, PRO_DEFAULT_ACTOR_TYPE, 0, PRO_EMPTY_REF, &ref);
+    pro_bind(state, ref, "id");
+    
+    // Push a env top onto the stack with parent parent 
+    pro_env_ref top;
+    pro_env_create(state, parent, &top);
+    pro_push_env(state, top);
+    
+    // setup an actor in top env parent bound to id
+    pro_ref top_ref;
+    pro_actor_create(state, PRO_DEFAULT_ACTOR_TYPE, 0, PRO_EMPTY_REF, &top_ref);
+    pro_bind(state, top_ref, "id");
+    
+    // try getting the binding in the env top
+    pro_ref found;
+    pro_get_binding(state, top, "id", &found);
+    CU_ASSERT(found->env == top_ref->env && found->index == top_ref->index);
+    
+    pro_pop_env(state);
+    pro_pop_env(state);
+}
 
 
 static CU_TestInfo tests[] = {
@@ -120,6 +152,7 @@ static CU_TestInfo tests[] = {
     {"create_invalid", test_create_invalid},
     {"bind", test_bind},
     {"bind_parent", test_bind_parent},
+    {"bind_hide", test_bind_hide},
     CU_TEST_INFO_NULL,
 };
 

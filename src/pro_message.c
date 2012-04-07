@@ -3,8 +3,8 @@
 #include "prosopon.h"
 #include "pro_env.h"
 #include "pro_common.h"
-
-#include <assert.h>
+#include "pro_object.h"
+#include "pro_lookup.h"
 
 
 #pragma mark Private

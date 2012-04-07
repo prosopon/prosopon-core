@@ -6,9 +6,11 @@
 #include "pro_messaging.h"
 #include "pro_env_stack.h"
 #include "pro_message_queue.h"
+#include "pro_env.h"
+#include "pro_lookup.h"
 
 #include <stdlib.h>
-#include <assert.h>
+
 
 #pragma mark Private
 

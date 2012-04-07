@@ -3,9 +3,7 @@
 
 #include "prosopon.h"
 
-#include "pro_lookup.h"
-#include "pro_object.h"
-
+struct pro_object;
 
 
 typedef struct pro_env pro_env;
@@ -44,7 +42,7 @@ PRO_INTERNAL pro_ref pro_env_next_lookup(pro_state_ref,
 /**
  * @return The object reference that the lookup points to.
  */
-PRO_INTERNAL pro_object** pro_env_lookup_value(pro_state_ref,
+PRO_INTERNAL struct pro_object** pro_env_lookup_value(pro_state_ref,
     pro_ref lookup);
 
 

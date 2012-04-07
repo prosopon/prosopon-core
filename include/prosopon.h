@@ -110,8 +110,6 @@ typedef const char* pro_actor_type;
 extern pro_actor_type PRO_DEFAULT_ACTOR_TYPE;
 
 
-
-
 #pragma mark State
 
 /**
@@ -237,18 +235,33 @@ PRO_API const char* (pro_to_string)(pro_state_ref,
 /**
  * Creates a new constructor in the current environment.
  *
- * @return The lookup for the new constructor.
+ * @param impl A function that constructs an object and returns a referance.
+ *   Must not be null.
+ * @param ud User data that is passed to the constructor function. May be null.
+ * 
+ * @param[out] out_ref A reference to the new constructor.
+ *
+ * @return
+ *   PRO_OK if successful
+ *   PRO_INVALID_OPERATION if the state is not valid or id is null.
+ *   PRO_INVALID_ARGUMENT if impl is null.
  */
 PRO_API pro_error (pro_constructor_create) (pro_state_ref,
-    pro_constructor*, pro_ref ud, PRO_OUT pro_ref* constructor);
+    pro_constructor* impl, pro_ref ud, PRO_OUT pro_ref* out_ref);
 
 /**
  * Calls a constructor with a list of arguments.
  * 
- * @param constructor The lookup for the constructor.
+ * @param constructor The reference to the constructor to call.
  * @param arguments A list of lookups to pass to the constructor.
  *
- * @return The result from the constructor.
+ * @param[out] result The result from the constructor.
+ *
+ * @return
+ *   PRO_OK if successful
+ *   PRO_INVALID_OPERATION if the state is not valid or id is null.
+ *   PRO_INVALID_ARGUMENT if constructor does reference a constructor.
+ *   PRO_CONSTRUCTOR_ERROR if the constructor call fails.
  */
 PRO_API pro_error (pro_constructor_call) (pro_state_ref,
     pro_ref constructor, pro_ref_list arguments, PRO_OUT pro_ref* result);
@@ -329,6 +342,9 @@ PRO_API pro_error (pro_actor_create) (pro_state_ref, pro_actor_type type,
  */
 PRO_API pro_error (pro_get_actor_type) (pro_state_ref, pro_ref,
     PRO_OUT pro_actor_type*);
+
+PRO_API pro_error pro_actor_request_ud(pro_state_ref s,
+    pro_ref actor, PRO_OUT pro_ref* ud);
 
 /**
  * Sends a message to an actor.

@@ -1,8 +1,4 @@
-#include "CUnit/Basic.h"
-
-#include "test-pro_state.h"
-#include "test-pro_env.h"
-#include "test-pro_constructor.h"
+#include "test.h"
 
 
 int main(int argc, char** argv)

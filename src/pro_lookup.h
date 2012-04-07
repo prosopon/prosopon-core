@@ -6,17 +6,15 @@
 struct pro_env;
 
 
+
 typedef struct pro_lookup pro_lookup;
-typedef struct pro_env_lookup pro_env_lookup;
-
-
 struct pro_lookup
 {
     pro_env_ref env;
     unsigned int index;
 };
 
-
+typedef struct pro_env_lookup pro_env_lookup;
 struct pro_env_lookup
 {
     struct pro_env* value;

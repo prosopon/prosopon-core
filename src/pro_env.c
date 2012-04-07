@@ -1,12 +1,12 @@
 #include "pro_env.h"
 
-#include "prosopon.h"
 #include "pro_state.h"
 #include "pro_common.h"
+#include "pro_object.h"
+#include "pro_lookup.h"
 
 #include <stdlib.h>
 #include <string.h>
-#include <assert.h>
 
 
 #pragma mark Private

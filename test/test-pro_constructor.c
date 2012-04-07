@@ -1,4 +1,4 @@
-#include "test-pro_env.h"
+#include "test.h"
 
 #include "prosopon.h"
 #include "pro_state.h"
@@ -76,8 +76,14 @@ static void test_create(void)
     pro_pop_env(state);
 }
 
+static void test_create_invalid(void)
+{
+    
+}
+
 static CU_TestInfo tests[] = {
     {"create", test_create},
+    {"create_invalid", test_create_invalid},
     CU_TEST_INFO_NULL,
 };
 

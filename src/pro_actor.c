@@ -9,7 +9,6 @@
 #include "pro_state.h"
 
 #include <stdlib.h>
-#include <assert.h>
 
 
 #pragma mark -
@@ -66,9 +65,13 @@ PRO_API pro_error pro_become(pro_state_ref s,
 {
     PRO_API_ASSERT(s, PRO_INVALID_OPERATION);
     PRO_API_ASSERT_TYPE(actor, PRO_ACTOR_TYPE, PRO_INVALID_ARGUMENT);
+    PRO_API_ASSERT_TYPE(new_beh, PRO_ACTOR_TYPE, PRO_INVALID_ARGUMENT);
+
+    pro_object** current_obj = pro_env_lookup_value(s, actor);
+    pro_object* new_actor_obj = *pro_env_lookup_value(s, actor);
     
-  //  pro_object* obj = *pro_env_lookup_value(s, actor);
-    //obj->value.actor.behavior = new_beh;
+    *current_obj = new_actor_obj;
+    
     return PRO_OK;
 }
 

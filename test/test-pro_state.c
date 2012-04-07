@@ -1,8 +1,10 @@
-#include "test-pro_env.h"
+#include "test.h"
 
 #include "prosopon.h"
 #include "pro_state.h"
 #include "pro_env_stack.h"
+#include "pro_env.h"
+#include "pro_lookup.h"
 
 
 static pro_state_ref state = 0;
@@ -40,6 +42,9 @@ static void test_get_env(void)
     pro_env_ref current;
     pro_get_env(state, &current);
     CU_ASSERT(current->value == pro_env_stack_top(state, state->stack)->value);
+    
+    pro_error err = pro_get_env(0, &current);
+    CU_ASSERT(PRO_INVALID_OPERATION == err);
 }
 
 
@@ -52,8 +57,14 @@ static void test_push_pop(void)
     pro_push_env(state, new);
     CU_ASSERT(new->value == pro_env_stack_top(state, state->stack)->value);
     
+    pro_error err = pro_push_env(0, new);
+    CU_ASSERT(PRO_INVALID_OPERATION == err);
+    
     pro_pop_env(state);
     CU_ASSERT(old->value == pro_env_stack_top(state, state->stack)->value);
+    
+    err = pro_pop_env(0);
+    CU_ASSERT(PRO_INVALID_OPERATION == err);
 }
 
 static void test_pop_root(void)
