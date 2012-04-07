@@ -79,21 +79,14 @@ struct pro_lookup_list
 typedef void(pro_behavior)(pro_state_ref,
     pro_ref t, pro_ref msg, pro_ref ud);
 
-
 /**
  * Function implementing a constructor behavior
  *
  * @return A lookup to the constructed object or null if none.
  */
-typedef pro_ref(pro_constructor_impl)(pro_state_ref,
-    pro_ref_list arguments, void* data);
+typedef pro_ref(pro_constructor)(pro_state_ref,
+    pro_ref_list arguments, pro_ref ud);
 
-typedef struct pro_constructor pro_constructor;
-struct pro_constructor
-{
-    pro_constructor_impl* impl;
-    void* data;
-};
 
 #pragma mark Types
 
@@ -246,8 +239,8 @@ PRO_API const char* (pro_to_string)(pro_state_ref,
  *
  * @return The lookup for the new constructor.
  */
-PRO_API pro_error (pro_constructor_create) (pro_state_ref, pro_constructor,
-    PRO_OUT pro_ref* constructor);
+PRO_API pro_error (pro_constructor_create) (pro_state_ref,
+    pro_constructor*, pro_ref ud, PRO_OUT pro_ref* constructor);
 
 /**
  * Calls a constructor with a list of arguments.

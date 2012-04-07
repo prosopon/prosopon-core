@@ -25,7 +25,8 @@ struct pro_object
         } actor;
         struct
         {
-            pro_constructor constructor;
+            pro_constructor* constructor;
+            pro_ref data;
         } constructor;
         pro_ref_list message;
         struct

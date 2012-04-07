@@ -35,7 +35,7 @@ PRO_API pro_error pro_ud_create(pro_state_ref s,
     pro_object** obj = pro_env_lookup_value(s, lookup);
     *obj = pro_object_new(s, PRO_UD_TYPE);
     (*obj)->value.ud.size = size;
-    (*obj)->value.ud.data = malloc(sizeof(size));
+    (*obj)->value.ud.data = malloc(size);
     (*obj)->value.ud.deconstructor = deconstructor;
     
     *t = lookup;
