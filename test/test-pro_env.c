@@ -70,12 +70,15 @@ static void test_bind(void)
     pro_push_env(state, new);
     
     pro_ref ref;
-    pro_actor_create(state, PRO_DEFAULT_ACTOR_TYPE, &ref);
+    pro_actor_create(state, PRO_DEFAULT_ACTOR_TYPE, 0, PRO_EMPTY_REF, &ref);
     pro_bind(state, ref, "id");
     
     pro_ref found;
     pro_get_binding(state, new, "id", &found);
     CU_ASSERT(found->env == ref->env && found->index == ref->index);
+    
+    pro_error err = pro_get_binding(0, new, "id", &found);
+    CU_ASSERT(PRO_INVALID_OPERATION == err);
     
     pro_pop_env(state);
 }
@@ -91,7 +94,7 @@ static void test_bind_parent(void)
     
     // setup an actor in env parent bound to id
     pro_ref ref;
-    pro_actor_create(state, PRO_DEFAULT_ACTOR_TYPE, &ref);
+    pro_actor_create(state, PRO_DEFAULT_ACTOR_TYPE, 0, PRO_EMPTY_REF, &ref);
     pro_bind(state, ref, "id");
     
     // Push a env top onto the stack with parent parent 

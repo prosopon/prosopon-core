@@ -175,6 +175,9 @@ PRO_API pro_error pro_bind(pro_state_ref s, pro_ref ref, const char* id)
 PRO_API pro_error pro_get_binding(pro_state_ref s,
     pro_env_ref env, const char* name,  PRO_OUT pro_ref* ref)
 {
+    PRO_API_ASSERT(s, PRO_INVALID_OPERATION);
+    PRO_API_ASSERT(PRO_EMPTY_ENV_REF != env, PRO_INVALID_ARGUMENT);
+
     for (pro_lookup_binding* binding = env->value->bindings; binding; binding = binding->next)
     {
         char* lookup_identifier = binding->identifier;

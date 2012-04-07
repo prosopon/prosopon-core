@@ -26,13 +26,12 @@ static int cleanup(void)
 
 static int global = 0;
 
-static pro_ref sample_contructor(pro_state_ref s, pro_ref_list arguments, void* d)
+static pro_ref sample_contructor(pro_state_ref s, pro_ref_list arguments, pro_ref ud)
 {
-    int* val = d;
+    const int* val;
+    pro_ud_read(s, ud, (const void**)(&val));
     global = *val;
-    pro_ref actor;
-    pro_actor_create(state, PRO_DEFAULT_ACTOR_TYPE, &actor);
-    return actor;
+    return PRO_EMPTY_REF;
 }
 
 
@@ -48,16 +47,21 @@ static void test_create(void)
     pro_env_ref env;
     pro_env_create(state, parent, &env);
     pro_push_env(state, env);
-
+   
     const int val = 5;
-    pro_constructor constructor = {
-        .impl = sample_contructor,
-        .data = malloc(sizeof(val))
-    };
-    *((int*)constructor.data) = val;
+
+
+    // Create userdata
+    pro_ref ud;
+    pro_ud_create(state, sizeof(val), PRO_DEFAULT_UD_DECONSTRUCTOR, &ud);
     
+    int* data;
+    pro_ud_write(state, ud, (void**)&data);
+    *data = val;
+    
+    // Create constructor
     pro_ref c;
-    pro_constructor_create(state, constructor, &c);
+    pro_constructor_create(state, sample_contructor, ud, &c);
     pro_ref_list list;
     
     pro_type type;
