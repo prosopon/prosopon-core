@@ -7,6 +7,7 @@ int main(int argc, char** argv)
         pro_state_test_suite,
         pro_env_test_suite,
         pro_constructor_test_suite,
+        pro_message_test_suite,
         CU_SUITE_INFO_NULL
     };
     

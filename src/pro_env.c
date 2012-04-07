@@ -42,6 +42,8 @@ static pro_internal_lookup* pro_internal_lookup_new(pro_state_ref s,
     pro_object* value, pro_internal_lookup* next)
 {
     pro_internal_lookup* internal = malloc(sizeof(*internal));
+    if (!internal) return 0;
+
     internal->value = value;
     internal->next = next;
     return internal;
@@ -57,6 +59,8 @@ static pro_lookup_binding* pro_lookup_binding_new(pro_state_ref s,
     const char* identifier, pro_ref lookup, pro_lookup_binding* next)
 {
     pro_lookup_binding* internal = malloc(sizeof(*internal));
+    if (!internal) return 0;
+    
     internal->lookup = lookup;
     internal->next = next;
     internal->identifier = malloc(sizeof(*internal->identifier) * strlen(identifier));
@@ -87,6 +91,8 @@ static pro_internal_lookup* pro_env_get_internal_lookup(pro_state_ref s,
 PRO_INTERNAL pro_env* pro_env_new(pro_state_ref s, pro_env_ref parent)
 {
     pro_env* e = malloc(sizeof(*e));
+    if (!e) return 0;
+    
     memset(e, 0, sizeof(*e));
     e->parent = parent;
     return e;
@@ -96,9 +102,12 @@ PRO_INTERNAL pro_env* pro_env_new(pro_state_ref s, pro_env_ref parent)
 PRO_INTERNAL pro_ref pro_env_next_lookup(pro_state_ref s,
     pro_env_ref env)
 {
-    pro_lookup* lookup = pro_lookup_new(s, env, env->value->size);
+    const pro_lookup* lookup = pro_lookup_new(s, env, env->value->size);
+    if (0 == lookup) return 0;
+    
     pro_internal_lookup* internal = pro_internal_lookup_new(s, 0, 0);
-
+    if (0 == internal) return 0;
+    
     if (0 == env->value->lookups)
         env->value->lookups = internal;
     else
@@ -128,10 +137,15 @@ PRO_INTERNAL pro_object** pro_env_lookup_value(pro_state_ref s,
 PRO_API pro_error pro_env_create(pro_state_ref s, pro_env_ref parent,
     PRO_OUT pro_env_ref* env_out)
 {
-    if (!s) return PRO_INVALID_OPERATION;
-    pro_env_lookup* env = pro_env_lookup_new(s, pro_env_new(s, parent));
-    if (0 == env) return PRO_OUT_OF_MEMORY;
-    *env_out = env; 
+    PRO_API_ASSERT(s, PRO_INVALID_OPERATION);
+    
+    pro_env* env = pro_env_new(s, parent);
+    PRO_API_ASSERT(env, PRO_OUT_OF_MEMORY);
+
+    pro_env_lookup* env_lookup = pro_env_lookup_new(s, env);
+    PRO_API_ASSERT(env_lookup, PRO_OUT_OF_MEMORY);
+    
+    *env_out = env_lookup; 
     return PRO_OK;
 }
 

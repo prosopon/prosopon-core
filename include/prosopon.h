@@ -259,7 +259,7 @@ PRO_API pro_error (pro_constructor_create) (pro_state_ref,
  *
  * @return
  *   PRO_OK if successful
- *   PRO_INVALID_OPERATION if the state is not valid or id is null.
+ *   PRO_INVALID_OPERATION if the state is not valid.
  *   PRO_INVALID_ARGUMENT if constructor does reference a constructor.
  *   PRO_CONSTRUCTOR_ERROR if the constructor call fails.
  */
@@ -272,28 +272,53 @@ PRO_API pro_error (pro_constructor_call) (pro_state_ref,
 /**
  * Creates a new message in the current environment.
  *
- * @return The lookup for the new message.
+ * @param[out] msg A referance to the new message.
+ *
+ * @return
+ *   PRO_OK if successful
+ *   PRO_INVALID_OPERATION if the state is not valid.
+ *   PRO_OUT_OF_MEMORY if memory allocation fails.
  */
 PRO_API pro_error (pro_message_create) (pro_state_ref, PRO_OUT pro_ref* msg);
 
 /**
- * @return The number of objects a message contains.
+ * Get the number of objects in a message.
+ *
+ * @param[out] length The number of objects a message contains.
+ *
+ * @return
+ *   PRO_OK if successful
+ *   PRO_INVALID_OPERATION if the state is not valid.
+ *   PRO_INVALID_ARGUMENT if msg does not reference a message.
  */
-PRO_API pro_error (pro_message_length) (pro_state_ref, pro_ref,
+PRO_API pro_error (pro_message_length) (pro_state_ref, pro_ref msg,
     PRO_OUT unsigned int* length);
 
 /**
  * Get a value from a message.
  *
- * @return lookup or null if out of bounds.
+ * @param[out] result Referance at index or PRO_EMPTY_REF if out of bounds.
+ *
+ * @return
+ *   PRO_OK if successful
+ *   PRO_INVALID_OPERATION if the state is not valid.
+ *   PRO_INVALID_ARGUMENT if msg does not reference a message.
  */
-PRO_API pro_error (pro_message_get) (pro_state_ref, pro_ref, unsigned int index, 
-    PRO_OUT pro_ref* result);
+PRO_API pro_error (pro_message_get) (pro_state_ref,
+    pro_ref msg, unsigned int index, PRO_OUT pro_ref* result);
 
 /**
  * Appends an value to a message.
+ *
+ * @return
+ *   PRO_OK if successful
+ *   PRO_INVALID_OPERATION if the state is not valid.
+ *   PRO_INVALID_ARGUMENT if msg does not reference a message or value does
+ *     not reference a valid object.
  */
-PRO_API pro_error (pro_message_append) (pro_state_ref, pro_ref msg, pro_ref value);
+PRO_API pro_error (pro_message_append) (pro_state_ref,
+    pro_ref msg, pro_ref value);
+
 
 
 #pragma mark User Data

@@ -25,8 +25,9 @@ PRO_API pro_error pro_message_create(pro_state_ref s, PRO_OUT pro_ref* msg)
     pro_ref ref = pro_env_next_lookup(s, env);
     pro_object** obj = pro_env_lookup_value(s, ref);
     *obj = pro_object_new(s, PRO_MESSAGE_TYPE);
-    if (0 == *obj) return PRO_OUT_OF_MEMORY;
+    PRO_API_ASSERT(*obj, PRO_OUT_OF_MEMORY);
     (*obj)->value.message = 0;
+    
     *msg = ref;
     return PRO_OK;
 }
@@ -36,7 +37,7 @@ PRO_API pro_error pro_message_length(pro_state_ref s, pro_ref ref,
     PRO_OUT unsigned int* length)
 {
     PRO_API_ASSERT(s, PRO_INVALID_OPERATION);
-    PRO_API_ASSERT(PRO_EMPTY_REF != ref, PRO_INVALID_ARGUMENT);
+    PRO_API_ASSERT_TYPE(ref, PRO_MESSAGE_TYPE, PRO_INVALID_ARGUMENT);
     
     pro_object** obj = pro_env_lookup_value(s, ref);
     unsigned int l = 0;
@@ -72,7 +73,7 @@ PRO_API pro_error pro_message_append(pro_state_ref s,
 {
     PRO_API_ASSERT(s, PRO_INVALID_OPERATION);
     PRO_API_ASSERT_TYPE(msg, PRO_MESSAGE_TYPE, PRO_INVALID_ARGUMENT);
-    PRO_API_ASSERT(ref, PRO_INVALID_OPERATION);
+    PRO_API_ASSERT(ref, PRO_INVALID_ARGUMENT);
     
     pro_object** obj = pro_env_lookup_value(s, msg);
     if (!(*obj)->value.message)
