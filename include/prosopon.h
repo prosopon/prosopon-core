@@ -185,6 +185,11 @@ PRO_API pro_error (pro_env_create) (pro_state_ref, pro_env_ref parent,
 PRO_API pro_error (pro_env_release) (pro_state_ref, pro_env_ref);
 
 /**
+ * Release an referenced object for future collection.
+ */
+PRO_API pro_error (pro_release) (pro_state_ref, pro_ref);
+
+/**
  * @param[out] ref The highest resolved reference or PRO_EMPTY_REF if none.
  *
  * @return

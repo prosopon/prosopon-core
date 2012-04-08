@@ -24,7 +24,6 @@ PRO_API pro_error pro_get_type(pro_state_ref s, pro_ref ref,
     PRO_OUT pro_type* type)
 {
     PRO_API_ASSERT(s, PRO_INVALID_OPERATION);
-    PRO_API_ASSERT(PRO_EMPTY_REF != ref, PRO_INVALID_ARGUMENT);
     
     pro_object* obj = pro_dereference(s, ref);
     *type = obj->type;
@@ -45,10 +44,8 @@ PRO_API pro_error pro_match(pro_state_ref s, pro_ref l1, pro_ref l2, PRO_OUT int
     pro_actor_type type;
     pro_get_actor_type(s, l1, &type);
     const pro_actor_type_info* info = pro_get_actor_type_info(s, type);
-    pro_object** o1 = pro_env_lookup_value(s, l1);
-    *out = info->match(s,
-        l1, (*o1)->value.actor.data,
-        l2);
+    pro_object* o1 = pro_dereference(s, l1);
+    *out = info->match(s, l1, o1->value.actor.data,l2);
     return PRO_OK;
 }
 
