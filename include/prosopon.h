@@ -218,6 +218,13 @@ PRO_API pro_error (pro_get_type) (pro_state_ref,
  */
 PRO_API pro_error (pro_bind) (pro_state_ref, pro_ref ref, const char* id);
 
+typedef enum 
+{
+    PRO_MATCH_FAIL = 0,
+    PRO_MATCH_SUCCEED,
+    PRO_MATCH_CONTINUE
+} pro_matching;
+
 /**
  * Attempts to match two identifiers.
  *
@@ -227,7 +234,7 @@ PRO_API pro_error (pro_bind) (pro_state_ref, pro_ref ref, const char* id);
  *   PRO_OK if successful
  *   PRO_INVALID_OPERATION if the state is not valid or id is null.
  */
-PRO_API pro_error (pro_match) (pro_state_ref, pro_ref, pro_ref, PRO_OUT int* match);
+PRO_API pro_error (pro_match) (pro_state_ref, pro_ref, pro_ref, PRO_OUT pro_matching* match);
 
 /**
  * 

@@ -8,7 +8,7 @@ extern "C" {
 #include "prosopon.h"
 
 
-typedef int(pro_match_impl)(pro_state_ref,
+typedef pro_matching(pro_match_impl)(pro_state_ref,
     pro_ref t, pro_ref tData,
     pro_ref o);
 

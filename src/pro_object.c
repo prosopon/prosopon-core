@@ -31,7 +31,7 @@ PRO_API pro_error pro_get_type(pro_state_ref s, pro_ref ref,
 }
 
 
-PRO_API pro_error pro_match(pro_state_ref s, pro_ref l1, pro_ref l2, PRO_OUT int* out)
+PRO_API pro_error pro_match(pro_state_ref s, pro_ref l1, pro_ref l2, PRO_OUT pro_matching* out)
 {
     PRO_API_ASSERT(s, PRO_INVALID_OPERATION);
 
