@@ -32,6 +32,7 @@ typedef enum
 {
     PRO_OK = 0,
     PRO_OUT_OF_MEMORY,
+    PRO_LIBRARY_LOAD_ERROR,
     PRO_INVALID_ARGUMENT,
     PRO_INVALID_OPERATION,
     PRO_INVALID_VALUE,
@@ -395,7 +396,7 @@ typedef void(pro_library_init)(pro_state_ref);
 /** 
  *
  */
-PRO_API void (pro_library_load) (pro_state_ref, const char* file);
+PRO_API pro_error (pro_library_load) (pro_state_ref, const char* file);
 
 #endif
 

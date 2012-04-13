@@ -67,10 +67,10 @@ PRO_INTERNAL int pro_library_loaded(pro_state_ref s, const char* file)
 
 #pragma mark PRO_API
 
-PRO_API void pro_library_load(pro_state_ref s, const char* file)
+PRO_API pro_error pro_library_load(pro_state_ref s, const char* file)
 {
     if (pro_library_loaded(s, file) != 0)
-        return;
+        return PRO_OK;
     
     void* handle = dlopen(file, RTLD_LOCAL | RTLD_LAZY);
     if (handle)
@@ -78,4 +78,8 @@ PRO_API void pro_library_load(pro_state_ref s, const char* file)
         initialize_library(s, handle);
         add_loaded_library(s, file);
     }
+    else
+        return PRO_LIBRARY_LOAD_ERROR;
+    
+    return PRO_OK;
 }
