@@ -13,7 +13,6 @@ PRO_INTERNAL void pro_deliver_message(pro_state_ref s,
     {
         // setup environment
         pro_push_env(s, actor_obj->value.actor.env);
-        pro_bind(s, actor, "self"); // setup self
         
         // call the behavior
         behavior(s, actor, message, actor_obj->value.actor.data);
