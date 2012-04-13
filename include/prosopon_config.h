@@ -17,12 +17,18 @@ extern "C" {
     #define PRO_LIBCORE extern __attribute__ ((visibility ("default")))
 
     /**
+     * Marks a symbol as part of the public prosopon interpreter library API. 
+     */
+    #define PRO_INTERPRETER extern __attribute__ ((visibility ("default")))
+
+    /**
      * Marks a symbol as internal, not intended for public use.
      */
     #define PRO_INTERNAL extern __attribute__ ((visibility ("hidden")))
 #else
     #define PRO_API	extern
     #define PRO_LIBCORE extern
+    #define PRO_INTERPRETER extern
     #define PRO_INTERNAL extern
 #endif
 
