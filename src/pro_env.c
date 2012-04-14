@@ -179,9 +179,13 @@ PRO_API pro_error pro_env_create(pro_state_ref s, pro_env_ref parent,
 }
 
 
-PRO_API pro_error pro_env_release(pro_state_ref s, pro_env_ref env)
+PRO_API pro_error pro_env_release(pro_state_ref s, pro_env_ref env_ref)
 {
-    // TODO
+
+    pro_env* env = pro_env_dereference(s, env_ref);
+    for (pro_lookup_binding* binding = env->bindings; binding; binding = binding->next)
+        pro_release(s, binding->lookup);
+        
     return PRO_OK;
 }
 
@@ -200,17 +204,23 @@ PRO_API pro_error pro_bind(pro_state_ref s, pro_ref ref, const char* id)
     if (internal)
     {
         pro_lookup_binding* binding = pro_lookup_binding_new(s, id, ref, 0);
-        if (0 == env->bindings)
+        pro_lookup_binding* parent = env->bindings;
+        if (0 == parent)
             env->bindings = binding;
         else
         {
-            pro_lookup_binding* parent = env->bindings;
             while (parent->next)
+            {
+                PRO_API_ASSERT(parent->identifier && strcmp(id, parent->identifier) != 0,
+                    PRO_INVALID_OPERATION);
                 parent = parent->next;
+            }
             parent->next = binding;
         }
+        
+        pro_retain(s, ref);
     }
-    
+
     return PRO_OK;
 }
 

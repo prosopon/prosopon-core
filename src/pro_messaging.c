@@ -11,8 +11,10 @@ PRO_INTERNAL void pro_deliver_message(pro_state_ref s,
     pro_behavior* behavior = actor_obj->value.actor.behavior;
     if (behavior)
     {
-        // setup environment
-        pro_push_env(s, actor_obj->value.actor.env);
+        // setup environment with actor env as parent
+        pro_env_ref env;
+        pro_env_create(s, actor_obj->value.actor.env, &env);
+        pro_push_env(s, env);
         
         // call the behavior
         behavior(s, actor, message, actor_obj->value.actor.data);

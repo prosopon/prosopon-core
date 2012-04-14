@@ -202,6 +202,10 @@ PRO_API pro_error (pro_env_create) (pro_state_ref, pro_env_ref parent,
 PRO_API pro_error (pro_env_release) (pro_state_ref, pro_env_ref);
 
 /**
+ */
+PRO_API pro_error (pro_retain) (pro_state_ref, pro_ref);
+
+/**
  * Release an referenced object for future collection.
  */
 PRO_API pro_error (pro_release) (pro_state_ref, pro_ref);

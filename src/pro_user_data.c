@@ -33,7 +33,7 @@ PRO_API pro_error pro_ud_create(pro_state_ref s,
     
     pro_ref lookup = pro_env_next_lookup(s, current_env);
     pro_object** obj = pro_env_lookup_value(s, lookup);
-    *obj = pro_object_new(s, PRO_UD_TYPE);
+    *obj = pro_object_new(s, PRO_UD_TYPE, 1);
     (*obj)->value.ud.size = size;
     (*obj)->value.ud.data = size > 0 ? alloc(0, size) : 0;
     (*obj)->value.ud.deconstructor = deconstructor;
@@ -43,7 +43,7 @@ PRO_API pro_error pro_ud_create(pro_state_ref s,
 }
 
 
-PRO_API pro_error (pro_ud_read) (pro_state_ref s, pro_ref t,
+PRO_API pro_error pro_ud_read(pro_state_ref s, pro_ref t,
     PRO_OUT const void** ptr)
 {
     PRO_API_ASSERT(s, PRO_INVALID_OPERATION);

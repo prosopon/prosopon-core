@@ -37,6 +37,13 @@ static void test_create(void)
     CU_ASSERT(pro_env_lookup_equal(state, state->root_env, pro_env_stack_top(state, state->stack)));
 }
 
+static void test_create_bad_alloc(void)
+{
+    pro_state_ref state;
+    pro_error err = pro_state_create(test_bad_alloc, &state);
+    CU_ASSERT(PRO_OUT_OF_MEMORY == err);
+}
+
 
 static void test_get_env(void)
 {
@@ -97,6 +104,7 @@ static void test_release_invalid(void)
 
 static CU_TestInfo tests[] = {
     {"create", test_create},
+    {"create_bad_alloc", test_create_bad_alloc},
     {"get env", test_get_env},
     {"push and pop", test_push_pop},
     {"pop_root", test_pop_root},

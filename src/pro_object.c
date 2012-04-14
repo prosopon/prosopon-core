@@ -7,18 +7,43 @@
 #include "pro_lookup.h"
 
 
-PRO_INTERNAL pro_object* pro_object_new(pro_state_ref s, pro_type type)
+PRO_INTERNAL pro_object* pro_object_new(pro_state_ref s,
+    pro_type type, unsigned int ref_count)
 {
     pro_alloc* alloc;
     pro_get_alloc(s, &alloc);
     pro_object* t = alloc(0, sizeof(*t));
+    if (!t) return 0;
     t->type = type;
+    t->ref_count = ref_count;
     return t;
 }
 
 
 #pragma mark -
 #pragma mark Public
+
+PRO_API pro_error pro_retain(pro_state_ref s, pro_ref ref)
+{
+    pro_object* obj = pro_dereference(s, ref);
+    ++(obj->ref_count);
+    return PRO_OK;
+}
+
+
+PRO_API pro_error pro_release(pro_state_ref s, pro_ref ref)
+{
+    pro_object* obj = pro_dereference(s, ref);
+    if (--(obj->ref_count) <= 0)
+    {
+        pro_alloc* alloc;
+        pro_get_alloc(s, &alloc);
+        alloc(obj, 0);
+    }
+    
+    return PRO_OK;
+}
+
 
 PRO_API pro_error pro_get_type(pro_state_ref s, pro_ref ref,
     PRO_OUT pro_type* type)

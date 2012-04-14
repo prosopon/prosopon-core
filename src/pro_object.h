@@ -12,7 +12,7 @@
 typedef struct pro_object pro_object;
 struct pro_object
 {
-    
+    unsigned int ref_count;
     pro_type type;
     union
     {
@@ -42,6 +42,7 @@ struct pro_object
 /**
  *
  */
-PRO_INTERNAL pro_object* pro_object_new(pro_state_ref, pro_type type);
+PRO_INTERNAL pro_object* pro_object_new(pro_state_ref,
+    pro_type type, unsigned int ref_count);
 
 #endif

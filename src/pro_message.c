@@ -23,7 +23,7 @@ PRO_API pro_error pro_message_create(pro_state_ref s, PRO_OUT pro_ref* msg)
     pro_get_env(s, &env);
     pro_ref ref = pro_env_next_lookup(s, env);
     pro_object** obj = pro_env_lookup_value(s, ref);
-    *obj = pro_object_new(s, PRO_MESSAGE_TYPE);
+    *obj = pro_object_new(s, PRO_MESSAGE_TYPE, 1);
     PRO_API_ASSERT(*obj, PRO_OUT_OF_MEMORY);
     (*obj)->value.message = 0;
     
