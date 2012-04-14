@@ -1,6 +1,7 @@
 #include "pro_lookup.h"
 
 #include "pro_state.h"
+#include "pro_env.h"
 
 
 pro_ref PRO_EMPTY_REF = 0;
@@ -8,14 +9,16 @@ pro_env_ref PRO_EMPTY_ENV_REF = 0;
 
 
 PRO_INTERNAL pro_lookup* pro_lookup_new(pro_state* s,
-    pro_env_ref env, unsigned int index)
+    pro_env_ref env, unsigned int index, unsigned int ref_count)
 {
     pro_alloc* alloc;
     pro_get_alloc(s, &alloc);
     pro_lookup* t = alloc(0, sizeof(*t));
     if (!t) return 0;
+    pro_env_retain(s, env);
     t->env = env;
     t->index = index;
+    t->ref_count = ref_count;
     return t;
 }
 
@@ -27,13 +30,14 @@ PRO_INTERNAL int pro_lookup_equal(pro_state* s,
 
 
 PRO_INTERNAL pro_env_lookup* pro_env_lookup_new(pro_state* s,
-    struct pro_env* value)
+    struct pro_env* value, unsigned int ref_count)
 {
     pro_alloc* alloc;
     pro_get_alloc(s, &alloc);
     pro_env_lookup* t = alloc(0, sizeof(*t));
     if (!t) return 0;
-    t->value = value;
+    t->value = pro_internal_env_retain(s, value);
+    t->ref_count = ref_count;
     return t;
 }
 
@@ -66,3 +70,4 @@ PRO_INTERNAL void pro_lookup_list_append(pro_state* s,
         parent = parent->next;
     parent->next = pro_lookup_list_new(s, value, 0);
 }
+

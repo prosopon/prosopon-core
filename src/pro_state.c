@@ -37,6 +37,7 @@ static pro_global_state* pro_global_state_new(pro_alloc* alloc)
     g->main = s;
     g->libraries = 0;
     g->message_queue = pro_message_queue_new(s);
+    g->actor_types = 0;
     
     return g;
 }
@@ -95,7 +96,7 @@ PRO_API pro_error pro_state_create(pro_alloc* alloc, PRO_OUT pro_state_ref* out_
     
     pro_state* s = g->main;
     
-    pro_env_ref root_env = pro_env_lookup_new(s, pro_env_new(s, 0));
+    pro_env_ref root_env = pro_env_lookup_new(s, pro_env_new(s, 0, 1), 1);
     PRO_API_ASSERT(root_env, PRO_OUT_OF_MEMORY);
     pro_env_stack* stack = pro_env_stack_new(s);
     pro_env_stack_push(s, stack, root_env);
@@ -151,7 +152,7 @@ PRO_API pro_error pro_run(pro_state_ref s)
 PRO_API pro_error pro_get_env(pro_state_ref s, PRO_OUT pro_env_ref* out_env)
 {
     PRO_API_ASSERT(s, PRO_INVALID_OPERATION);
-    *out_env = pro_env_lookup_new(s, pro_env_stack_top(s, s->stack)->value);
+    *out_env = pro_env_lookup_new(s, pro_env_stack_top(s, s->stack)->value, 1);
     return PRO_OK;
 }
 
@@ -164,6 +165,7 @@ PRO_API pro_error pro_push_env(pro_state_ref s, pro_env_ref env)
     pro_env_ref current_env = pro_env_stack_top(s, s->stack);
     PRO_API_ASSERT(!pro_env_lookup_equal(s, env, current_env), PRO_INVALID_OPERATION);
     
+    pro_env_retain(s, env);
     pro_env_stack_push(s, s->stack, env);
     return PRO_OK;
 }

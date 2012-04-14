@@ -25,21 +25,41 @@ PRO_INTERNAL pro_object* pro_object_new(pro_state_ref s,
 
 PRO_API pro_error pro_retain(pro_state_ref s, pro_ref ref)
 {
-    pro_object* obj = pro_dereference(s, ref);
-    ++(obj->ref_count);
+    if (PRO_EMPTY_REF != ref)
+        ref->ref_count++;
     return PRO_OK;
 }
 
 
 PRO_API pro_error pro_release(pro_state_ref s, pro_ref ref)
 {
-    pro_object* obj = pro_dereference(s, ref);
-    if (--(obj->ref_count) <= 0)
-    {
+    if (PRO_EMPTY_REF == ref)
+        return PRO_OK;
+    
+    if (--(ref->ref_count) <= 0)
+    {    
         pro_alloc* alloc;
         pro_get_alloc(s, &alloc);
-        alloc(obj, 0);
+        
+        pro_object* obj = pro_dereference(s, ref);
+        if (--(obj->ref_count) <= 0)
+        {            
+            switch (obj->type)
+            {
+            case PRO_ACTOR_TYPE:
+                pro_release(s, obj->value.actor.data);
+                pro_env_release(s, obj->value.actor.env);
+                break;
+            case PRO_MESSAGE_TYPE:
+                break;
+            }
+            
+            alloc(obj, 0);
+        }
+        
+        alloc(ref, 0);
     }
+    
     
     return PRO_OK;
 }
@@ -78,7 +98,7 @@ PRO_API pro_error pro_match(pro_state_ref s, pro_ref l1, pro_ref l2, PRO_OUT pro
 }
 
 
-PRO_API const char* pro_to_string(pro_state_ref s,
+PRO_API char* pro_to_string(pro_state_ref s,
     pro_ref t)
 {
     pro_actor_type type;

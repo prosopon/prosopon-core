@@ -21,6 +21,7 @@ PRO_INTERNAL void pro_deliver_message(pro_state_ref s,
         
         // teardown the environment
         pro_pop_env(s);
+        pro_env_release(s, env);
     }
 }
 

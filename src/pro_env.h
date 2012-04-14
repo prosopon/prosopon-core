@@ -17,6 +17,8 @@ typedef struct pro_lookup_binding pro_lookup_binding;
  */
 struct pro_env
 {
+    unsigned int ref_count;
+    
     pro_env_ref parent; /**< The parent environment used for delegation. */
     
     pro_internal_lookup* lookups;
@@ -31,7 +33,8 @@ struct pro_env
  *
  * @return A newly created environment.
  */
-PRO_INTERNAL pro_env* pro_env_new(pro_state_ref, pro_env_ref parent);
+PRO_INTERNAL pro_env* pro_env_new(pro_state_ref,
+    pro_env_ref parent, unsigned int ref_count);
 
 /**
  * @return An empty lookup in a environment.
@@ -55,6 +58,10 @@ PRO_INTERNAL struct pro_object* pro_dereference(pro_state_ref, pro_ref);
  */
 PRO_INTERNAL pro_env* pro_env_dereference(pro_state_ref, pro_env_ref);
 
+
+PRO_INTERNAL pro_env* pro_internal_env_retain(pro_state_ref s, pro_env*);
+
+PRO_INTERNAL void pro_internal_env_release(pro_state_ref s, pro_env*);
 
 
 #endif

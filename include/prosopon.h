@@ -50,14 +50,14 @@ typedef struct pro_state* pro_state_ref;
 /**
  * An opaque reference to an environment.
  */
-typedef const struct pro_env_lookup* pro_env_ref; 
+typedef struct pro_env_lookup* pro_env_ref; 
 
 extern pro_env_ref PRO_EMPTY_ENV_REF;
 
 /**
  * An opaque reference to an object.
  */
-typedef const struct pro_lookup* pro_ref;
+typedef struct pro_lookup* pro_ref;
 
 extern pro_ref PRO_EMPTY_REF;
 
@@ -197,6 +197,10 @@ PRO_API pro_error (pro_env_create) (pro_state_ref, pro_env_ref parent,
     PRO_OUT pro_env_ref* env);
 
 /**
+ */
+PRO_API pro_error (pro_env_retain) (pro_state_ref, pro_env_ref);
+
+/**
  * Release an environment for future collection.
  */
 PRO_API pro_error (pro_env_release) (pro_state_ref, pro_env_ref);
@@ -259,7 +263,7 @@ PRO_API pro_error (pro_match) (pro_state_ref, pro_ref, pro_ref, PRO_OUT pro_matc
 /**
  * 
  */
-PRO_API const char* (pro_to_string)(pro_state_ref,
+PRO_API char* (pro_to_string)(pro_state_ref,
     pro_ref);
 
 

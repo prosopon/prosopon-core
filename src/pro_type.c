@@ -14,10 +14,10 @@ static pro_matching default_match(pro_state_ref s,
     return PRO_MATCH_FAIL;
 }
 
-static const char* defaul_to_string(pro_state_ref s,
+static char* defaul_to_string(pro_state_ref s,
     pro_ref t, pro_ref tData)
 {
-    return "";
+    return 0;
 }
 
 static const pro_actor_type_info pro_default_actor_type_info = {
@@ -30,7 +30,7 @@ static const pro_actor_type_info pro_default_actor_type_info = {
 #pragma mark Internal
 
 PRO_INTERNAL pro_actor_type_info_list* pro_actor_type_info_list_new(pro_state_ref s, 
-    pro_actor_type type, pro_actor_type_info* value, pro_actor_type_info_list* next)
+    pro_actor_type type, const pro_actor_type_info* value, pro_actor_type_info_list* next)
 {
     pro_alloc* alloc;
     pro_get_alloc(s, &alloc);
@@ -81,17 +81,14 @@ PRO_API void pro_register_actor_type(pro_state_ref s,
 {
     pro_alloc* alloc;
     pro_get_alloc(s, &alloc);
-    pro_actor_type_info_list* list = alloc(0, sizeof(*list));
-    list->value = info;
-    list->type = identifier;
+    pro_actor_type_info_list* list = pro_actor_type_info_list_new(s, identifier, info, 0);
     
-    pro_actor_type_info_list* types = pro_state_get_actor_type_info(s);
+    pro_actor_type_info_list* parent = pro_state_get_actor_type_info(s);
     
-    if (!types)
+    if (!parent)
        pro_state_set_actor_type_info(s, list);
     else
     {
-        pro_actor_type_info_list* parent = types;
         while (parent->next)
             parent = parent->next;
         parent->next = list;
