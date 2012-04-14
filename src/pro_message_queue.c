@@ -1,7 +1,5 @@
 #include "pro_message_queue.h"
 
-#include <stdlib.h>
-
 
 #pragma mark Private
 
@@ -17,7 +15,9 @@ struct pro_message_node
 static pro_message_node* pro_message_node_new(pro_state_ref s,
     pro_ref message, pro_ref actor, pro_message_node* next)
 {
-    pro_message_node* t = malloc(sizeof(*t));
+    pro_alloc* alloc;
+    pro_get_alloc(s, &alloc);
+    pro_message_node* t = alloc(0, sizeof(*t));
     if (!t) return 0;
 
     t->message = message;
@@ -31,7 +31,9 @@ static pro_message_node* pro_message_node_new(pro_state_ref s,
 
 PRO_INTERNAL pro_message_queue* pro_message_queue_new(pro_state_ref s)
 {
-    pro_message_queue* t = malloc(sizeof(*t));
+    pro_alloc* alloc;
+    pro_get_alloc(s, &alloc);
+    pro_message_queue* t = alloc(0, sizeof(*t));
     if (!t) return 0;
     t->front = 0;
     return t;
@@ -64,7 +66,10 @@ PRO_INTERNAL pro_ref pro_message_queue_dequeue(pro_state_ref s,
         pro_ref msg = front->message;
         *actor = front->actor;
         t->front = front->next;
-        free(front);
+        
+        pro_alloc* alloc;
+        pro_get_alloc(s, &alloc);
+        alloc(front, 0);
         return msg;
     }
 }

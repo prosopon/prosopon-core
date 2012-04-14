@@ -18,6 +18,8 @@ typedef struct pro_state pro_state;
 typedef struct pro_global_state pro_global_state;
 struct pro_global_state
 {
+    pro_alloc* alloc;
+    
     pro_state* main;
 
     struct pro_library_list* libraries;

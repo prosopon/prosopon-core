@@ -114,6 +114,13 @@ extern pro_actor_type PRO_DEFAULT_ACTOR_TYPE;
 #pragma mark State
 
 /**
+ * Function to allocate and deallocate memory
+ * 
+ * Based on lua_Alloc
+ */
+typedef void*(pro_alloc)(void* ptr, size_t nsize);
+
+/**
  * Creates a new execution state.
  *
  * @param[out] state The newly created state.
@@ -122,7 +129,7 @@ extern pro_actor_type PRO_DEFAULT_ACTOR_TYPE;
  *   PRO_OK if successful
  *   PRO_OUT_OF_MEMORY if a new state cannot be allocated.
  */
-PRO_API pro_error (pro_state_create) (PRO_OUT pro_state_ref* state);
+PRO_API pro_error (pro_state_create) (pro_alloc* alloc, PRO_OUT pro_state_ref* state);
 
 /**
  * Releases a state for future collection.
@@ -137,6 +144,11 @@ PRO_API pro_error (pro_state_release) (pro_state_ref);
  *
  */
 PRO_API pro_error (pro_run) (pro_state_ref);
+
+/**
+ *
+ */
+PRO_API pro_error (pro_get_alloc) (pro_state_ref, PRO_OUT pro_alloc** alloc);
 
 /**
  * @param[out] env The reference to the current environment. 

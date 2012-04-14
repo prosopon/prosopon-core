@@ -5,8 +5,6 @@
 #include "pro_common.h"
 #include "pro_env.h"
 
-#include <stdlib.h>
-
 
 #pragma mark Private
 
@@ -27,6 +25,9 @@ PRO_API pro_error pro_ud_create(pro_state_ref s,
 {
     PRO_API_ASSERT(s, PRO_INVALID_OPERATION);
 
+    pro_alloc* alloc;
+    pro_get_alloc(s, &alloc);
+
     pro_env_ref current_env;
     pro_get_env(s, &current_env);
     
@@ -34,7 +35,7 @@ PRO_API pro_error pro_ud_create(pro_state_ref s,
     pro_object** obj = pro_env_lookup_value(s, lookup);
     *obj = pro_object_new(s, PRO_UD_TYPE);
     (*obj)->value.ud.size = size;
-    (*obj)->value.ud.data = size > 0 ? malloc(size) : 0;
+    (*obj)->value.ud.data = size > 0 ? alloc(0, size) : 0;
     (*obj)->value.ud.deconstructor = deconstructor;
     
     *t = lookup;

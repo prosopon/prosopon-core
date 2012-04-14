@@ -3,8 +3,8 @@
 #include "pro_env.h"
 #include "pro_state.h"
 
-#include <stdlib.h>
 #include <string.h>
+
 
 #pragma mark Private
 
@@ -32,7 +32,9 @@ static const pro_actor_type_info pro_default_actor_type_info = {
 PRO_INTERNAL pro_actor_type_info_list* pro_actor_type_info_list_new(pro_state_ref s, 
     pro_actor_type type, pro_actor_type_info* value, pro_actor_type_info_list* next)
 {
-    pro_actor_type_info_list* t = malloc(sizeof(*t));
+    pro_alloc* alloc;
+    pro_get_alloc(s, &alloc);
+    pro_actor_type_info_list* t = alloc(0, sizeof(*t));
     if (!t) return 0;
     t->type = type;
     t->value = value;
@@ -77,7 +79,9 @@ PRO_INTERNAL const pro_actor_type_info* pro_get_actor_type_info(pro_state_ref s,
 PRO_API void pro_register_actor_type(pro_state_ref s,
     const char* identifier, const pro_actor_type_info* info)
 {
-    pro_actor_type_info_list* list = malloc(sizeof(*list));
+    pro_alloc* alloc;
+    pro_get_alloc(s, &alloc);
+    pro_actor_type_info_list* list = alloc(0, sizeof(*list));
     list->value = info;
     list->type = identifier;
     

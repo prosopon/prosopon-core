@@ -5,7 +5,6 @@
 #include "pro_object.h"
 #include "pro_lookup.h"
 
-#include <stdlib.h>
 #include <string.h>
 
 
@@ -41,7 +40,9 @@ struct pro_lookup_binding
 static pro_internal_lookup* pro_internal_lookup_new(pro_state_ref s,
     pro_object* value, pro_internal_lookup* next)
 {
-    pro_internal_lookup* internal = malloc(sizeof(*internal));
+    pro_alloc* alloc;
+    pro_get_alloc(s, &alloc);
+    pro_internal_lookup* internal = alloc(0, sizeof(*internal));
     if (!internal) return 0;
 
     internal->value = value;
@@ -58,15 +59,17 @@ static pro_internal_lookup* pro_internal_lookup_new(pro_state_ref s,
 static pro_lookup_binding* pro_lookup_binding_new(pro_state_ref s,
     const char* identifier, pro_ref lookup, pro_lookup_binding* next)
 {
-    pro_lookup_binding* internal = malloc(sizeof(*internal));
+    pro_alloc* alloc;
+    pro_get_alloc(s, &alloc);
+    pro_lookup_binding* internal = alloc(0, sizeof(*internal));
     if (!internal) return 0;
     
     internal->lookup = lookup;
     internal->next = next;
-    internal->identifier = malloc(sizeof(*internal->identifier) * strlen(identifier));
+    internal->identifier = alloc(0, sizeof(*internal->identifier) * strlen(identifier));
     if (!internal->identifier)
     {
-        free(internal);
+        alloc(internal, 0);
         return 0;
     }
 
@@ -96,7 +99,9 @@ static pro_internal_lookup* pro_env_get_internal_lookup(pro_state_ref s,
 
 PRO_INTERNAL pro_env* pro_env_new(pro_state_ref s, pro_env_ref parent)
 {
-    pro_env* e = malloc(sizeof(*e));
+    pro_alloc* alloc;
+    pro_get_alloc(s, &alloc);
+    pro_env* e = alloc(0, sizeof(*e));
     if (!e) return 0;
     
     memset(e, 0, sizeof(*e));
@@ -115,7 +120,9 @@ PRO_INTERNAL pro_ref pro_env_next_lookup(pro_state_ref s,
     pro_internal_lookup* internal = pro_internal_lookup_new(s, 0, 0);
     if (!internal)
     {
-        free(lookup);
+        pro_alloc* alloc;
+        pro_get_alloc(s, &alloc);
+        alloc(lookup, 0);
         return 0;
     }
     

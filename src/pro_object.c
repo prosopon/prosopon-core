@@ -6,12 +6,12 @@
 #include "pro_common.h"
 #include "pro_lookup.h"
 
-#include <stdlib.h>
-
 
 PRO_INTERNAL pro_object* pro_object_new(pro_state_ref s, pro_type type)
 {
-    pro_object* t = malloc(sizeof(*t));
+    pro_alloc* alloc;
+    pro_get_alloc(s, &alloc);
+    pro_object* t = alloc(0, sizeof(*t));
     t->type = type;
     return t;
 }

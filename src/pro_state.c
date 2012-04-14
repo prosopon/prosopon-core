@@ -9,41 +9,41 @@
 #include "pro_env.h"
 #include "pro_lookup.h"
 
-#include <stdlib.h>
-
 
 #pragma mark Private
 
 static pro_state* pro_state_new(pro_global_state* g)
 {
-    pro_state_ref s = malloc(sizeof(*s));
+    pro_state_ref s = g->alloc(0, sizeof(*s));
     if (!s) return 0;
     s->global = g;
     return s;
 }
 
-static pro_global_state* pro_global_state_new()
+static pro_global_state* pro_global_state_new(pro_alloc* alloc)
 {
-    pro_global_state* g = malloc(sizeof(*g));
+    pro_global_state* g = alloc(0, sizeof(*g));
     if (!g) return 0;
     
+    g->alloc = alloc;
+
     pro_state* s = pro_state_new(g);
     if (!s)
     {
-        free(g);
+        alloc(g, 0);
         return 0;
     }
     
     g->main = s;
     g->libraries = 0;
     g->message_queue = pro_message_queue_new(s);
-
+    
     return g;
 }
 
 
 #pragma mark -
-#pragma mark Intenal
+#pragma mark Internal
 
 PRO_INTERNAL pro_state* pro_state_fork(pro_state* s)
 {
@@ -88,9 +88,9 @@ PRO_INTERNAL void pro_state_set_actor_type_info(pro_state* s,
 #pragma mark -
 #pragma mark PRO_API
 
-PRO_API pro_error pro_state_create(PRO_OUT pro_state_ref* out_state)
+PRO_API pro_error pro_state_create(pro_alloc* alloc, PRO_OUT pro_state_ref* out_state)
 {
-    pro_global_state* g = pro_global_state_new();
+    pro_global_state* g = pro_global_state_new(alloc);
     PRO_API_ASSERT(g, PRO_OUT_OF_MEMORY);
     
     pro_state* s = g->main;
@@ -121,9 +121,19 @@ PRO_API pro_error pro_state_release(pro_state_ref s)
     
     pro_env_release(s, s->root_env);
     
-    free(s); // free state memory
+    pro_alloc* alloc;
+    pro_get_alloc(s, &alloc);
+    alloc(s, 0); // free state memory
     return PRO_OK;
 }
+
+
+PRO_API pro_error pro_get_alloc(pro_state_ref s, PRO_OUT pro_alloc** alloc)
+{
+    *alloc = s->global->alloc;
+    return PRO_OK;
+}
+
 
 
 PRO_API pro_error pro_run(pro_state_ref s)
