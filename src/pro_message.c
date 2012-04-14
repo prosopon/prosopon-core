@@ -82,20 +82,17 @@ PRO_API pro_error pro_message_append(pro_state_ref s,
     pro_object* new_obj = pro_dereference(s, new_msg);
 
     pro_ref_list val = obj->value.message;
-
     if (!val)
         new_obj->value.message = pro_lookup_list_new(s, ref, 0);
     else
     {
         new_obj->value.message = pro_lookup_list_new(s, val->value, 0);
-        val = val->next;
-        for (; val; val = val->next)
+        while ((val = val->next))
             pro_lookup_list_append(s, new_obj->value.message, val->value);
         pro_lookup_list_append(s, new_obj->value.message, ref);
     }
     
     *new_msg_out = new_msg;
-    
     return PRO_OK;
 }
 

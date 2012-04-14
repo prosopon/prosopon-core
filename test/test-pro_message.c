@@ -2,7 +2,6 @@
 
 #include "prosopon.h"
 #include "pro_state.h"
-#include "pro_message.h"
 #include "pro_lookup.h"
 
 #include <stdlib.h>
@@ -60,8 +59,8 @@ static void test_append(void)
     pro_actor_create(state, PRO_DEFAULT_ACTOR_TYPE, 0, PRO_EMPTY_REF, &actor1);
     pro_actor_create(state, PRO_DEFAULT_ACTOR_TYPE, 0, PRO_EMPTY_REF, &actor2);
 
-    pro_message_append(state, msg, actor1);
-    pro_message_append(state, msg, actor2);
+    pro_message_append(state, msg, actor1, &msg);
+    pro_message_append(state, msg, actor2, &msg);
 
     unsigned int len;
     pro_message_length(state, msg, &len);
@@ -85,15 +84,15 @@ static void test_append_invalid(void)
     pro_actor_create(state, PRO_DEFAULT_ACTOR_TYPE, 0, PRO_EMPTY_REF, &actor);
 
     // bad state
-    err = pro_message_append(0, msg, actor);
+    err = pro_message_append(0, msg, actor, &msg);
     CU_ASSERT(PRO_INVALID_OPERATION == err);
     
     // bad value
-    err = pro_message_append(state, msg, PRO_EMPTY_REF);
+    err = pro_message_append(state, msg, PRO_EMPTY_REF, &msg);
     CU_ASSERT(PRO_INVALID_ARGUMENT == err);
     
     // bad msg
-    err = pro_message_append(state, PRO_EMPTY_REF, actor);
+    err = pro_message_append(state, PRO_EMPTY_REF, actor, &msg);
     CU_ASSERT(PRO_INVALID_ARGUMENT == err);
 }
 
