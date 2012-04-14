@@ -67,18 +67,36 @@ PRO_API pro_error pro_message_get(pro_state_ref s,
 }
 
 
+
 PRO_API pro_error pro_message_append(pro_state_ref s,
-    pro_ref msg, pro_ref ref)
+    pro_ref msg, pro_ref ref, PRO_OUT pro_ref* new_msg_out)
 {
     PRO_API_ASSERT(s, PRO_INVALID_OPERATION);
     PRO_API_ASSERT_TYPE(msg, PRO_MESSAGE_TYPE, PRO_INVALID_ARGUMENT);
     PRO_API_ASSERT(ref, PRO_INVALID_ARGUMENT);
     
+    pro_ref new_msg;
+    pro_message_create(s, &new_msg);
+    
     pro_object* obj = pro_dereference(s, msg);
-    if (!obj->value.message)
-        obj->value.message = pro_lookup_list_new(s, ref, 0);
+    pro_object* new_obj = pro_dereference(s, new_msg);
+
+    pro_ref_list val = obj->value.message;
+
+    if (!val)
+        new_obj->value.message = pro_lookup_list_new(s, ref, 0);
     else
-        pro_lookup_list_append(s, obj->value.message, ref);
+    {
+        new_obj->value.message = pro_lookup_list_new(s, val->value, 0);
+        val = val->next;
+        for (; val; val = val->next)
+            pro_lookup_list_append(s, new_obj->value.message, val->value);
+        pro_lookup_list_append(s, new_obj->value.message, ref);
+    }
+    
+    *new_msg_out = new_msg;
+    
     return PRO_OK;
 }
+
 

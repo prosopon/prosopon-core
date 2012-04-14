@@ -321,7 +321,9 @@ PRO_API pro_error (pro_message_get) (pro_state_ref,
     pro_ref msg, unsigned int index, PRO_OUT pro_ref* result);
 
 /**
- * Appends an value to a message.
+ * Appends an value to a message to create a new message.
+ *
+ * Does not modify the origin message.
  *
  * @return
  *   PRO_OK if successful
@@ -330,7 +332,7 @@ PRO_API pro_error (pro_message_get) (pro_state_ref,
  *     not reference a valid object.
  */
 PRO_API pro_error (pro_message_append) (pro_state_ref,
-    pro_ref msg, pro_ref value);
+    pro_ref msg, pro_ref value, PRO_OUT pro_ref* new_msg);
 
 
 #pragma mark User Data
