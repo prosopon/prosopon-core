@@ -5,6 +5,7 @@
 #include "pro_env_stack.h"
 #include "pro_env.h"
 #include "pro_lookup.h"
+#include "test-pro_alloc.h"
 
 
 static pro_state_ref state = 0;
@@ -29,7 +30,7 @@ static int cleanup(void)
 
 static void test_create(void)
 {
-    pro_state_create(&state);
+    pro_state_create(test_alloc, &state);
     CU_ASSERT(0 != state);
     CU_ASSERT(0 != state->root_env);
     CU_ASSERT(0 != state->stack);

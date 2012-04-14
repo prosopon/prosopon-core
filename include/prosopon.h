@@ -141,12 +141,16 @@ PRO_API pro_error (pro_state_create) (pro_alloc* alloc, PRO_OUT pro_state_ref* s
 PRO_API pro_error (pro_state_release) (pro_state_ref);
 
 /**
- *
+ * 
  */
 PRO_API pro_error (pro_run) (pro_state_ref);
 
 /**
+ * Gets the allocator used for a given state.
  *
+ * @param[out] alloc The memory allocator
+ *
+ * @return
  */
 PRO_API pro_error (pro_get_alloc) (pro_state_ref, PRO_OUT pro_alloc** alloc);
 

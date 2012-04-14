@@ -5,6 +5,7 @@
 #include "pro_state.h"
 #include "pro_env.h"
 #include "pro_lookup.h"
+#include "test-pro_alloc.h"
 
 
 static pro_state_ref state;
@@ -12,7 +13,7 @@ static pro_state_ref state;
 
 static int init(void)
 {
-    pro_state_create(&state);
+    pro_state_create(test_alloc, &state);
     return state == 0;
 }
 

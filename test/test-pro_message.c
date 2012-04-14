@@ -3,6 +3,7 @@
 #include "prosopon.h"
 #include "pro_state.h"
 #include "pro_lookup.h"
+#include "test-pro_alloc.h"
 
 #include <stdlib.h>
 
@@ -12,7 +13,7 @@ static pro_state_ref state = 0;
 
 static int init(void)
 {
-    pro_state_create(&state);
+    pro_state_create(test_alloc, &state);
     return state == 0;
 }
 
