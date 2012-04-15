@@ -4,6 +4,7 @@
 #include "pro_common.h"
 #include "pro_object.h"
 #include "pro_lookup.h"
+#include "pro_lookup_list.h"
 
 
 #pragma mark Private

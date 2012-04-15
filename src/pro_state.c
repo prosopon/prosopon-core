@@ -8,7 +8,7 @@
 #include "pro_message_queue.h"
 #include "pro_env.h"
 #include "pro_lookup.h"
-
+#include "pro_env_lookup.h"
 
 #pragma mark Private
 

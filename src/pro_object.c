@@ -5,6 +5,7 @@
 #include "pro_object.h"
 #include "pro_common.h"
 #include "pro_lookup.h"
+#include "pro_env_lookup.h"
 
 
 PRO_INTERNAL pro_object* pro_object_new(pro_state_ref s,
