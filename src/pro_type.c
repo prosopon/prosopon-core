@@ -49,14 +49,12 @@ PRO_INTERNAL void pro_actor_type_info_list_free(pro_state_ref s,
     pro_alloc* alloc;
     pro_get_alloc(s, &alloc);
     
-    for (pro_actor_type_info_list* info; info;)
+    for (pro_actor_type_info_list* info = t; info;)
     {
         pro_actor_type_info_list* next = info->next;
         alloc(info, 0);
         info = next;
     }
-    
-    alloc(t, 0);
 }
 
 
