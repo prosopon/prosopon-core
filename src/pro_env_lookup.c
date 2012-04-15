@@ -46,6 +46,8 @@ PRO_API pro_error pro_env_retain(pro_state_ref s, pro_env_ref env_ref)
 
 PRO_API pro_error pro_env_release(pro_state_ref s, pro_env_ref env_ref)
 {    
+    if (!env_ref) return PRO_OK;
+
     if (--(env_ref->ref_count) <= 0)
     {
         pro_alloc* alloc;
