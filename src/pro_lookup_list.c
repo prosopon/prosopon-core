@@ -8,6 +8,7 @@ PRO_INTERNAL pro_ref_list pro_lookup_list_new(pro_state_ref s,
     pro_get_alloc(s, &alloc);
     pro_ref_list t = alloc(0, sizeof(*t));
     if (!t) return 0;
+    
     t->value = value;
     t->next = next;
     return t;

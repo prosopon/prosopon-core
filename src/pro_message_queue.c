@@ -74,6 +74,7 @@ PRO_INTERNAL pro_ref pro_message_queue_dequeue(pro_state_ref s,
         pro_alloc* alloc;
         pro_get_alloc(s, &alloc);
         alloc(front, 0);
+        
         return msg;
     }
 }

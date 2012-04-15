@@ -57,11 +57,10 @@ PRO_API pro_error pro_release(pro_state_ref s, pro_ref ref)
         pro_object_release(s, obj, ref);
         
         // release from env
-        
         pro_env* env = pro_env_dereference(s, ref->env);
         pro_env_lookup_remove(s, env, ref);
-       // pro_env_release(s, ref->env);
-        
+        pro_env_release(s, ref->env);
+
         alloc(ref, 0);
     }
     

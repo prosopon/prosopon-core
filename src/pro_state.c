@@ -96,7 +96,7 @@ PRO_API pro_error pro_state_create(pro_alloc* alloc, PRO_OUT pro_state_ref* out_
     
     pro_state* s = g->main;
     
-    pro_env_ref root_env = pro_env_lookup_new(s, pro_env_new(s, 0, 1), 1);
+    pro_env_ref root_env = pro_env_lookup_new(s, pro_env_new(s, 0, 0), 1);
     PRO_API_ASSERT(root_env, PRO_OUT_OF_MEMORY);
     pro_env_stack* stack = pro_env_stack_new(s);
     pro_env_stack_push(s, stack, root_env);
@@ -135,7 +135,6 @@ PRO_API pro_error pro_get_alloc(pro_state_ref s, PRO_OUT pro_alloc** alloc)
 }
 
 
-
 PRO_API pro_error pro_run(pro_state_ref s)
 {
     while (!pro_message_queue_is_empty(s, s->global->message_queue))
@@ -144,6 +143,7 @@ PRO_API pro_error pro_run(pro_state_ref s)
         pro_ref msg = pro_message_queue_dequeue(s, s->global->message_queue, &actor);
         pro_deliver_message(s, actor, msg);
         pro_release(s, msg);
+        pro_release(s, actor);
     }
     return PRO_OK;
 }
