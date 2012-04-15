@@ -64,7 +64,14 @@ PRO_API pro_error pro_message_get(pro_state_ref s,
         idx--;
         list = list->next;
     }
-    *result = list ? list->value : PRO_EMPTY_REF;
+        
+    if (list)
+    {
+        pro_retain(s, list->value);
+        *result = list->value;
+    }
+    else
+        *result = PRO_EMPTY_REF;
     return PRO_OK;
 }
 
@@ -77,9 +84,11 @@ PRO_API pro_error pro_message_append(pro_state_ref s,
     PRO_API_ASSERT_TYPE(msg, PRO_MESSAGE_TYPE, PRO_INVALID_ARGUMENT);
     PRO_API_ASSERT(ref, PRO_INVALID_ARGUMENT);
     PRO_API_ASSERT(msg != *new_msg_out, PRO_INVALID_ARGUMENT);
-
+    
+    // retain the appended object
     pro_retain(s, ref);
     
+    // create the new message
     pro_ref new_msg;
     pro_message_create(s, &new_msg);
     
@@ -91,9 +100,14 @@ PRO_API pro_error pro_message_append(pro_state_ref s,
         new_obj->value.message = pro_lookup_list_new(s, ref, 0);
     else
     {
+        pro_retain(s, val->value);
         new_obj->value.message = pro_lookup_list_new(s, val->value, 0);
+        
         while ((val = val->next))
+        {
+            pro_retain(s, val->value);
             pro_lookup_list_append(s, new_obj->value.message, val->value);
+        }
         pro_lookup_list_append(s, new_obj->value.message, ref);
     }
     

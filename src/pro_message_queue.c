@@ -44,6 +44,9 @@ PRO_INTERNAL void pro_message_queue_enqueue(pro_state_ref s,
     pro_message_queue* t, pro_ref msg, pro_ref actor) 
 {
     pro_message_node* parent = t->front;
+    
+    pro_retain(s, msg);
+    pro_retain(s, actor);
 
     if (!parent)
         t->front = pro_message_node_new(s, msg, actor, 0);

@@ -44,5 +44,15 @@ struct pro_object
  */
 PRO_INTERNAL pro_object* pro_object_new(pro_state_ref,
     pro_type type, unsigned int ref_count);
+    
+    
+/**
+ *
+ */
+PRO_INTERNAL pro_object* pro_object_retain(pro_state_ref, pro_object*);
+
+
+PRO_INTERNAL void pro_object_release(pro_state_ref, pro_object*);
+
 
 #endif

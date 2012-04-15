@@ -213,6 +213,8 @@ PRO_API pro_error pro_bind(pro_state_ref s, pro_ref ref, const char* id)
     PRO_API_ASSERT(PRO_EMPTY_REF != ref, PRO_INVALID_ARGUMENT);
     PRO_API_ASSERT(id, PRO_INVALID_OPERATION);
 
+    pro_retain(s, ref);
+
     pro_env_ref env_ref;
     pro_get_env(s, &env_ref);
     pro_env* env = pro_env_dereference(s, env_ref);
@@ -235,8 +237,6 @@ PRO_API pro_error pro_bind(pro_state_ref s, pro_ref ref, const char* id)
             }
             parent->next = binding;
         }
-        
-        pro_retain(s, ref);
     }
     
 

@@ -15,9 +15,11 @@ PRO_API pro_error pro_constructor_create(pro_state_ref s,
     pro_get_env(s, &env);
     pro_ref lookup = pro_env_next_lookup(s, env);
     pro_object** obj = pro_env_lookup_value(s, lookup);
+    pro_env_release(s, env);
     
     *obj = pro_object_new(s, PRO_CONSTRUCTOR_TYPE, 1);
     (*obj)->value.constructor.constructor = c;
+    pro_retain(s, ud);
     (*obj)->value.constructor.data = ud;
     
     *constructor = lookup;

@@ -19,6 +19,42 @@ PRO_INTERNAL pro_object* pro_object_new(pro_state_ref s,
     return t;
 }
 
+PRO_INTERNAL pro_object* pro_object_retain(pro_state_ref s, pro_object* t)
+{
+    t->ref_count++;
+    return t;
+}
+
+
+PRO_INTERNAL void pro_object_release(pro_state_ref s, pro_object* t)
+{
+    if (--(t->ref_count) <= 0)
+    {
+        pro_alloc* alloc;
+        pro_get_alloc(s, &alloc);
+           
+        switch (t->type)
+        {
+        case PRO_ACTOR_TYPE:
+            pro_release(s, t->value.actor.data);
+            pro_env_release(s, t->value.actor.env);
+            break;
+        case PRO_MESSAGE_TYPE:
+            for (pro_ref_list msg = t->value.message; msg;)
+            {
+                pro_release(s, msg->value);
+                pro_ref_list old = msg;
+                msg = msg->next;
+                alloc(old, 0);
+            }
+            break;
+        }
+
+        alloc(t, 0);
+    }
+}
+
+
 
 #pragma mark -
 #pragma mark Public
@@ -42,24 +78,10 @@ PRO_API pro_error pro_release(pro_state_ref s, pro_ref ref)
         pro_get_alloc(s, &alloc);
         
         pro_object* obj = pro_dereference(s, ref);
-        if (--(obj->ref_count) <= 0)
-        {            
-            switch (obj->type)
-            {
-            case PRO_ACTOR_TYPE:
-                pro_release(s, obj->value.actor.data);
-                pro_env_release(s, obj->value.actor.env);
-                break;
-            case PRO_MESSAGE_TYPE:
-                break;
-            }
-            
-            alloc(obj, 0);
-        }
-        
+        pro_object_release(s, obj);
+
         alloc(ref, 0);
     }
-    
     
     return PRO_OK;
 }

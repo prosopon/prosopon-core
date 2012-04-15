@@ -24,8 +24,10 @@ PRO_API pro_error pro_actor_create(pro_state_ref s, pro_actor_type type,
     *obj = pro_object_new(s, PRO_ACTOR_TYPE, 1);
     (*obj)->value.actor.type = type;
     pro_env_create(s, current_env, &((*obj)->value.actor.env));
+    pro_env_release(s, current_env);
     
     (*obj)->value.actor.behavior = beh;
+    pro_retain(s, data);
     (*obj)->value.actor.data = data;
     
     *out_ref = lookup;

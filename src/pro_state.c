@@ -107,7 +107,6 @@ PRO_API pro_error pro_state_create(pro_alloc* alloc, PRO_OUT pro_state_ref* out_
     
     initialize_default_actor_types(s);
     
-    
     *out_state = s;
     return PRO_OK;
 }
@@ -144,6 +143,7 @@ PRO_API pro_error pro_run(pro_state_ref s)
         pro_ref actor;
         pro_ref msg = pro_message_queue_dequeue(s, s->global->message_queue, &actor);
         pro_deliver_message(s, actor, msg);
+        pro_release(s, msg);
     }
     return PRO_OK;
 }
