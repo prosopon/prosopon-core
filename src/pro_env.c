@@ -6,50 +6,8 @@
 #include "pro_lookup.h"
 #include "pro_env_lookup.h"
 #include "pro_lookup_table.h"
+#include "pro_binding_map.h"
 
-#include <string.h>
-
-
-#pragma mark Private
-
-
-/**
- *
- */
-struct pro_lookup_binding
-{
-    pro_lookup_binding* next;
-    char* identifier;
-    pro_ref lookup;
-};
-
-/**
- * Creates a new internal lookup.
- *
- * @return The new internal lookup.
- */
-static pro_lookup_binding* pro_lookup_binding_new(pro_state_ref s,
-    const char* identifier, pro_ref lookup, pro_lookup_binding* next)
-{
-    pro_alloc* alloc;
-    pro_get_alloc(s, &alloc);
-    pro_lookup_binding* internal = alloc(0, sizeof(*internal));
-    if (!internal) return 0;
-    
-    internal->lookup = lookup;
-    internal->next = next;
-    internal->identifier = alloc(0, sizeof(*internal->identifier) * (strlen(identifier) + 1));
-    if (!internal->identifier)
-    {
-        alloc(internal, 0);
-        return 0;
-    }
-    
-    strcpy(internal->identifier, identifier);
-    return internal;
-}
-
-#pragma mark -
 #pragma mark PRO_INTERNAL
 
 PRO_INTERNAL pro_env* pro_env_new(pro_state_ref s,
@@ -60,10 +18,10 @@ PRO_INTERNAL pro_env* pro_env_new(pro_state_ref s,
     pro_env* e = alloc(0, sizeof(*e));
     if (!e) return 0;
     
-    memset(e, 0, sizeof(*e));
     e->parent = parent;
     e->ref_count = ref_count;
     e->lookups = pro_lookup_table_new(s);
+    e->bindings = pro_binding_map_new(s);
     return e;
 }
 
@@ -73,15 +31,7 @@ PRO_INTERNAL void pro_env_free(pro_state_ref s, pro_env* t)
     pro_alloc* alloc;
     pro_get_alloc(s, &alloc);
     
-    for (pro_lookup_binding* binding = t->bindings; binding; )
-    {
-        pro_release(s, binding->lookup);
-        
-        pro_lookup_binding* next = binding->next;
-        alloc(binding, 0);
-        binding = next;
-    }
-    
+    pro_binding_map_free(s, t->bindings);    
     pro_lookup_table_free(s, t->lookups);
     
     alloc(t, 0);
@@ -129,15 +79,7 @@ PRO_INTERNAL void pro_internal_env_release(pro_state_ref s, pro_env* env)
         pro_alloc* alloc;
         pro_get_alloc(s, &alloc);
 
-        for (pro_lookup_binding* binding = env->bindings; binding; )
-        {
-            pro_release(s, binding->lookup);
-            
-            pro_lookup_binding* next = binding->next;
-            alloc(binding, 0);
-            binding = next;
-        }
-        
+        pro_binding_map_free(s, env->bindings);
         pro_lookup_table_free(s, env->lookups);
         
         pro_env_release(s, env->parent);
@@ -185,20 +127,7 @@ PRO_API pro_error pro_bind(pro_state_ref s, pro_ref ref, const char* id)
     pro_get_env(s, &env_ref);
     pro_env* env = pro_env_dereference(s, env_ref);
 
-    pro_lookup_binding* binding = pro_lookup_binding_new(s, id, ref, 0);
-    pro_lookup_binding* parent = env->bindings;
-    if (!parent)
-        env->bindings = binding;
-    else
-    {
-        while (parent->next)
-        {
-            PRO_API_ASSERT(parent->identifier && strcmp(id, parent->identifier) != 0,
-                PRO_INVALID_OPERATION);
-            parent = parent->next;
-        }
-        parent->next = binding;
-    }
+    pro_binding_map_put(s, env->bindings, id, ref);
     
     pro_env_release(s, env_ref);
 
@@ -214,15 +143,11 @@ PRO_API pro_error pro_get_binding(pro_state_ref s,
 
     pro_env* env = pro_env_dereference(s, env_ref);
     
-    for (pro_lookup_binding* binding = env->bindings; binding; binding = binding->next)
+    pro_ref val = pro_binding_map_get(s, env->bindings, name);
+    if (!pro_lookup_equal(s, val, PRO_EMPTY_REF))
     {
-        const char* lookup_identifier = binding->identifier;
-        if (lookup_identifier && strcmp(name, lookup_identifier) == 0)
-        {
-            pro_retain(s, binding->lookup);
-            *ref = binding->lookup;
-            return PRO_OK;
-        }
+        *ref = val;
+        return PRO_OK;
     }
     
     if (env->parent)

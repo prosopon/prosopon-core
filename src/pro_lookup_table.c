@@ -94,22 +94,23 @@ PRO_INTERNAL unsigned int pro_lookup_table_append(pro_state_ref s, pro_lookup_ta
 PRO_INTERNAL void pro_lookup_table_remove(pro_state_ref s, pro_lookup_table* t,
     unsigned int index)
 {
-    pro_internal_lookup* parent;
+    pro_internal_lookup* parent = 0;
     for (pro_internal_lookup* internal = t->value; internal; internal = internal->next)
     {
         if (internal->index == index)
         {
-            pro_alloc* alloc;
-            pro_get_alloc(s, &alloc);
-            
-            alloc(internal, 0);
-            
             pro_internal_lookup* next = internal->next;
             
-            if (t->value == internal)
+            // Remove the node from the list.
+            if (0 == parent)
                 t->value = next;
             else
                 parent->next = next;
+            
+            // Free the node memory
+            pro_alloc* alloc;
+            pro_get_alloc(s, &alloc);
+            alloc(internal, 0);
             
             return;
         }

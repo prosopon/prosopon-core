@@ -5,6 +5,7 @@
 
 struct pro_object;
 struct pro_lookup_table;
+struct pro_binding_map;
 
 typedef struct pro_env pro_env;
 
@@ -22,8 +23,7 @@ struct pro_env
     pro_env_ref parent; /**< The parent environment used for delegation. */
     
     struct pro_lookup_table* lookups;
-
-    pro_lookup_binding* bindings;
+    struct pro_binding_map* bindings;
 };
 
 
