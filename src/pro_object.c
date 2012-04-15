@@ -111,6 +111,7 @@ PRO_API char* pro_to_string(pro_state_ref s,
     pro_actor_type type;
     pro_get_actor_type(s, t, &type);
     const pro_actor_type_info* info = pro_get_actor_type_info(s, type);
-    pro_object** o = pro_env_lookup_value(s, t);
-    return info->to_string(s, t, (*o)->value.actor.data);
+    pro_object* o = pro_dereference(s, t);
+    return info->to_string(s, t, o->value.actor.data);
 }
+

@@ -47,10 +47,7 @@ PRO_INTERNAL pro_ref pro_env_next_lookup(pro_state_ref s,
     pro_env* env = pro_env_dereference(s, env_ref);
     
     unsigned int index = pro_lookup_table_append(s, env->lookups);
-    pro_lookup* lookup = pro_lookup_new(s, env_ref, index, 1);
-    if (!lookup) return 0;
-    
-    return lookup;
+    return pro_lookup_new(s, env_ref, index, 1);
 }
 
 

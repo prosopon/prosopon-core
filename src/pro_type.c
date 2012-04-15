@@ -14,7 +14,7 @@ static pro_matching default_match(pro_state_ref s,
     return PRO_MATCH_FAIL;
 }
 
-static char* defaul_to_string(pro_state_ref s,
+static char* default_to_string(pro_state_ref s,
     pro_ref t, pro_ref tData)
 {
     return 0;
@@ -22,7 +22,7 @@ static char* defaul_to_string(pro_state_ref s,
 
 static const pro_actor_type_info pro_default_actor_type_info = {
     .match = default_match,
-    .to_string = defaul_to_string
+    .to_string = default_to_string
 };
 
 
