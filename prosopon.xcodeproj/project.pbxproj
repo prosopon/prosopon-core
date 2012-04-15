@@ -139,6 +139,10 @@
 				890024CA1511A3070012E749 /* pro_env.c */,
 				890024CD1511A3070012E749 /* pro_lookup.h */,
 				890024CC1511A3070012E749 /* pro_lookup.c */,
+				89E63056153A5CC200C88C05 /* pro_env_lookup.h */,
+				89E63057153A5CD000C88C05 /* pro_env_lookup.c */,
+				89E6305A153A5D8A00C88C05 /* pro_lookup_list.h */,
+				89E6305B153A5DA000C88C05 /* pro_lookup_list.c */,
 				890024CF1511A3070012E749 /* pro_object.h */,
 				890024CE1511A3070012E749 /* pro_object.c */,
 				890024D11511A3070012E749 /* pro_state.h */,
@@ -156,10 +160,6 @@
 				89F9543C152EA5230060B211 /* pro_env_stack.h */,
 				89F9543E152EA5310060B211 /* pro_env_stack.c */,
 				89F95445152F9EA20060B211 /* pro_user_data.c */,
-				89E63056153A5CC200C88C05 /* pro_env_lookup.h */,
-				89E63057153A5CD000C88C05 /* pro_env_lookup.c */,
-				89E6305A153A5D8A00C88C05 /* pro_lookup_list.h */,
-				89E6305B153A5DA000C88C05 /* pro_lookup_list.c */,
 			);
 			path = src;
 			sourceTree = "<group>";

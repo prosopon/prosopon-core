@@ -278,5 +278,3 @@ PRO_API pro_error pro_get_binding(pro_state_ref s,
     }
 }
 
-
-
