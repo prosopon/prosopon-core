@@ -21,6 +21,10 @@ PRO_INTERNAL pro_actor_type_info_list* pro_actor_type_info_list_new(pro_state_re
     pro_actor_type type, const pro_actor_type_info* value, pro_actor_type_info_list* next);
 
 
+PRO_INTERNAL void pro_actor_type_info_list_free(pro_state_ref,
+    pro_actor_type_info_list*);
+
+
 PRO_INTERNAL const pro_actor_type_info* pro_get_actor_type_info(pro_state_ref, 
     pro_actor_type type);
 

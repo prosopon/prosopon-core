@@ -113,10 +113,33 @@ PRO_INTERNAL pro_env* pro_env_new(pro_state_ref s,
 }
 
 
+PRO_INTERNAL void pro_env_free(pro_state_ref s, pro_env* t)
+{
+    pro_alloc* alloc;
+    pro_get_alloc(s, &alloc);
+    
+    pro_env_ref env = pro_env_lookup_new(s, t, 1);
+    
+    for (pro_internal_lookup* internal = t->lookups; internal; internal = internal->next)
+        if (internal->value)
+            pro_object_release(s, internal->value);
+    
+    for (pro_internal_lookup* internal = t->lookups; internal;)
+    {
+        pro_internal_lookup* next = internal->next;
+        alloc(internal, 0);
+        internal = next;
+    }
+    
+    pro_env_release(s, env);
+}
+
+
 PRO_INTERNAL pro_ref pro_env_next_lookup(pro_state_ref s,
     pro_env_ref env_ref)
 {
     pro_env* env = pro_env_dereference(s, env_ref);
+    pro_env_retain(s, env_ref);
     pro_lookup* lookup = pro_lookup_new(s, env_ref, env->size, 1);
     if (!lookup) return 0;
     

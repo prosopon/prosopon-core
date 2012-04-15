@@ -12,6 +12,12 @@
     #define PRO_API_ASSERT(cond, err) if (!(cond)) { return (err); } 
 #endif
 
+/**
+ * Asserts a reference is of a given type.
+ *
+ * Breaks if false in debug mode, else returns the resulting error. Should only
+ * be used in PRO_API functions.
+ */
 #define PRO_API_ASSERT_TYPE(ref, type, err) {\
         pro_type found_type;\
         pro_error get_err = pro_get_type(s, ref, &found_type);\

@@ -35,19 +35,31 @@ PRO_INTERNAL pro_message_queue* pro_message_queue_new(pro_state_ref s)
     pro_get_alloc(s, &alloc);
     pro_message_queue* t = alloc(0, sizeof(*t));
     if (!t) return 0;
+    
     t->front = 0;
     return t;
 }
 
 
+PRO_INTERNAL void pro_message_queue_free(pro_state_ref s, pro_message_queue* t)
+{
+    pro_alloc* alloc;
+    pro_get_alloc(s, &alloc);
+    
+    for (pro_message_node* node = t->front; node; node = node->next)
+        alloc(node, 0);
+        
+    alloc(t, 0);
+}
+
+
 PRO_INTERNAL void pro_message_queue_enqueue(pro_state_ref s,
     pro_message_queue* t, pro_ref msg, pro_ref actor) 
-{
-    pro_message_node* parent = t->front;
-    
+{    
     pro_retain(s, msg);
     pro_retain(s, actor);
 
+    pro_message_node* parent = t->front;
     if (!parent)
         t->front = pro_message_node_new(s, msg, actor, 0);
     else

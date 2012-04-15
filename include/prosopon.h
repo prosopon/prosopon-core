@@ -364,10 +364,9 @@ PRO_API pro_error (pro_message_append) (pro_state_ref,
 /**
  * Function called before a user data object is destroyed.
  *
- * @param t A reference to the user data object.
  * @param data A pointer to the allocated data.
  */
-typedef void(pro_ud_deconstructor)(pro_state_ref, pro_ref t, void* data);
+typedef void(pro_ud_deconstructor) (pro_state_ref, void* data);
 
 extern pro_ud_deconstructor* PRO_DEFAULT_UD_DECONSTRUCTOR;
 

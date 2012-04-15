@@ -26,7 +26,7 @@ static void initialize_library(pro_state_ref s, void* lib_handle)
 
 static void add_loaded_library(pro_state_ref s, const char* file)
 {
-    pro_library_list* t = pro_library_list_new(file, 0);
+    pro_library_list* t = pro_library_list_new(s, file, 0);
     pro_library_list* libraries = pro_state_get_libraries(s);
     
     if (!libraries)
@@ -42,10 +42,13 @@ static void add_loaded_library(pro_state_ref s, const char* file)
 
 #pragma mark Internal
 
-PRO_INTERNAL pro_library_list* pro_library_list_new(const char* file,
-    pro_library_list* next)
+PRO_INTERNAL pro_library_list* pro_library_list_new(pro_state_ref s,
+    const char* file, pro_library_list* next)
 {
-    pro_library_list* t = malloc(sizeof(*t));
+    pro_alloc* alloc;
+    pro_get_alloc(s, &alloc);
+    
+    pro_library_list* t = alloc(0, sizeof(*t));
     t->next = next;
     t->file = file;
     return t;
@@ -63,6 +66,16 @@ PRO_INTERNAL int pro_library_loaded(pro_state_ref s, const char* file)
     }
     return 0;
 }
+
+PRO_INTERNAL void pro_library_list_free(pro_state_ref s, pro_library_list* libraries)
+{
+    pro_alloc* alloc;
+    pro_get_alloc(s, &alloc);
+    
+    for (pro_library_list* lib = libraries; lib; lib = lib->next)
+        alloc(lib, 0);
+}
+
 
 
 #pragma mark PRO_API

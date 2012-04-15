@@ -6,6 +6,9 @@
 struct pro_env;
 
 
+/**
+ * Internal structure for pro_env_ref
+ */
 typedef struct pro_env_lookup pro_env_lookup;
 struct pro_env_lookup
 {
@@ -32,5 +35,6 @@ PRO_INTERNAL int pro_env_lookup_equal(pro_state_ref,
  * Dereferenaces a pro_env_ref
  */
 PRO_INTERNAL struct pro_env* pro_env_dereference(pro_state_ref, pro_env_ref);
+
 
 #endif

@@ -51,9 +51,11 @@ PRO_API pro_error pro_env_release(pro_state_ref s, pro_env_ref env_ref)
         pro_alloc* alloc;
         pro_get_alloc(s, &alloc);
         
+        // Release the env
         pro_env* env = pro_env_dereference(s, env_ref);
         pro_internal_env_release(s, env);
         
+        // Free the pro_env_ref memory
         alloc(env_ref, 0);
     }
     

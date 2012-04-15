@@ -36,20 +36,31 @@ PRO_INTERNAL pro_actor_type_info_list* pro_actor_type_info_list_new(pro_state_re
     pro_get_alloc(s, &alloc);
     pro_actor_type_info_list* t = alloc(0, sizeof(*t));
     if (!t) return 0;
+    
     t->type = type;
     t->value = value;
     t->next = next;
     return t;
 }
 
-
-pro_actor_type PRO_DEFAULT_ACTOR_TYPE = 0;
+PRO_INTERNAL void pro_actor_type_info_list_free(pro_state_ref s,
+    pro_actor_type_info_list* t)
+{
+    pro_alloc* alloc;
+    pro_get_alloc(s, &alloc);
+    
+    for (pro_actor_type_info_list* info; info; info = info->next)
+        alloc(info, 0);
+    
+    alloc(t, 0);
+}
 
 
 PRO_INTERNAL void initialize_default_actor_types(pro_state_ref s)
 {
     pro_register_actor_type(s, PRO_DEFAULT_ACTOR_TYPE, &pro_default_actor_type_info);
 }
+
 
 PRO_INTERNAL const pro_actor_type_info* pro_get_actor_type_info(pro_state_ref s, 
     pro_actor_type type)
@@ -71,9 +82,10 @@ PRO_INTERNAL const pro_actor_type_info* pro_get_actor_type_info(pro_state_ref s,
 }
 
 
-
 #pragma mark -
 #pragma mark Public
+
+pro_actor_type PRO_DEFAULT_ACTOR_TYPE = 0;
 
 
 PRO_API void pro_register_actor_type(pro_state_ref s,

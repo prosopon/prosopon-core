@@ -27,7 +27,7 @@ PRO_INTERNAL pro_object* pro_object_retain(pro_state_ref s, pro_object* t)
 }
 
 
-PRO_INTERNAL void pro_object_release(pro_state_ref s, pro_object* t, pro_ref t_ref)
+PRO_INTERNAL void pro_object_release(pro_state_ref s, pro_object* t)
 {
     if (--(t->ref_count) <= 0)
     {
@@ -50,7 +50,7 @@ PRO_INTERNAL void pro_object_release(pro_state_ref s, pro_object* t, pro_ref t_r
             }
             break;
         case PRO_UD_TYPE:
-            t->value.ud.deconstructor(s, t_ref, t->value.ud.data);
+            t->value.ud.deconstructor(s, t->value.ud.data);
             break;
         }
 

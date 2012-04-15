@@ -8,7 +8,7 @@
 
 #pragma mark Private
 
-static void pro_default_ud_deconstructor(pro_state_ref s, pro_ref t, void* data)
+static void pro_default_ud_deconstructor(pro_state_ref s, void* data)
 {
     pro_alloc* alloc;
     pro_get_alloc(s, &alloc);

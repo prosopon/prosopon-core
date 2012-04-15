@@ -36,6 +36,8 @@ struct pro_env
 PRO_INTERNAL pro_env* pro_env_new(pro_state_ref,
     pro_env_ref parent, unsigned int ref_count);
 
+PRO_INTERNAL void pro_env_free(pro_state_ref, pro_env*);
+
 /**
  * @return An empty lookup in a environment.
  */

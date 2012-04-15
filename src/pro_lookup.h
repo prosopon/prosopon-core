@@ -4,6 +4,9 @@
 #include "prosopon.h"
 
 
+/**
+ * Internal structure for pro_ref. 
+ */
 typedef struct pro_lookup pro_lookup;
 struct pro_lookup
 {
