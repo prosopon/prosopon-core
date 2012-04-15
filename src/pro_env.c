@@ -146,8 +146,6 @@ PRO_INTERNAL void pro_env_free(pro_state_ref s, pro_env* t)
         internal = next;
     }
     
-
-    
     alloc(t, 0);
 }
 

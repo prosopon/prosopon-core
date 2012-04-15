@@ -17,4 +17,10 @@ PRO_INTERNAL void pro_lookup_list_append(pro_state_ref,
     pro_ref_list t, pro_ref value);
 
 
+/**
+ * Deallocates a lookup list.
+ */
+PRO_INTERNAL void pro_lookup_list_free(pro_state_ref, pro_ref_list t);
+
+
 #endif

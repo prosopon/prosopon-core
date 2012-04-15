@@ -6,6 +6,7 @@
 #include "pro_common.h"
 #include "pro_lookup.h"
 #include "pro_env_lookup.h"
+#include "pro_lookup_list.h"
 
 
 PRO_INTERNAL pro_object* pro_object_new(pro_state_ref s,
@@ -36,15 +37,7 @@ PRO_INTERNAL void pro_object_free(pro_state_ref s, pro_object* t)
         break;
     case PRO_MESSAGE_TYPE:
         // Release the message list
-        for (pro_ref_list msg = t->value.message; msg;)
-        {
-            // Release the message value
-            pro_release(s, msg->value);
-            pro_ref_list next = msg->next;
-            // Free the msg structure
-            alloc(msg, 0);
-            msg = next;
-        }
+        pro_lookup_list_free(s, t->value.message);
         break;
     case PRO_UD_TYPE:
         t->value.ud.deconstructor(s, t->value.ud.data);

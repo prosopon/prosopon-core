@@ -24,3 +24,22 @@ PRO_INTERNAL void pro_lookup_list_append(pro_state_ref s,
     parent->next = pro_lookup_list_new(s, value, 0);
 }
 
+
+PRO_INTERNAL void pro_lookup_list_free(pro_state_ref s, pro_ref_list t)
+{
+    pro_alloc* alloc;
+    pro_get_alloc(s, &alloc);
+    
+    for (pro_ref_list item = t; item;)
+    {
+        pro_ref_list next = item->next;
+
+        // Release the value
+        pro_release(s, item->value);
+        
+        // Free the item structure
+        alloc(item, 0);
+        
+        item = next;
+    }
+}
