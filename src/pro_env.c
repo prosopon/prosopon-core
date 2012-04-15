@@ -5,22 +5,12 @@
 #include "pro_object.h"
 #include "pro_lookup.h"
 #include "pro_env_lookup.h"
+#include "pro_lookup_table.h"
 
 #include <string.h>
 
 
 #pragma mark Private
-
-
-/**
- * A structure used to store a list of lookups internally.
- */
-struct pro_internal_lookup
-{
-    unsigned int index;
-    pro_internal_lookup* next; /**< next entry in the lookup table. */
-    pro_object* value;
-};
 
 
 /**
@@ -32,27 +22,6 @@ struct pro_lookup_binding
     char* identifier;
     pro_ref lookup;
 };
-
-
-/**
- * Creates a new internal lookup.
- *
- * @return The new internal lookup.
- */
-static pro_internal_lookup* pro_internal_lookup_new(pro_state_ref s,
-    pro_object* value, pro_internal_lookup* next, unsigned int index)
-{
-    pro_alloc* alloc;
-    pro_get_alloc(s, &alloc);
-    pro_internal_lookup* internal = alloc(0, sizeof(*internal));
-    if (!internal) return 0;
-
-    internal->value = value;
-    internal->next = next;
-    internal->index = index;
-    return internal;
-}
-
 
 /**
  * Creates a new internal lookup.
@@ -75,27 +44,10 @@ static pro_lookup_binding* pro_lookup_binding_new(pro_state_ref s,
         alloc(internal, 0);
         return 0;
     }
-
+    
     strcpy(internal->identifier, identifier);
     return internal;
- }
- 
-
-/**
- * Given a external lookup object, gets the corresponding internal lookup.
- *
- * @return The internal lookup.
- */
-static pro_internal_lookup* pro_env_get_internal_lookup(pro_state_ref s, 
-    pro_ref lookup)
-{
-    pro_env* env = pro_env_dereference(s, lookup->env);
-    for (pro_internal_lookup* internal = env->lookups; internal; internal = internal->next)
-        if (internal->index == lookup->index)
-            return internal;
-    return 0;
 }
-
 
 #pragma mark -
 #pragma mark PRO_INTERNAL
@@ -111,6 +63,7 @@ PRO_INTERNAL pro_env* pro_env_new(pro_state_ref s,
     memset(e, 0, sizeof(*e));
     e->parent = parent;
     e->ref_count = ref_count;
+    e->lookups = pro_lookup_table_new(s);
     return e;
 }
 
@@ -129,22 +82,7 @@ PRO_INTERNAL void pro_env_free(pro_state_ref s, pro_env* t)
         binding = next;
     }
     
-    for (pro_internal_lookup* internal = t->lookups; internal; internal = internal->next)
-    {
-        if (internal->value)
-        {
-            if (internal->value->ref_count)
-                pro_object_release(s, internal->value);
-            internal->value = 0;
-        }
-    }
-    
-    for (pro_internal_lookup* internal = t->lookups; internal;)
-    {
-        pro_internal_lookup* next = internal->next;
-        alloc(internal, 0);
-        internal = next;
-    }
+    pro_lookup_table_free(s, t->lookups);
     
     alloc(t, 0);
 }
@@ -156,45 +94,25 @@ PRO_INTERNAL pro_ref pro_env_next_lookup(pro_state_ref s,
     pro_env_retain(s, env_ref);
     pro_env* env = pro_env_dereference(s, env_ref);
     
-    unsigned int index = env->size;
+    unsigned int index = pro_lookup_table_append(s, env->lookups);
     pro_lookup* lookup = pro_lookup_new(s, env_ref, index, 1);
     if (!lookup) return 0;
     
-    pro_internal_lookup* internal = pro_internal_lookup_new(s, 0, 0, index);
-    if (!internal)
-    {
-        pro_alloc* alloc;
-        pro_get_alloc(s, &alloc);
-        alloc(lookup, 0);
-        return 0;
-    }
-    
-    pro_internal_lookup* parent = env->lookups;
-    if (!parent)
-        env->lookups = internal;
-    else
-    {
-        while (parent->next)
-            parent = parent->next;
-        parent->next = internal;
-    }
-        
-    (env->size)++;
     return lookup;
 }
 
 
 PRO_INTERNAL pro_object** pro_env_lookup_value(pro_state_ref s, pro_ref ref)
 {
-    pro_internal_lookup* internal = pro_env_get_internal_lookup(s, ref);
-    return &(internal->value);
+    pro_env* env = pro_env_dereference(s, ref->env);
+    return pro_lookup_table_get(s, env->lookups, ref->index);
 }
 
 
 PRO_INTERNAL pro_object* pro_dereference(pro_state_ref s, pro_ref ref)
 {
-    pro_internal_lookup* internal = pro_env_get_internal_lookup(s, ref);
-    return internal->value;
+    pro_env* env = pro_env_dereference(s, ref->env);
+    return *pro_lookup_table_get(s, env->lookups, ref->index);
 }
 
 PRO_INTERNAL pro_env* pro_internal_env_retain(pro_state_ref s, pro_env* env)
@@ -220,12 +138,7 @@ PRO_INTERNAL void pro_internal_env_release(pro_state_ref s, pro_env* env)
             binding = next;
         }
         
-        for (pro_internal_lookup* internal = env->lookups; internal;)
-        {
-            pro_internal_lookup* next = internal->next;
-            alloc(next, 0);
-            internal = next;
-        }
+        pro_lookup_table_free(s, env->lookups);
         
         pro_env_release(s, env->parent);
         
@@ -236,27 +149,7 @@ PRO_INTERNAL void pro_internal_env_release(pro_state_ref s, pro_env* env)
 
 PRO_INTERNAL void pro_env_lookup_remove(pro_state_ref s, pro_env* env, pro_ref ref)
 {
-    pro_internal_lookup* parent;
-    for (pro_internal_lookup* internal = env->lookups; internal; internal = internal->next)
-    {
-        if (internal->index == ref->index)
-        {
-            pro_alloc* alloc;
-            pro_get_alloc(s, &alloc);
-            
-            alloc(internal, 0);
-            
-            pro_internal_lookup* next = internal->next;
-            
-            if (env->lookups == internal)
-                env->lookups = next;
-            else
-                parent->next = next;
-            
-            return;
-        }
-        parent = internal;
-    }
+    pro_lookup_table_remove(s, env->lookups, ref->index);
 }
 
 
@@ -292,23 +185,19 @@ PRO_API pro_error pro_bind(pro_state_ref s, pro_ref ref, const char* id)
     pro_get_env(s, &env_ref);
     pro_env* env = pro_env_dereference(s, env_ref);
 
-    pro_internal_lookup* internal = pro_env_get_internal_lookup(s, ref);
-    if (internal)
+    pro_lookup_binding* binding = pro_lookup_binding_new(s, id, ref, 0);
+    pro_lookup_binding* parent = env->bindings;
+    if (!parent)
+        env->bindings = binding;
+    else
     {
-        pro_lookup_binding* binding = pro_lookup_binding_new(s, id, ref, 0);
-        pro_lookup_binding* parent = env->bindings;
-        if (!parent)
-            env->bindings = binding;
-        else
+        while (parent->next)
         {
-            while (parent->next)
-            {
-                PRO_API_ASSERT(parent->identifier && strcmp(id, parent->identifier) != 0,
-                    PRO_INVALID_OPERATION);
-                parent = parent->next;
-            }
-            parent->next = binding;
+            PRO_API_ASSERT(parent->identifier && strcmp(id, parent->identifier) != 0,
+                PRO_INVALID_OPERATION);
+            parent = parent->next;
         }
+        parent->next = binding;
     }
     
     pro_env_release(s, env_ref);

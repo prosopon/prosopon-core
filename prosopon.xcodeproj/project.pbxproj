@@ -52,6 +52,8 @@
 		89F95442152F43E80060B211 /* prosopon_actor_type.h in Headers */ = {isa = PBXBuildFile; fileRef = 89F95441152F43E80060B211 /* prosopon_actor_type.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		89F95446152F9EA30060B211 /* pro_user_data.c in Sources */ = {isa = PBXBuildFile; fileRef = 89F95445152F9EA20060B211 /* pro_user_data.c */; };
 		89F95447152F9EA30060B211 /* pro_user_data.c in Sources */ = {isa = PBXBuildFile; fileRef = 89F95445152F9EA20060B211 /* pro_user_data.c */; };
+		89FCC669153B64AF006C6FFF /* pro_lookup_table.c in Sources */ = {isa = PBXBuildFile; fileRef = 89FCC668153B64AF006C6FFF /* pro_lookup_table.c */; };
+		89FCC66A153B64AF006C6FFF /* pro_lookup_table.c in Sources */ = {isa = PBXBuildFile; fileRef = 89FCC668153B64AF006C6FFF /* pro_lookup_table.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -109,6 +111,8 @@
 		89F9543E152EA5310060B211 /* pro_env_stack.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = pro_env_stack.c; sourceTree = "<group>"; };
 		89F95441152F43E80060B211 /* prosopon_actor_type.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = prosopon_actor_type.h; sourceTree = "<group>"; };
 		89F95445152F9EA20060B211 /* pro_user_data.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = pro_user_data.c; sourceTree = "<group>"; };
+		89FCC666153B64A5006C6FFF /* pro_lookup_table.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = pro_lookup_table.h; sourceTree = "<group>"; };
+		89FCC668153B64AF006C6FFF /* pro_lookup_table.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = pro_lookup_table.c; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -160,6 +164,8 @@
 				89F9543C152EA5230060B211 /* pro_env_stack.h */,
 				89F9543E152EA5310060B211 /* pro_env_stack.c */,
 				89F95445152F9EA20060B211 /* pro_user_data.c */,
+				89FCC666153B64A5006C6FFF /* pro_lookup_table.h */,
+				89FCC668153B64AF006C6FFF /* pro_lookup_table.c */,
 			);
 			path = src;
 			sourceTree = "<group>";
@@ -311,6 +317,7 @@
 				89F95446152F9EA30060B211 /* pro_user_data.c in Sources */,
 				89E63058153A5CD000C88C05 /* pro_env_lookup.c in Sources */,
 				89E6305C153A5DA000C88C05 /* pro_lookup_list.c in Sources */,
+				89FCC669153B64AF006C6FFF /* pro_lookup_table.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -339,6 +346,7 @@
 				89AF580B15391BD5008D8426 /* test-pro_alloc.c in Sources */,
 				89E63059153A5CD000C88C05 /* pro_env_lookup.c in Sources */,
 				89E6305D153A5DA000C88C05 /* pro_lookup_list.c in Sources */,
+				89FCC66A153B64AF006C6FFF /* pro_lookup_table.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

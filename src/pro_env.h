@@ -4,7 +4,7 @@
 #include "prosopon.h"
 
 struct pro_object;
-
+struct pro_lookup_table;
 
 typedef struct pro_env pro_env;
 
@@ -21,8 +21,7 @@ struct pro_env
     
     pro_env_ref parent; /**< The parent environment used for delegation. */
     
-    pro_internal_lookup* lookups;
-    unsigned int size;
+    struct pro_lookup_table* lookups;
 
     pro_lookup_binding* bindings;
 };
