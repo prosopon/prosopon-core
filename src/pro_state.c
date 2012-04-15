@@ -113,7 +113,8 @@ PRO_API pro_error pro_state_create(pro_alloc* alloc, PRO_OUT pro_state_ref* out_
     // Setup the main state
     pro_state* s = g->main;
     
-    pro_env_ref root_env = pro_env_lookup_new(s, pro_env_new(s, PRO_EMPTY_ENV_REF, 0), 1);
+    pro_env* env = pro_env_new(s, PRO_EMPTY_ENV_REF, 1);
+    pro_env_ref root_env = pro_env_lookup_new(s, env, 1);
     PRO_API_ASSERT(root_env, PRO_OUT_OF_MEMORY);
     pro_env_stack* stack = pro_env_stack_new(s);
     pro_env_stack_push(s, stack, root_env);
@@ -139,10 +140,9 @@ PRO_API pro_error pro_state_release(pro_state_ref s)
     
     // Release the root environment.
     pro_env* root_env = pro_env_dereference(s, s->root_env);
-    pro_env_free(s, root_env);
     pro_env_release(s, s->root_env);
+    pro_env_free(s, root_env);
 
-    
     // free global state
     if (s == s->global->main)
         pro_global_state_free(s, s->global);
@@ -179,7 +179,9 @@ PRO_API pro_error pro_run(pro_state_ref s)
 PRO_API pro_error pro_get_env(pro_state_ref s, PRO_OUT pro_env_ref* out_env)
 {
     PRO_API_ASSERT(s, PRO_INVALID_OPERATION);
-    *out_env = pro_env_lookup_new(s, pro_env_stack_top(s, s->stack)->value, 1);
+    
+    pro_env_ref env = pro_env_stack_top(s, s->stack);
+    *out_env = pro_env_lookup_new(s, pro_internal_env_retain(s, env->value), 1);
     return PRO_OK;
 }
 

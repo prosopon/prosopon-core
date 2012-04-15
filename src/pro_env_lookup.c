@@ -14,7 +14,7 @@ PRO_INTERNAL pro_env_lookup* pro_env_lookup_new(pro_state_ref s,
     pro_env_lookup* t = alloc(0, sizeof(*t));
     if (!t) return 0;
     
-    t->value = pro_internal_env_retain(s, value);
+    t->value = value;
     t->ref_count = ref_count;
     return t;
 }

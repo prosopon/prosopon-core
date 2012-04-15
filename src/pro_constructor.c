@@ -19,6 +19,7 @@ PRO_API pro_error pro_constructor_create(pro_state_ref s,
     
     *obj = pro_object_new(s, PRO_CONSTRUCTOR_TYPE, 1);
     (*obj)->value.constructor.constructor = c;
+   
     pro_retain(s, ud);
     (*obj)->value.constructor.data = ud;
     

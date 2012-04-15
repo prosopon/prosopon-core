@@ -15,10 +15,49 @@ PRO_INTERNAL pro_object* pro_object_new(pro_state_ref s,
     pro_get_alloc(s, &alloc);
     pro_object* t = alloc(0, sizeof(*t));
     if (!t) return 0;
+    
     t->type = type;
     t->ref_count = ref_count;
     return t;
 }
+
+
+PRO_INTERNAL void pro_object_free(pro_state_ref s, pro_object* t)
+{
+    pro_alloc* alloc;
+    pro_get_alloc(s, &alloc);
+    
+    // Free object data
+    switch (t->type)
+    {
+    case PRO_ACTOR_TYPE:
+        pro_release(s, t->value.actor.data);
+        pro_env_release(s, t->value.actor.env);
+        break;
+    case PRO_MESSAGE_TYPE:
+        // Release the message list
+        for (pro_ref_list msg = t->value.message; msg;)
+        {
+            // Release the message value
+            pro_release(s, msg->value);
+            pro_ref_list next = msg->next;
+            // Free the msg structure
+            alloc(msg, 0);
+            msg = next;
+        }
+        break;
+    case PRO_UD_TYPE:
+        t->value.ud.deconstructor(s, t->value.ud.data);
+        break;
+    case PRO_CONSTRUCTOR_TYPE:
+        pro_release(s, t->value.constructor.data);
+        break;
+    }
+    
+    // Free the pro_object
+    alloc(t, 0);
+}
+
 
 PRO_INTERNAL pro_object* pro_object_retain(pro_state_ref s, pro_object* t)
 {
@@ -29,35 +68,12 @@ PRO_INTERNAL pro_object* pro_object_retain(pro_state_ref s, pro_object* t)
 
 PRO_INTERNAL void pro_object_release(pro_state_ref s, pro_object* t)
 {
+    if (!t) return;
+    assert(t->ref_count > 0);
+    
     if (--(t->ref_count) <= 0)
-    {
-        pro_alloc* alloc;
-        pro_get_alloc(s, &alloc);
-           
-        switch (t->type)
-        {
-        case PRO_ACTOR_TYPE:
-            pro_release(s, t->value.actor.data);
-            pro_env_release(s, t->value.actor.env);
-            break;
-        case PRO_MESSAGE_TYPE:
-            for (pro_ref_list msg = t->value.message; msg;)
-            {
-                pro_release(s, msg->value);
-                pro_ref_list old = msg;
-                msg = msg->next;
-                alloc(old, 0);
-            }
-            break;
-        case PRO_UD_TYPE:
-            t->value.ud.deconstructor(s, t->value.ud.data);
-            break;
-        }
-
-        alloc(t, 0);
-    }
+        pro_object_free(s, t);
 }
-
 
 
 #pragma mark -
