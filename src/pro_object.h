@@ -52,7 +52,7 @@ PRO_INTERNAL pro_object* pro_object_new(pro_state_ref,
 PRO_INTERNAL pro_object* pro_object_retain(pro_state_ref, pro_object*);
 
 
-PRO_INTERNAL void pro_object_release(pro_state_ref, pro_object*);
+PRO_INTERNAL void pro_object_release(pro_state_ref, pro_object*, pro_ref t_ref);
 
 
 #endif

@@ -10,7 +10,9 @@
 
 static void pro_default_ud_deconstructor(pro_state_ref s, pro_ref t, void* data)
 {
-    // noop
+    pro_alloc* alloc;
+    pro_get_alloc(s, &alloc);
+    alloc(data, 0);
 }
 
 
@@ -37,6 +39,8 @@ PRO_API pro_error pro_ud_create(pro_state_ref s,
     (*obj)->value.ud.size = size;
     (*obj)->value.ud.data = size > 0 ? alloc(0, size) : 0;
     (*obj)->value.ud.deconstructor = deconstructor;
+    
+    pro_env_release(s, current_env);
     
     *t = lookup;
     return PRO_OK;

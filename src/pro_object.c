@@ -26,7 +26,7 @@ PRO_INTERNAL pro_object* pro_object_retain(pro_state_ref s, pro_object* t)
 }
 
 
-PRO_INTERNAL void pro_object_release(pro_state_ref s, pro_object* t)
+PRO_INTERNAL void pro_object_release(pro_state_ref s, pro_object* t, pro_ref t_ref)
 {
     if (--(t->ref_count) <= 0)
     {
@@ -47,6 +47,9 @@ PRO_INTERNAL void pro_object_release(pro_state_ref s, pro_object* t)
                 msg = msg->next;
                 alloc(old, 0);
             }
+            break;
+        case PRO_UD_TYPE:
+            t->value.ud.deconstructor(s, t_ref, t->value.ud.data);
             break;
         }
 
@@ -78,8 +81,12 @@ PRO_API pro_error pro_release(pro_state_ref s, pro_ref ref)
         pro_get_alloc(s, &alloc);
         
         pro_object* obj = pro_dereference(s, ref);
-        pro_object_release(s, obj);
-
+        pro_object_release(s, obj, ref);
+        
+        // release from env
+        pro_env_lookup_remove(s, ref->env->value, ref);
+       // pro_env_release(s, ref->env);
+        
         alloc(ref, 0);
     }
     

@@ -161,6 +161,42 @@ PRO_INTERNAL pro_env* pro_env_dereference(pro_state_ref s, pro_env_ref env_ref)
     return env_ref->value;
 }
 
+PRO_INTERNAL pro_env* pro_internal_env_retain(pro_state_ref s, pro_env* env)
+{
+    (env->ref_count)++;
+    return env;
+}
+
+
+PRO_INTERNAL void pro_internal_env_release(pro_state_ref s, pro_env* env)
+{
+    if (--(env->ref_count) == 0)
+    {
+        pro_alloc* alloc;
+        pro_get_alloc(s, &alloc);
+
+        for (pro_lookup_binding* binding = env->bindings; binding; )
+        {
+            pro_release(s, binding->lookup);
+            
+            pro_lookup_binding* next = binding->next;
+            alloc(binding, 0);
+            binding = next;
+        }
+        
+        pro_env_release(s, env->parent);
+    }
+}
+
+
+PRO_INTERNAL void pro_env_lookup_remove(pro_state_ref s, pro_env* env, pro_ref ref)
+{
+    pro_internal_lookup* internal_lookup = env->lookups;
+    for (unsigned int index = ref->index; index > 0; --index)
+        internal_lookup = internal_lookup->next;
+    internal_lookup->value = 0;
+}
+
 
 #pragma mark -
 #pragma mark PRO_API
@@ -225,7 +261,7 @@ PRO_API pro_error pro_bind(pro_state_ref s, pro_ref ref, const char* id)
     {
         pro_lookup_binding* binding = pro_lookup_binding_new(s, id, ref, 0);
         pro_lookup_binding* parent = env->bindings;
-        if (0 == parent)
+        if (!parent)
             env->bindings = binding;
         else
         {
@@ -238,7 +274,6 @@ PRO_API pro_error pro_bind(pro_state_ref s, pro_ref ref, const char* id)
             parent->next = binding;
         }
     }
-    
 
     return PRO_OK;
 }
@@ -273,29 +308,4 @@ PRO_API pro_error pro_get_binding(pro_state_ref s,
 }
 
 
-PRO_INTERNAL pro_env* pro_internal_env_retain(pro_state_ref s, pro_env* env)
-{
-    (env->ref_count)++;
-    return env;
-}
 
-
-PRO_INTERNAL void pro_internal_env_release(pro_state_ref s, pro_env* env)
-{
-    if (--(env->ref_count) == 0)
-    {
-        pro_alloc* alloc;
-        pro_get_alloc(s, &alloc);
-
-        for (pro_lookup_binding* binding = env->bindings; binding; )
-        {
-            pro_release(s, binding->lookup);
-            
-            pro_lookup_binding* next = binding->next;
-            alloc(binding, 0);
-            binding = next;
-        }
-        
-        pro_env_release(s, env->parent);
-    }
-}
