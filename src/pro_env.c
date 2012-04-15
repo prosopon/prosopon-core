@@ -157,11 +157,6 @@ PRO_INTERNAL pro_object* pro_dereference(pro_state_ref s, pro_ref ref)
     return internal->value;
 }
 
-PRO_INTERNAL pro_env* pro_env_dereference(pro_state_ref s, pro_env_ref env_ref)
-{
-    return env_ref->value;
-}
-
 PRO_INTERNAL pro_env* pro_internal_env_retain(pro_state_ref s, pro_env* env)
 {
     (env->ref_count)++;
@@ -215,31 +210,6 @@ PRO_API pro_error pro_env_create(pro_state_ref s, pro_env_ref parent,
     PRO_API_ASSERT(env_lookup, PRO_OUT_OF_MEMORY);
     
     *env_out = env_lookup; 
-    return PRO_OK;
-}
-
-
-PRO_API pro_error pro_env_retain(pro_state_ref s, pro_env_ref env_ref)
-{
-    PRO_API_ASSERT(s, PRO_INVALID_OPERATION);
-    env_ref->ref_count++;
-    return PRO_OK;
-}
-
-
-PRO_API pro_error pro_env_release(pro_state_ref s, pro_env_ref env_ref)
-{    
-    if (--(env_ref->ref_count) <= 0)
-    {
-        pro_alloc* alloc;
-        pro_get_alloc(s, &alloc);
-        
-        pro_env* env = pro_env_dereference(s, env_ref);
-        pro_internal_env_release(s, env);
-        
-        alloc(env_ref, 0);
-    }
-    
     return PRO_OK;
 }
 

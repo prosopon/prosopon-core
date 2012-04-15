@@ -53,10 +53,7 @@ PRO_INTERNAL struct pro_object** pro_env_lookup_value(pro_state_ref,
  */
 PRO_INTERNAL struct pro_object* pro_dereference(pro_state_ref, pro_ref);
 
-/**
- * Dereferenaces a pro_ref
- */
-PRO_INTERNAL pro_env* pro_env_dereference(pro_state_ref, pro_env_ref);
+
 
 
 PRO_INTERNAL pro_env* pro_internal_env_retain(pro_state_ref s, pro_env*);

@@ -63,38 +63,6 @@ PRO_INTERNAL void pro_object_release(pro_state_ref s, pro_object* t, pro_ref t_r
 #pragma mark -
 #pragma mark Public
 
-PRO_API pro_error pro_retain(pro_state_ref s, pro_ref ref)
-{
-    if (PRO_EMPTY_REF != ref)
-        ref->ref_count++;
-    return PRO_OK;
-}
-
-
-PRO_API pro_error pro_release(pro_state_ref s, pro_ref ref)
-{
-    if (PRO_EMPTY_REF == ref)
-        return PRO_OK;
-    
-    if (--(ref->ref_count) <= 0)
-    {    
-        pro_alloc* alloc;
-        pro_get_alloc(s, &alloc);
-        
-        pro_object* obj = pro_dereference(s, ref);
-        pro_object_release(s, obj, ref);
-        
-        // release from env
-        pro_env_lookup_remove(s, ref->env->value, ref);
-       // pro_env_release(s, ref->env);
-        
-        alloc(ref, 0);
-    }
-    
-    return PRO_OK;
-}
-
-
 PRO_API pro_error pro_get_type(pro_state_ref s, pro_ref ref,
     PRO_OUT pro_type* type)
 {
