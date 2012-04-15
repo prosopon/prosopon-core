@@ -72,8 +72,12 @@ PRO_INTERNAL void pro_library_list_free(pro_state_ref s, pro_library_list* libra
     pro_alloc* alloc;
     pro_get_alloc(s, &alloc);
     
-    for (pro_library_list* lib = libraries; lib; lib = lib->next)
+    for (pro_library_list* lib = libraries; lib; )
+    {
+        pro_library_list* next = lib->next;
         alloc(lib, 0);
+        lib = next;
+    }
 }
 
 

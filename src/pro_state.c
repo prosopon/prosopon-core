@@ -49,9 +49,12 @@ static void pro_global_state_free(pro_state_ref s, pro_global_state* g)
 {
     pro_alloc* alloc = g->alloc;
     
-    pro_library_list_free(s, g->libraries);
-    pro_actor_type_info_list_free(s, g->actor_types);
-    pro_message_queue_free(s, g->message_queue);
+    if (g->libraries)
+        pro_library_list_free(s, g->libraries);
+    if (g->actor_types)
+        pro_actor_type_info_list_free(s, g->actor_types);
+    if (g->message_queue)
+        pro_message_queue_free(s, g->message_queue);
     
     // Free global state structure memory
     alloc(g, 0);
@@ -134,6 +137,9 @@ PRO_API pro_error pro_state_release(pro_state_ref s)
 {
     PRO_API_ASSERT(s, PRO_INVALID_OPERATION);
     
+    pro_alloc* alloc;
+    pro_get_alloc(s, &alloc);
+    
     // relase all environments
     while (!pro_env_lookup_equal(s, pro_env_stack_top(s, s->stack), s->root_env))  
         pro_pop_env(s); 
@@ -148,8 +154,7 @@ PRO_API pro_error pro_state_release(pro_state_ref s)
         pro_global_state_free(s, s->global);
     
     // free state structure memory
-    pro_alloc* alloc;
-    pro_get_alloc(s, &alloc);
+
     alloc(s, 0);
     return PRO_OK;
 }
