@@ -27,7 +27,7 @@ static int cleanup(void)
 
 static int global = 0;
 
-static pro_ref sample_contructor(pro_state_ref s, pro_ref_list arguments, pro_ref ud)
+static pro_ref sample_contructor(pro_state_ref s, pro_ref arguments, pro_ref ud)
 {
     const int* val;
     pro_ud_read(s, ud, (const void**)(&val));
@@ -63,7 +63,7 @@ static void test_create(void)
     // Create constructor
     pro_ref c;
     pro_constructor_create(state, sample_contructor, ud, &c);
-    pro_ref_list list;
+    pro_ref list = PRO_EMPTY_REF;
     
     pro_type type;
     pro_get_type(state, c, &type);

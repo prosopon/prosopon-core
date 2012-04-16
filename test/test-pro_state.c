@@ -5,6 +5,8 @@
 #include "pro_env_stack.h"
 #include "pro_env.h"
 #include "pro_lookup.h"
+#include "pro_env_lookup.h"
+
 #include "test-pro_alloc.h"
 
 

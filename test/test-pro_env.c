@@ -5,6 +5,8 @@
 #include "pro_state.h"
 #include "pro_env.h"
 #include "pro_lookup.h"
+#include "pro_env_lookup.h"
+
 #include "test-pro_alloc.h"
 
 
@@ -30,12 +32,12 @@ static int cleanup(void)
 
 static void test_new(void)
 {
-    pro_env* env1 = pro_env_new(state, 0);
+    pro_env* env1 = pro_env_new(state, 0, 1);
     CU_ASSERT(0 != env1);
     CU_ASSERT(0 == env1->parent);
     
-    pro_internal_env_retain(s, env1);
-    pro_env* env2 = pro_env_new(state, pro_env_lookup_new(state, env1));
+    pro_internal_env_retain(state, env1);
+    pro_env* env2 = pro_env_new(state, pro_env_lookup_new(state, env1, 1), 1);
     CU_ASSERT(0 != env2);
     CU_ASSERT(env1 == env2->parent->value);
 }

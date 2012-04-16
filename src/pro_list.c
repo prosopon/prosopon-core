@@ -89,7 +89,7 @@ PRO_API pro_error pro_list_append(pro_state_ref s,
     // retain the appended object
     pro_retain(s, ref);
     
-    // create the new message
+    // create the new list
     pro_ref new_msg;
     pro_list_create(s, &new_msg);
     

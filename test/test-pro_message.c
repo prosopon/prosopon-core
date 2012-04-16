@@ -53,23 +53,23 @@ static void test_create_invalid(void)
 
 static void test_append(void)
 {
-    pro_ref msg;
+    pro_ref msg, msg1, msg2;
     pro_list_create(state, &msg);
     
     pro_ref actor1, actor2;
     pro_actor_create(state, PRO_DEFAULT_ACTOR_TYPE, 0, PRO_EMPTY_REF, &actor1);
     pro_actor_create(state, PRO_DEFAULT_ACTOR_TYPE, 0, PRO_EMPTY_REF, &actor2);
 
-    pro_list_append(state, msg, actor1, &msg);
-    pro_list_append(state, msg, actor2, &msg);
+    pro_list_append(state, msg, actor1, &msg1);
+    pro_list_append(state, msg1, actor2, &msg2);
 
     unsigned int len;
-    pro_list_length(state, msg, &len);
+    pro_list_length(state, msg2, &len);
     CU_ASSERT(2 == len);
     
     pro_ref first, second;
-    pro_list_get(state, msg, 0, &first);
-    pro_list_get(state, msg, 1, &second);
+    pro_list_get(state, msg2, 0, &first);
+    pro_list_get(state, msg2, 1, &second);
     
     CU_ASSERT(pro_lookup_equal(state, first, actor1));
     CU_ASSERT(pro_lookup_equal(state, second, actor2));
