@@ -4,6 +4,17 @@
 #include "prosopon.h"
 
 
+
+/**
+ * A list of lookup values.
+ */
+typedef struct pro_lookup_list* pro_ref_list;
+struct pro_lookup_list
+{
+    pro_ref_list next;
+    pro_ref value;
+};
+
 /**
  * @return A new lookup list.
  */

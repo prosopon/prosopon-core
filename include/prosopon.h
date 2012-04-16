@@ -61,15 +61,6 @@ typedef struct pro_lookup* pro_ref;
 
 extern pro_ref PRO_EMPTY_REF;
 
-/**
- * A list of lookup values.
- */
-typedef struct pro_lookup_list* pro_ref_list;
-struct pro_lookup_list
-{
-    pro_ref_list next;
-    pro_ref value;
-};
 
 /**
  * Function representing the behavior of an actor.
@@ -86,7 +77,7 @@ typedef void(pro_behavior)(pro_state_ref,
  * @return A lookup to the constructed object or null if none.
  */
 typedef pro_ref(pro_constructor)(pro_state_ref,
-    pro_ref_list arguments, pro_ref ud);
+    pro_ref arguments, pro_ref ud);
 
 
 #pragma mark Types
@@ -97,7 +88,7 @@ typedef pro_ref(pro_constructor)(pro_state_ref,
 typedef enum
 {
     PRO_NONE_TYPE = 0,
-    PRO_MESSAGE_TYPE,
+    PRO_LIST_TYPE,
     PRO_ACTOR_TYPE,
     PRO_CONSTRUCTOR_TYPE,
     PRO_UD_TYPE,
@@ -301,7 +292,7 @@ PRO_API pro_error (pro_constructor_create) (pro_state_ref,
  *   PRO_CONSTRUCTOR_ERROR if the constructor call fails.
  */
 PRO_API pro_error (pro_constructor_call) (pro_state_ref,
-    pro_ref constructor, pro_ref_list arguments, PRO_OUT pro_ref* result);
+    pro_ref constructor, pro_ref arguments, PRO_OUT pro_ref* result);
 
 
 #pragma mark Message
@@ -316,7 +307,7 @@ PRO_API pro_error (pro_constructor_call) (pro_state_ref,
  *   PRO_INVALID_OPERATION if the state is not valid.
  *   PRO_OUT_OF_MEMORY if memory allocation fails.
  */
-PRO_API pro_error (pro_message_create) (pro_state_ref, PRO_OUT pro_ref* msg);
+PRO_API pro_error (pro_list_create) (pro_state_ref, PRO_OUT pro_ref* msg);
 
 /**
  * Get the number of objects in a message.
@@ -328,7 +319,7 @@ PRO_API pro_error (pro_message_create) (pro_state_ref, PRO_OUT pro_ref* msg);
  *   PRO_INVALID_OPERATION if the state is not valid.
  *   PRO_INVALID_ARGUMENT if msg does not reference a message.
  */
-PRO_API pro_error (pro_message_length) (pro_state_ref, pro_ref msg,
+PRO_API pro_error (pro_list_length) (pro_state_ref, pro_ref msg,
     PRO_OUT unsigned int* length);
 
 /**
@@ -341,7 +332,7 @@ PRO_API pro_error (pro_message_length) (pro_state_ref, pro_ref msg,
  *   PRO_INVALID_OPERATION if the state is not valid.
  *   PRO_INVALID_ARGUMENT if msg does not reference a message.
  */
-PRO_API pro_error (pro_message_get) (pro_state_ref,
+PRO_API pro_error (pro_list_get) (pro_state_ref,
     pro_ref msg, unsigned int index, PRO_OUT pro_ref* result);
 
 /**
@@ -355,7 +346,7 @@ PRO_API pro_error (pro_message_get) (pro_state_ref,
  *   PRO_INVALID_ARGUMENT if msg does not reference a message or value does
  *     not reference a valid object.
  */
-PRO_API pro_error (pro_message_append) (pro_state_ref,
+PRO_API pro_error (pro_list_append) (pro_state_ref,
     pro_ref msg, pro_ref value, PRO_OUT pro_ref* new_msg);
 
 

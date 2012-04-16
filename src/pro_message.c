@@ -17,7 +17,7 @@
 #pragma mark Public
 
 
-PRO_API pro_error pro_message_create(pro_state_ref s, PRO_OUT pro_ref* msg)
+PRO_API pro_error pro_list_create(pro_state_ref s, PRO_OUT pro_ref* msg)
 {
     PRO_API_ASSERT(s, PRO_INVALID_OPERATION);
     pro_env_ref env;
@@ -26,7 +26,7 @@ PRO_API pro_error pro_message_create(pro_state_ref s, PRO_OUT pro_ref* msg)
     pro_env_release(s, env);
     
     pro_object** obj = pro_env_lookup_value(s, ref);
-    *obj = pro_object_new(s, PRO_MESSAGE_TYPE, 1);
+    *obj = pro_object_new(s, PRO_LIST_TYPE, 1);
     PRO_API_ASSERT(*obj, PRO_OUT_OF_MEMORY);
     (*obj)->value.message = 0;
     
@@ -35,11 +35,11 @@ PRO_API pro_error pro_message_create(pro_state_ref s, PRO_OUT pro_ref* msg)
 }
 
 
-PRO_API pro_error pro_message_length(pro_state_ref s, pro_ref ref,
+PRO_API pro_error pro_list_length(pro_state_ref s, pro_ref ref,
     PRO_OUT unsigned int* length)
 {
     PRO_API_ASSERT(s, PRO_INVALID_OPERATION);
-    PRO_API_ASSERT_TYPE(ref, PRO_MESSAGE_TYPE, PRO_INVALID_ARGUMENT);
+    PRO_API_ASSERT_TYPE(ref, PRO_LIST_TYPE, PRO_INVALID_ARGUMENT);
     
     pro_object* obj = pro_dereference(s, ref);
     unsigned int l = 0;
@@ -50,11 +50,11 @@ PRO_API pro_error pro_message_length(pro_state_ref s, pro_ref ref,
 }
 
 
-PRO_API pro_error pro_message_get(pro_state_ref s,
+PRO_API pro_error pro_list_get(pro_state_ref s,
     pro_ref msg, unsigned int idx, PRO_OUT pro_ref* result)
 {
     PRO_API_ASSERT(s, PRO_INVALID_OPERATION);
-    PRO_API_ASSERT_TYPE(msg, PRO_MESSAGE_TYPE, PRO_INVALID_ARGUMENT);
+    PRO_API_ASSERT_TYPE(msg, PRO_LIST_TYPE, PRO_INVALID_ARGUMENT);
 
     pro_object* obj = pro_dereference(s, msg);
     pro_ref_list list = obj->value.message;
@@ -78,11 +78,11 @@ PRO_API pro_error pro_message_get(pro_state_ref s,
 
 
 
-PRO_API pro_error pro_message_append(pro_state_ref s,
+PRO_API pro_error pro_list_append(pro_state_ref s,
     pro_ref msg, pro_ref ref, PRO_OUT pro_ref* new_msg_out)
 {
     PRO_API_ASSERT(s, PRO_INVALID_OPERATION);
-    PRO_API_ASSERT_TYPE(msg, PRO_MESSAGE_TYPE, PRO_INVALID_ARGUMENT);
+    PRO_API_ASSERT_TYPE(msg, PRO_LIST_TYPE, PRO_INVALID_ARGUMENT);
     PRO_API_ASSERT(ref, PRO_INVALID_ARGUMENT);
     PRO_API_ASSERT(msg != *new_msg_out, PRO_INVALID_ARGUMENT);
     
@@ -91,7 +91,7 @@ PRO_API pro_error pro_message_append(pro_state_ref s,
     
     // create the new message
     pro_ref new_msg;
-    pro_message_create(s, &new_msg);
+    pro_list_create(s, &new_msg);
     
     pro_object* obj = pro_dereference(s, msg);
     pro_object* new_obj = pro_dereference(s, new_msg);

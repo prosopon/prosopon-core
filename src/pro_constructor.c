@@ -29,7 +29,7 @@ PRO_API pro_error pro_constructor_create(pro_state_ref s,
 
 
 PRO_API pro_error pro_constructor_call(pro_state_ref s,
-    pro_ref constructor, pro_ref_list arguments, PRO_OUT pro_ref* result)
+    pro_ref constructor, pro_ref arguments, PRO_OUT pro_ref* result)
 {
     PRO_API_ASSERT(s, PRO_INVALID_OPERATION);
     PRO_API_ASSERT_TYPE(constructor, PRO_CONSTRUCTOR_TYPE, PRO_INVALID_ARGUMENT);

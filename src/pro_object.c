@@ -35,7 +35,7 @@ PRO_INTERNAL void pro_object_free(pro_state_ref s, pro_object* t)
         pro_release(s, t->value.actor.data);
         pro_env_release(s, t->value.actor.env);
         break;
-    case PRO_MESSAGE_TYPE:
+    case PRO_LIST_TYPE:
         // Release the message list
         pro_lookup_list_free(s, t->value.message);
         break;

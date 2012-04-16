@@ -58,7 +58,7 @@ PRO_API pro_error pro_send(pro_state_ref s, pro_ref actor, pro_ref msg)
 {
     PRO_API_ASSERT(s, PRO_INVALID_OPERATION);
     PRO_API_ASSERT_TYPE(actor, PRO_ACTOR_TYPE, PRO_INVALID_ARGUMENT);
-    PRO_API_ASSERT_TYPE(msg, PRO_MESSAGE_TYPE, PRO_INVALID_ARGUMENT);
+    PRO_API_ASSERT_TYPE(msg, PRO_LIST_TYPE, PRO_INVALID_ARGUMENT);
 
     pro_message_queue_enqueue(s, s->global->message_queue, msg, actor);
     return PRO_OK;

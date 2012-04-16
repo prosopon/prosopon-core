@@ -32,44 +32,44 @@ static int cleanup(void)
 static void test_create(void)
 {
     pro_ref msg;
-    pro_message_create(state, &msg);
+    pro_list_create(state, &msg);
     CU_ASSERT(PRO_EMPTY_REF != msg);
     
     pro_type type;
     pro_get_type(state, msg, &type);
-    CU_ASSERT(PRO_MESSAGE_TYPE == type);
+    CU_ASSERT(PRO_LIST_TYPE == type);
     
     unsigned int len;
-    pro_message_length(state, msg, &len);
+    pro_list_length(state, msg, &len);
     CU_ASSERT(0 == len);
 }
 
 static void test_create_invalid(void)
 {
     pro_ref msg;
-    pro_error err = pro_message_create(0, &msg);
+    pro_error err = pro_list_create(0, &msg);
     CU_ASSERT(PRO_INVALID_OPERATION == err);
 }
 
 static void test_append(void)
 {
     pro_ref msg;
-    pro_message_create(state, &msg);
+    pro_list_create(state, &msg);
     
     pro_ref actor1, actor2;
     pro_actor_create(state, PRO_DEFAULT_ACTOR_TYPE, 0, PRO_EMPTY_REF, &actor1);
     pro_actor_create(state, PRO_DEFAULT_ACTOR_TYPE, 0, PRO_EMPTY_REF, &actor2);
 
-    pro_message_append(state, msg, actor1, &msg);
-    pro_message_append(state, msg, actor2, &msg);
+    pro_list_append(state, msg, actor1, &msg);
+    pro_list_append(state, msg, actor2, &msg);
 
     unsigned int len;
-    pro_message_length(state, msg, &len);
+    pro_list_length(state, msg, &len);
     CU_ASSERT(2 == len);
     
     pro_ref first, second;
-    pro_message_get(state, msg, 0, &first);
-    pro_message_get(state, msg, 1, &second);
+    pro_list_get(state, msg, 0, &first);
+    pro_list_get(state, msg, 1, &second);
     
     CU_ASSERT(pro_lookup_equal(state, first, actor1));
     CU_ASSERT(pro_lookup_equal(state, second, actor2));
@@ -79,21 +79,21 @@ static void test_append_invalid(void)
 {
     pro_error err;
     pro_ref msg;
-    pro_message_create(state, &msg);
+    pro_list_create(state, &msg);
     
     pro_ref actor;
     pro_actor_create(state, PRO_DEFAULT_ACTOR_TYPE, 0, PRO_EMPTY_REF, &actor);
 
     // bad state
-    err = pro_message_append(0, msg, actor, &msg);
+    err = pro_list_append(0, msg, actor, &msg);
     CU_ASSERT(PRO_INVALID_OPERATION == err);
     
     // bad value
-    err = pro_message_append(state, msg, PRO_EMPTY_REF, &msg);
+    err = pro_list_append(state, msg, PRO_EMPTY_REF, &msg);
     CU_ASSERT(PRO_INVALID_ARGUMENT == err);
     
     // bad msg
-    err = pro_message_append(state, PRO_EMPTY_REF, actor, &msg);
+    err = pro_list_append(state, PRO_EMPTY_REF, actor, &msg);
     CU_ASSERT(PRO_INVALID_ARGUMENT == err);
 }
 
@@ -101,16 +101,16 @@ static void test_length_invalid(void)
 {
     pro_error err;
     pro_ref msg;
-    pro_message_create(state, &msg);
+    pro_list_create(state, &msg);
     
     unsigned int len;
     
     // bad state
-    err = pro_message_length(0, msg, &len);
+    err = pro_list_length(0, msg, &len);
     CU_ASSERT(PRO_INVALID_OPERATION == err);
     
     // bad msg
-    err = pro_message_length(state, PRO_EMPTY_REF, &len);
+    err = pro_list_length(state, PRO_EMPTY_REF, &len);
     CU_ASSERT(PRO_INVALID_ARGUMENT == err);
 }
 
@@ -118,29 +118,29 @@ static void test_get_invalid(void)
 {
     pro_error err;
     pro_ref msg;
-    pro_message_create(state, &msg);
+    pro_list_create(state, &msg);
     
     pro_ref result;
     
     // bad state
-    err = pro_message_get(0, msg, 0, &result);
+    err = pro_list_get(0, msg, 0, &result);
     CU_ASSERT(PRO_INVALID_OPERATION == err);
     
     // bad msg
-    err = pro_message_get(state, PRO_EMPTY_REF, 0, &result);
+    err = pro_list_get(state, PRO_EMPTY_REF, 0, &result);
     CU_ASSERT(PRO_INVALID_ARGUMENT == err);
 }
 
 static void test_get_out_of_bounds(void)
 {
     pro_ref msg;
-    pro_message_create(state, &msg);
+    pro_list_create(state, &msg);
     
     pro_ref actor;
     pro_actor_create(state, PRO_DEFAULT_ACTOR_TYPE, 0, PRO_EMPTY_REF, &actor);
 
     pro_ref get;
-    pro_message_get(state, msg, 1, &get);
+    pro_list_get(state, msg, 1, &get);
     CU_ASSERT(PRO_EMPTY_REF == get);
 }
 
