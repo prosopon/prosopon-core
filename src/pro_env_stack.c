@@ -12,6 +12,15 @@ struct pro_env_stack_node
 };
 
 
+/**
+ * Structure for a fifo stack of environments.
+ */
+struct pro_env_stack
+{
+    struct pro_env_stack_node* top;
+};
+
+
 static pro_env_stack_node* pro_env_stack_node_new(pro_state_ref s,
     pro_env_ref value, pro_env_stack_node* next)
 {
@@ -38,6 +47,22 @@ PRO_INTERNAL pro_env_stack* pro_env_stack_new(pro_state_ref s)
     
     t->top = 0;
     return t;
+}
+
+
+PRO_INTERNAL void pro_env_stack_free(pro_state_ref s, pro_env_stack* t)
+{
+    pro_alloc* alloc;
+    pro_get_alloc(s, &alloc);
+
+    for (pro_env_stack_node* item = t->top; item;)
+    {
+        pro_env_stack_node* next = item->next;
+        alloc(next, 0);
+        item = next;
+    }
+    
+    alloc(t, 0);
 }
 
 

@@ -8,19 +8,14 @@ struct pro_env_stack_node;
 
 typedef struct pro_env_stack pro_env_stack;
 
-/**
- * Structure for a fifo stack of environments.
- */
-struct pro_env_stack
-{
-    struct pro_env_stack_node* top;
-};
-
 
 /**
  * @return An new, empty environment stack.
  */
 PRO_INTERNAL pro_env_stack* pro_env_stack_new(pro_state_ref);
+
+PRO_INTERNAL void pro_env_stack_free(pro_state_ref, pro_env_stack*);
+
 
 /**
  * Pushes an environment onto the stack.
