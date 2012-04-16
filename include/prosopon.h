@@ -137,16 +137,17 @@ PRO_API pro_error (pro_state_release) (pro_state_ref);
 PRO_API pro_error (pro_run) (pro_state_ref);
 
 /**
- * Gets the allocator used for a given state.
- *
- * @param[out] alloc The memory allocator
+ * @param[out] alloc The memory allocator used for the given state.
  *
  * @return
+ *   PRO_OK if successful
+ *   PRO_INVALID_OPERATION if the state is not valid.
  */
 PRO_API pro_error (pro_get_alloc) (pro_state_ref, PRO_OUT pro_alloc** alloc);
 
 /**
- * @param[out] env The reference to the current environment. 
+ * @param[out] env The reference to the current environment with a referance count
+ *     of 1.
  *
  * @return
  *   PRO_OK if successful
@@ -155,7 +156,7 @@ PRO_API pro_error (pro_get_alloc) (pro_state_ref, PRO_OUT pro_alloc** alloc);
 PRO_API pro_error (pro_get_env) (pro_state_ref, PRO_OUT pro_env_ref* env);
 
 /**
- * Pushes an environment onto the environment stack
+ * Pushes an environment onto the environment stack.
  *
  * @return
  *   PRO_OK if successful
@@ -188,25 +189,40 @@ PRO_API pro_error (pro_env_create) (pro_state_ref, pro_env_ref parent,
     PRO_OUT pro_env_ref* env);
 
 /**
+ * Retains a env reference for further use. 
+ *
+ * @see memory management.
  */
 PRO_API pro_error (pro_env_retain) (pro_state_ref, pro_env_ref);
 
 /**
  * Release an environment for future collection.
+ * 
+ * The env_ref must not be used after it has been released.
+ * 
+ * @see memory management.
  */
 PRO_API pro_error (pro_env_release) (pro_state_ref, pro_env_ref);
 
 /**
+ * Retains a reference for further use.
+ *
+ * @see memory management.
  */
 PRO_API pro_error (pro_retain) (pro_state_ref, pro_ref);
 
 /**
  * Release an referenced object for future collection.
+ *
+ * Ref must not be used after it has been released.
+ *
+ * @see memory management.
  */
 PRO_API pro_error (pro_release) (pro_state_ref, pro_ref);
 
 /**
- * @param[out] ref The highest resolved reference or PRO_EMPTY_REF if none.
+ * @param[out] ref The highest resolved reference or PRO_EMPTY_REF if none. 
+ *     Increments the reference count of the ref.
  *
  * @return
  *   PRO_OK if successful
@@ -264,10 +280,13 @@ PRO_API char* (pro_to_string)(pro_state_ref,
  * Creates a new constructor in the current environment.
  *
  * @param impl A function that constructs an object and returns a referance.
- *   Must not be null.
- * @param ud User data that is passed to the constructor function. May be null.
+ *   Must not be null. The env that the constructor is created in will be current
+ *   when this is called. 
+ * @param ud User data that is passed to the constructor function.
+ *   May be PRO_EMPTY_REF.
  * 
- * @param[out] out_ref A reference to the new constructor.
+ * @param[out] out_ref A reference to the new constructor with a reference count
+ *   of 1.
  *
  * @return
  *   PRO_OK if successful
@@ -300,7 +319,7 @@ PRO_API pro_error (pro_constructor_call) (pro_state_ref,
 /**
  * Creates a new list in the current environment.
  *
- * @param[out] msg A referance to the new list.
+ * @param[out] msg A referance to the new list with a reference count of 1.
  *
  * @return
  *   PRO_OK if successful
@@ -326,6 +345,7 @@ PRO_API pro_error (pro_list_length) (pro_state_ref, pro_ref msg,
  * Get a value from a list.
  *
  * @param[out] result Referance at index or PRO_EMPTY_REF if out of bounds.
+ *   Retains the refence.
  *
  * @return
  *   PRO_OK if successful
@@ -339,6 +359,10 @@ PRO_API pro_error (pro_list_get) (pro_state_ref,
  * Appends an value to a list to create a new list.
  *
  * Does not modify the origin list.
+ *
+ * @param[out] new_msg A reference to the new list with the new object appended
+ *   with a reference count of 1. Should not be the same as msg, this will cause
+ *   a memork leak.
  *
  * @return
  *   PRO_OK if successful
@@ -364,7 +388,8 @@ extern pro_ud_deconstructor* PRO_DEFAULT_UD_DECONSTRUCTOR;
 /**
  * Creates a new user data object with a given size and deconstructor.
  *
- * @param[out] out_ref A reference to the new user data object.
+ * @param[out] out_ref A reference to the new user data object with a reference
+ *   count of 1.
  */
 PRO_API pro_error (pro_ud_create) (pro_state_ref,
     size_t size, pro_ud_deconstructor* deconstructor, PRO_OUT pro_ref* out_ref);
@@ -385,10 +410,12 @@ PRO_API pro_error (pro_ud_write) (pro_state_ref, pro_ref, PRO_OUT void**);
 /**
  * Create a new actor object in the current environment.
  *
- * @return The lookup for the new actor.
+ * @param[out] out_ref The lookup for the new actor with a reference count of 1.
+ *
+ * @return
  */
 PRO_API pro_error (pro_actor_create) (pro_state_ref, pro_actor_type type,
-    pro_behavior beh, pro_ref data, PRO_OUT pro_ref*);
+    pro_behavior beh, pro_ref data, PRO_OUT pro_ref* out_ref);
 
 /**
  * @param[out] type The actor type value of a lookup.
