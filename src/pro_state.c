@@ -173,17 +173,17 @@ PRO_API pro_error pro_get_alloc(pro_state_ref s, PRO_OUT pro_alloc** alloc)
 
 PRO_API pro_error pro_run(pro_state_ref s)
 {
+    pro_state_ref exec_state = s; //pro_state_fork(s);
+
     while (!pro_message_queue_is_empty(s, s->global->message_queue))
-    {
-        pro_state_ref exec_state = pro_state_fork(s);
-    
+    {    
         pro_ref actor;
         pro_ref msg = pro_message_queue_dequeue(exec_state, s->global->message_queue, &actor);
         pro_deliver_message(exec_state, actor, msg);
         pro_release(exec_state, msg);
         pro_release(exec_state, actor);
         
-        pro_state_release(exec_state);
+        //pro_state_release(exec_state);
     }
     return PRO_OK;
 }
