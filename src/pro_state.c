@@ -141,25 +141,23 @@ PRO_API pro_error pro_state_release(pro_state_ref s)
     pro_get_alloc(s, &alloc);
     
     // Relase all environments execept root
-    while (!pro_env_lookup_equal(s, pro_env_stack_top(s, s->stack), s->root_env))  
-        pro_pop_env(s); 
+    pro_env_stack_free(s, s->stack);
     
-    // Force release the root environment.
+    // Release the root environment.
     pro_env* root_env = pro_env_dereference(s, s->root_env);
     pro_env_release(s, s->root_env);
+    
+    // If we a releasing the main env,  free it.
     if (s == s->global->main)
         pro_env_free(s, root_env);
     
-    // Release the state data structure
-    pro_env_stack_free(s, s->stack);
-    
-    // free global state
+    // Free global state
     if (s == s->global->main)
         pro_global_state_free(s, s->global);
     
-    // free state structure memory
-
+    // Free state structure memory
     alloc(s, 0);
+    
     return PRO_OK;
 }
 
