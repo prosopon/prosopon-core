@@ -31,8 +31,11 @@ PRO_INTERNAL void pro_env_free(pro_state_ref s, pro_env* t)
     pro_alloc* alloc;
     pro_get_alloc(s, &alloc);
     
-    pro_binding_map_free(s, t->bindings);    
-    pro_lookup_table_free(s, t->lookups);
+    pro_lookup_table* lookups = t->lookups;
+    if (lookups)
+        pro_lookup_table_free(s, lookups);
+    
+    pro_env_unbind_all(s, t);
     
     pro_env_release(s, t->parent);
     
@@ -81,6 +84,17 @@ PRO_INTERNAL void pro_internal_env_release(pro_state_ref s, pro_env* env)
 PRO_INTERNAL void pro_env_lookup_remove(pro_state_ref s, pro_env* env, pro_ref ref)
 {
     pro_lookup_table_remove(s, env->lookups, ref->index);
+}
+
+
+PRO_INTERNAL void pro_env_unbind_all(pro_state_ref s, pro_env* t)
+{
+    pro_binding_map* bindings = t->bindings;
+    if (bindings)
+    {
+        t->bindings = 0;
+        pro_binding_map_free(s, bindings);
+    }
 }
 
 

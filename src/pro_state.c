@@ -149,7 +149,10 @@ PRO_API pro_error pro_state_release(pro_state_ref s)
     
     // If we a releasing the main env,  free it.
     if (s == s->global->main)
-        pro_env_free(s, root_env);
+    {
+        //pro_env_free(s, root_env);
+        pro_env_unbind_all(s, root_env);
+    }
     
     // Free global state
     if (s == s->global->main)
@@ -176,7 +179,7 @@ PRO_API pro_error pro_run(pro_state_ref s)
     while (!pro_message_queue_is_empty(s, s->global->message_queue))
     {    
         pro_ref actor;
-        pro_ref msg = pro_message_queue_dequeue(exec_state, s->global->message_queue, &actor);
+        pro_ref msg = pro_message_queue_dequeue(s, s->global->message_queue, &actor);
         pro_deliver_message(exec_state, actor, msg);
         pro_release(exec_state, msg);
         pro_release(exec_state, actor);

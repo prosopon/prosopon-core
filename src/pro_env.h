@@ -65,4 +65,6 @@ PRO_INTERNAL void pro_internal_env_release(pro_state_ref s, pro_env*);
 PRO_INTERNAL void pro_env_lookup_remove(pro_state_ref, pro_env*, pro_ref ref);
 
 
+PRO_INTERNAL void pro_env_unbind_all(pro_state_ref, pro_env*);
+
 #endif
