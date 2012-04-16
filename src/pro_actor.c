@@ -1,4 +1,5 @@
 #include "prosopon.h"
+#include "prosopon_actor_type.h"
 
 #include "pro_lookup.h"
 #include "pro_env.h"

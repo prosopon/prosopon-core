@@ -109,13 +109,15 @@ PRO_API pro_error pro_match(pro_state_ref s, pro_ref l1, pro_ref l2, PRO_OUT pro
 }
 
 
-PRO_API char* pro_to_string(pro_state_ref s,
-    pro_ref t)
+PRO_API pro_error pro_to_string(pro_state_ref s,
+    pro_ref t, PRO_OUT pro_ref* ud)
 {
     pro_actor_type type;
     pro_get_actor_type(s, t, &type);
     const pro_actor_type_info* info = pro_get_actor_type_info(s, type);
     pro_object* o = pro_dereference(s, t);
-    return info->to_string(s, t, o->value.actor.data);
+    *ud = info->to_string(s, t, o->value.actor.data);
+    return PRO_OK;
 }
+
 

@@ -12,8 +12,7 @@ typedef pro_matching(pro_match_impl)(pro_state_ref,
     pro_ref t, pro_ref tData,
     pro_ref o, pro_ref oData);
 
-typedef char*(pro_to_string_impl)(pro_state_ref,
-    pro_ref t, pro_ref tData);
+typedef pro_ref(pro_to_string_impl)(pro_state_ref, pro_ref t, pro_ref tData);
 
 typedef struct pro_actor_type_info pro_actor_type_info;
 struct pro_actor_type_info

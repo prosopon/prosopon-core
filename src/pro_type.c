@@ -14,10 +14,10 @@ static pro_matching default_match(pro_state_ref s,
     return PRO_MATCH_FAIL;
 }
 
-static char* default_to_string(pro_state_ref s,
+static pro_ref default_to_string(pro_state_ref s,
     pro_ref t, pro_ref tData)
 {
-    return 0;
+    return PRO_EMPTY_REF;
 }
 
 static const pro_actor_type_info pro_default_actor_type_info = {

@@ -251,6 +251,13 @@ PRO_API pro_error (pro_get_type) (pro_state_ref,
  */
 PRO_API pro_error (pro_bind) (pro_state_ref, pro_ref ref, const char* id);
 
+/**
+ * Enum for status of a match.
+ *
+ * PRO_MATCH_FAIL - The match failed and is complete.
+ * PRO_MATCH_SUCCEED - The match succeed and is complete.
+ * PRO_MATCH_CONTINUE - The match succeed and will continue.
+ */
 typedef enum 
 {
     PRO_MATCH_FAIL = 0,
@@ -272,8 +279,8 @@ PRO_API pro_error (pro_match) (pro_state_ref, pro_ref, pro_ref, PRO_OUT pro_matc
 /**
  * 
  */
-PRO_API char* (pro_to_string)(pro_state_ref,
-    pro_ref);
+PRO_API pro_error (pro_to_string) (pro_state_ref,
+    pro_ref, PRO_OUT pro_ref* ud);
 
 
 #pragma mark Constructor
