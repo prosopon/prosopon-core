@@ -295,12 +295,12 @@ PRO_API pro_error (pro_constructor_call) (pro_state_ref,
     pro_ref constructor, pro_ref arguments, PRO_OUT pro_ref* result);
 
 
-#pragma mark Message
+#pragma mark List
 
 /**
- * Creates a new message in the current environment.
+ * Creates a new list in the current environment.
  *
- * @param[out] msg A referance to the new message.
+ * @param[out] msg A referance to the new list.
  *
  * @return
  *   PRO_OK if successful
@@ -310,40 +310,40 @@ PRO_API pro_error (pro_constructor_call) (pro_state_ref,
 PRO_API pro_error (pro_list_create) (pro_state_ref, PRO_OUT pro_ref* msg);
 
 /**
- * Get the number of objects in a message.
+ * Get the number of objects in a list.
  *
- * @param[out] length The number of objects a message contains.
+ * @param[out] length The number of objects a list contains.
  *
  * @return
  *   PRO_OK if successful
  *   PRO_INVALID_OPERATION if the state is not valid.
- *   PRO_INVALID_ARGUMENT if msg does not reference a message.
+ *   PRO_INVALID_ARGUMENT if msg does not reference a list.
  */
 PRO_API pro_error (pro_list_length) (pro_state_ref, pro_ref msg,
     PRO_OUT unsigned int* length);
 
 /**
- * Get a value from a message.
+ * Get a value from a list.
  *
  * @param[out] result Referance at index or PRO_EMPTY_REF if out of bounds.
  *
  * @return
  *   PRO_OK if successful
  *   PRO_INVALID_OPERATION if the state is not valid.
- *   PRO_INVALID_ARGUMENT if msg does not reference a message.
+ *   PRO_INVALID_ARGUMENT if msg does not reference a list.
  */
 PRO_API pro_error (pro_list_get) (pro_state_ref,
     pro_ref msg, unsigned int index, PRO_OUT pro_ref* result);
 
 /**
- * Appends an value to a message to create a new message.
+ * Appends an value to a list to create a new list.
  *
- * Does not modify the origin message.
+ * Does not modify the origin list.
  *
  * @return
  *   PRO_OK if successful
  *   PRO_INVALID_OPERATION if the state is not valid.
- *   PRO_INVALID_ARGUMENT if msg does not reference a message or value does
+ *   PRO_INVALID_ARGUMENT if msg does not reference a list or value does
  *     not reference a valid object.
  */
 PRO_API pro_error (pro_list_append) (pro_state_ref,
@@ -400,7 +400,7 @@ PRO_API pro_error pro_actor_request_ud(pro_state_ref s,
     pro_ref actor, PRO_OUT pro_ref* ud);
 
 /**
- * Sends a message to an actor.
+ * Sends a list to an actor.
  */
 PRO_API pro_error (pro_send) (pro_state_ref, pro_ref actor, pro_ref msg);
 

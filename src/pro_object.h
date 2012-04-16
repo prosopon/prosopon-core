@@ -25,6 +25,7 @@ struct pro_object
         } actor;
         struct
         {
+            pro_env_ref env;
             pro_constructor* constructor;
             pro_ref data;
         } constructor;

@@ -44,6 +44,7 @@ PRO_INTERNAL void pro_object_free(pro_state_ref s, pro_object* t)
         break;
     case PRO_CONSTRUCTOR_TYPE:
         pro_release(s, t->value.constructor.data);
+        pro_env_release(s, t->value.constructor.env);
         break;
     }
     
