@@ -11,7 +11,7 @@ SRC_DIR = src
 TEST_DIR = test
 OUT_DIR = build
 
-OBJS = pro_actor.o pro_message.o pro_env.o pro_lookup.o pro_object.o pro_state.o pro_constructor.o pro_library.o pro_message_queue.o pro_type.o pro_env_stack.o pro_user_data.o pro_messaging.o
+OBJS = pro_actor.o pro_list.o pro_env.o pro_lookup.o pro_object.o pro_state.o pro_constructor.o pro_library.o pro_message_queue.o pro_type.o pro_env_stack.o pro_user_data.o pro_messaging.o pro_lookup_list.o pro_lookup_table.o pro_binding_map.o pro_env_lookup.o
 OUT_OBJS = $(addprefix $(OUT_DIR)/,$(OBJS))
 
 

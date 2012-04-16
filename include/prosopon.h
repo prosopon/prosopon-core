@@ -277,7 +277,9 @@ typedef enum
 PRO_API pro_error (pro_match) (pro_state_ref, pro_ref, pro_ref, PRO_OUT pro_matching* match);
 
 /**
- * 
+ * Gets the string representation of an object.
+ *
+ * @param[out] ud User data with a reference count of one to store the object.
  */
 PRO_API pro_error (pro_to_string) (pro_state_ref,
     pro_ref, PRO_OUT pro_ref* ud);
@@ -386,12 +388,17 @@ PRO_API pro_error (pro_list_append) (pro_state_ref,
 #pragma mark User Data
 
 /**
- * Function called before a user data object is destroyed.
+ * Function called before a user data object is destroyed. 
  *
  * @param data A pointer to the allocated data.
  */
 typedef void(pro_ud_deconstructor) (pro_state_ref, void* data);
 
+/**
+ * Default deconstructor called on user data.
+ *
+ * Frees the user data pointer.
+ */
 extern pro_ud_deconstructor* PRO_DEFAULT_UD_DECONSTRUCTOR;
 
 /**
