@@ -147,7 +147,8 @@ PRO_API pro_error pro_state_release(pro_state_ref s)
     // Force release the root environment.
     pro_env* root_env = pro_env_dereference(s, s->root_env);
     pro_env_release(s, s->root_env);
-    pro_env_free(s, root_env);
+    if (s == s->global->main)
+        pro_env_free(s, root_env);
     
     // Release the state data structure
     pro_env_stack_free(s, s->stack);
@@ -174,11 +175,15 @@ PRO_API pro_error pro_run(pro_state_ref s)
 {
     while (!pro_message_queue_is_empty(s, s->global->message_queue))
     {
+        pro_state_ref exec_state = pro_state_fork(s);
+    
         pro_ref actor;
-        pro_ref msg = pro_message_queue_dequeue(s, s->global->message_queue, &actor);
-        pro_deliver_message(s, actor, msg);
-        pro_release(s, msg);
-        pro_release(s, actor);
+        pro_ref msg = pro_message_queue_dequeue(exec_state, s->global->message_queue, &actor);
+        pro_deliver_message(exec_state, actor, msg);
+        pro_release(exec_state, msg);
+        pro_release(exec_state, actor);
+        
+        pro_state_release(exec_state);
     }
     return PRO_OK;
 }

@@ -58,7 +58,7 @@ PRO_INTERNAL void pro_env_stack_free(pro_state_ref s, pro_env_stack* t)
     for (pro_env_stack_node* item = t->top; item;)
     {
         pro_env_stack_node* next = item->next;
-        alloc(next, 0);
+        alloc(item, 0);
         item = next;
     }
     
