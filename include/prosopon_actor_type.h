@@ -10,7 +10,7 @@ extern "C" {
 
 typedef pro_matching(pro_match_impl)(pro_state_ref,
     pro_ref t, pro_ref tData,
-    pro_ref o);
+    pro_ref o, pro_ref oData);
 
 typedef char*(pro_to_string_impl)(pro_state_ref,
     pro_ref t, pro_ref tData);

@@ -19,6 +19,8 @@ extern "C" {
  * @section intro_sec Introduction
  */ 
 
+
+
 /**
  * Marks a parameter as output. 
  */
@@ -422,9 +424,6 @@ PRO_API pro_error (pro_actor_create) (pro_state_ref, pro_actor_type type,
  */
 PRO_API pro_error (pro_get_actor_type) (pro_state_ref, pro_ref,
     PRO_OUT pro_actor_type*);
-
-PRO_API pro_error pro_actor_request_ud(pro_state_ref s,
-    pro_ref actor, PRO_OUT pro_ref* ud);
 
 /**
  * Sends a list to an actor.

@@ -101,7 +101,10 @@ PRO_API pro_error pro_match(pro_state_ref s, pro_ref l1, pro_ref l2, PRO_OUT pro
     pro_get_actor_type(s, l1, &type);
     const pro_actor_type_info* info = pro_get_actor_type_info(s, type);
     pro_object* o1 = pro_dereference(s, l1);
-    *out = info->match(s, l1, o1->value.actor.data,l2);
+    pro_object* o2 = pro_dereference(s, l2);
+    *out = info->match(s,
+        l1, o1->value.actor.data,
+        l2, o2->value.actor.data);
     return PRO_OK;
 }
 
