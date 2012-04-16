@@ -74,8 +74,10 @@ PRO_API pro_error pro_become(pro_state_ref s,
     PRO_API_ASSERT_TYPE(new_beh, PRO_ACTOR_TYPE, PRO_INVALID_ARGUMENT);
 
     pro_object** current_obj = pro_env_lookup_value(s, actor);
+    pro_object_release(s, *current_obj);
+    
     pro_object* new_actor_obj = pro_dereference(s, new_beh);
-    *current_obj = new_actor_obj;
+    *current_obj = pro_object_retain(s, new_actor_obj);
     
     return PRO_OK;
 }

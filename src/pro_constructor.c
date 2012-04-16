@@ -67,3 +67,4 @@ PRO_API pro_error pro_constructor_call(pro_state_ref s,
     *result = out;
     return PRO_OK;
 }
+
