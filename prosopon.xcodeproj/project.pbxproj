@@ -11,13 +11,12 @@
 		890024ED1511A3590012E749 /* pro_object.c in Sources */ = {isa = PBXBuildFile; fileRef = 890024CE1511A3070012E749 /* pro_object.c */; };
 		890024EE1511A35B0012E749 /* pro_env.c in Sources */ = {isa = PBXBuildFile; fileRef = 890024CA1511A3070012E749 /* pro_env.c */; };
 		890024EF1511A35C0012E749 /* pro_actor.c in Sources */ = {isa = PBXBuildFile; fileRef = 890024C61511A3070012E749 /* pro_actor.c */; };
-		89A98187152136EF00C405FE /* pro_library.h in Headers */ = {isa = PBXBuildFile; fileRef = 89A98186152136EF00C405FE /* pro_library.h */; };
+		899936F3154383490066F40A /* test-user_data.c in Sources */ = {isa = PBXBuildFile; fileRef = 899936F2154383490066F40A /* test-user_data.c */; };
 		89A9818A152136FD00C405FE /* pro_library.c in Sources */ = {isa = PBXBuildFile; fileRef = 89A98189152136FD00C405FE /* pro_library.c */; };
 		89A9818B152136FD00C405FE /* pro_library.c in Sources */ = {isa = PBXBuildFile; fileRef = 89A98189152136FD00C405FE /* pro_library.c */; };
 		89A981921522B4F700C405FE /* test-pro_constructor.c in Sources */ = {isa = PBXBuildFile; fileRef = 89A981901522B4F700C405FE /* test-pro_constructor.c */; };
 		89A981A81524FA6400C405FE /* pro_type.c in Sources */ = {isa = PBXBuildFile; fileRef = 89A981A71524FA6400C405FE /* pro_type.c */; };
 		89A981A91524FA6400C405FE /* pro_type.c in Sources */ = {isa = PBXBuildFile; fileRef = 89A981A71524FA6400C405FE /* pro_type.c */; };
-		89A981AC1524FA7600C405FE /* pro_type.h in Headers */ = {isa = PBXBuildFile; fileRef = 89A981AB1524FA7600C405FE /* pro_type.h */; };
 		89ACBEB7151E960D003EA8EE /* pro_list.c in Sources */ = {isa = PBXBuildFile; fileRef = 89ACBEB6151E960D003EA8EE /* pro_list.c */; };
 		89ACBEB8151E960D003EA8EE /* pro_list.c in Sources */ = {isa = PBXBuildFile; fileRef = 89ACBEB6151E960D003EA8EE /* pro_list.c */; };
 		89AF580B15391BD5008D8426 /* test-pro_alloc.c in Sources */ = {isa = PBXBuildFile; fileRef = 89AF580A15391BD5008D8426 /* test-pro_alloc.c */; };
@@ -40,13 +39,10 @@
 		89F11136151CD28E00317A20 /* prosopon_config.h in Headers */ = {isa = PBXBuildFile; fileRef = 89F11134151CD28E00317A20 /* prosopon_config.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		89F11139151CEF7D00317A20 /* test-pro_env.c in Sources */ = {isa = PBXBuildFile; fileRef = 89F11138151CEF7D00317A20 /* test-pro_env.c */; };
 		89F1113C151CF41600317A20 /* test-pro_state.c in Sources */ = {isa = PBXBuildFile; fileRef = 89F1113B151CF41600317A20 /* test-pro_state.c */; };
-		89F9542C152E6F830060B211 /* pro_message_queue.h in Headers */ = {isa = PBXBuildFile; fileRef = 89F9542B152E6F820060B211 /* pro_message_queue.h */; };
 		89F9542F152E6FE30060B211 /* pro_message_queue.c in Sources */ = {isa = PBXBuildFile; fileRef = 89F9542E152E6FE30060B211 /* pro_message_queue.c */; };
 		89F95430152E6FE30060B211 /* pro_message_queue.c in Sources */ = {isa = PBXBuildFile; fileRef = 89F9542E152E6FE30060B211 /* pro_message_queue.c */; };
 		89F95432152E862D0060B211 /* pro_messaging.c in Sources */ = {isa = PBXBuildFile; fileRef = 89F95431152E862D0060B211 /* pro_messaging.c */; };
 		89F95433152E862D0060B211 /* pro_messaging.c in Sources */ = {isa = PBXBuildFile; fileRef = 89F95431152E862D0060B211 /* pro_messaging.c */; };
-		89F95435152E863F0060B211 /* pro_messaging.h in Headers */ = {isa = PBXBuildFile; fileRef = 89F95434152E863F0060B211 /* pro_messaging.h */; };
-		89F9543D152EA5230060B211 /* pro_env_stack.h in Headers */ = {isa = PBXBuildFile; fileRef = 89F9543C152EA5230060B211 /* pro_env_stack.h */; };
 		89F9543F152EA5310060B211 /* pro_env_stack.c in Sources */ = {isa = PBXBuildFile; fileRef = 89F9543E152EA5310060B211 /* pro_env_stack.c */; };
 		89F95440152EA5310060B211 /* pro_env_stack.c in Sources */ = {isa = PBXBuildFile; fileRef = 89F9543E152EA5310060B211 /* pro_env_stack.c */; };
 		89F95442152F43E80060B211 /* prosopon_actor_type.h in Headers */ = {isa = PBXBuildFile; fileRef = 89F95441152F43E80060B211 /* prosopon_actor_type.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -82,6 +78,7 @@
 		890024D11511A3070012E749 /* pro_state.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pro_state.h; sourceTree = "<group>"; };
 		890024E81511A3430012E749 /* libprosopon.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libprosopon.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
 		8993E271152B5E180077EE0A /* pro_common.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = pro_common.h; sourceTree = "<group>"; };
+		899936F2154383490066F40A /* test-user_data.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "test-user_data.c"; sourceTree = "<group>"; };
 		89A98186152136EF00C405FE /* pro_library.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pro_library.h; sourceTree = "<group>"; };
 		89A98189152136FD00C405FE /* pro_library.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = pro_library.c; sourceTree = "<group>"; };
 		89A981901522B4F700C405FE /* test-pro_constructor.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "test-pro_constructor.c"; sourceTree = "<group>"; };
@@ -208,6 +205,7 @@
 				89E29EF9152FE0B20032ABDC /* test-pro_message.c */,
 				89AF580815391B95008D8426 /* test-pro_alloc.h */,
 				89AF580A15391BD5008D8426 /* test-pro_alloc.c */,
+				899936F2154383490066F40A /* test-user_data.c */,
 			);
 			path = test;
 			sourceTree = "<group>";
@@ -232,11 +230,6 @@
 				89F11135151CD28E00317A20 /* prosopon.h in Headers */,
 				89F11136151CD28E00317A20 /* prosopon_config.h in Headers */,
 				89F95442152F43E80060B211 /* prosopon_actor_type.h in Headers */,
-				89A98187152136EF00C405FE /* pro_library.h in Headers */,
-				89A981AC1524FA7600C405FE /* pro_type.h in Headers */,
-				89F9542C152E6F830060B211 /* pro_message_queue.h in Headers */,
-				89F95435152E863F0060B211 /* pro_messaging.h in Headers */,
-				89F9543D152EA5230060B211 /* pro_env_stack.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -355,6 +348,7 @@
 				89E6305D153A5DA000C88C05 /* pro_lookup_list.c in Sources */,
 				89FCC66A153B64AF006C6FFF /* pro_lookup_table.c in Sources */,
 				89FCC66E153B6C8A006C6FFF /* pro_binding_map.c in Sources */,
+				899936F3154383490066F40A /* test-user_data.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

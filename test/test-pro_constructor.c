@@ -51,7 +51,6 @@ static void test_create(void)
    
     const int val = 5;
 
-
     // Create userdata
     pro_ref ud;
     pro_ud_create(state, sizeof(val), PRO_DEFAULT_UD_DECONSTRUCTOR, &ud);
