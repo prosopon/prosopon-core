@@ -4,6 +4,7 @@
 #include "pro_state.h"
 
 #include <string.h>
+#include <stdio.h>
 
 
 #pragma mark Private
@@ -17,8 +18,16 @@ static pro_matching default_match(pro_state_ref s,
 static pro_ref default_to_string(pro_state_ref s,
     pro_ref t, pro_ref tData)
 {
-    return PRO_EMPTY_REF;
+    char* buffer;
+    pro_ref ud;
+    pro_ud_create(s, sizeof(*buffer) * (32 + 1), PRO_DEFAULT_UD_DECONSTRUCTOR, &ud);
+    
+    pro_ud_write(s, ud, (void**)&buffer);
+    snprintf(buffer, 32, "%p", t);
+
+    return ud;
 }
+
 
 static const pro_actor_type_info pro_default_actor_type_info = {
     .match = default_match,
