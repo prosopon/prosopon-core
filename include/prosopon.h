@@ -448,27 +448,59 @@ PRO_API pro_error (pro_ud_write) (pro_state_ref, pro_ref,
 
 /**
  * Create a new actor object in the current environment.
+ * 
+ * @param type The actor type of the new actor. Determines primitive functions.
+ * @param beh The behavior for the new actor. May be null.
+ * @param data A reference to user data for the actor. May be PRO_EMPTY_REF.
  *
  * @param[out] out_ref The lookup for the new actor with a reference count of 1.
  *
  * @return
+ *   PRO_OK if successful
+ *   PRO_INVALID_OPERATION if the state is not valid.
  */
 PRO_API pro_error (pro_actor_create) (pro_state_ref, pro_actor_type type,
     pro_behavior beh, pro_ref data, PRO_OUT pro_ref* out_ref);
 
 /**
- * @param[out] type The actor type value of a lookup.
+ * @param[out] out_type The actor type of a lookup.
+ *
+ * @return
+ *   PRO_OK if successful
+ *   PRO_INVALID_OPERATION if the state is not valid.
+ *   PRO_INVALID_ARGUMENT if ref is not a valid actor.
  */
 PRO_API pro_error (pro_get_actor_type) (pro_state_ref, pro_ref,
-    PRO_OUT pro_actor_type*);
+    PRO_OUT pro_actor_type* out_type);
 
 /**
- * Sends a list to an actor.
+ * Sends a message to an actor asynchronously.
+ *
+ * @param actor A reference to the actor that is sent the message.
+ * @param msg A reference to be sent to the actor. May be a reference for any type
+ *   or PRO_EMPTY_TYPE.
+ *
+ * @return
+ *   PRO_OK if successful
+ *   PRO_INVALID_OPERATION if the state is not valid.
+ *   PRO_INVALID_ARGUMENT if actor is not a valid actor.
  */
 PRO_API pro_error (pro_send) (pro_state_ref, pro_ref actor, pro_ref msg);
 
 /**
  * Specify the behavior for an actor.
+ *
+ * Essentially sets up message forwarding from the old actor to the new actor.
+ * Usually, 'become' forwards messages to a newly created actor but this is not
+ * required.
+ *
+ * @param actor The actor we a specifying the new behavior for.
+ * @param new_beh The actor that will recieve all messages from the old actor.
+ *
+ * @return
+ *   PRO_OK if successful
+ *   PRO_INVALID_OPERATION if the state is not valid.
+ *   PRO_INVALID_ARGUMENT if either actor or new_beh are not valid actors.
  */
 PRO_API pro_error (pro_become) (pro_state_ref, pro_ref actor, pro_ref new_beh);
 
