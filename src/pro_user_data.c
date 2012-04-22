@@ -8,19 +8,16 @@
 
 #pragma mark Private
 
-static void pro_default_ud_deconstructor(pro_state_ref s, void* data)
+
+#pragma mark -
+#pragma mark Public
+
+PRO_API void PRO_DEFAULT_UD_DECONSTRUCTOR(pro_state_ref s, void* data)
 {
     pro_alloc* alloc;
     pro_get_alloc(s, &alloc);
     alloc(data, 0);
 }
-
-
-#pragma mark -
-#pragma mark Public
-
-pro_ud_deconstructor* PRO_DEFAULT_UD_DECONSTRUCTOR = pro_default_ud_deconstructor;
-
 
 PRO_API pro_error pro_ud_create(pro_state_ref s,
     size_t size, pro_ud_deconstructor* deconstructor, PRO_OUT pro_ref* t)

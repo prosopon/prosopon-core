@@ -399,7 +399,7 @@ typedef void(pro_ud_deconstructor) (pro_state_ref, void* data);
  *
  * Frees the user data pointer.
  */
-extern pro_ud_deconstructor* PRO_DEFAULT_UD_DECONSTRUCTOR;
+PRO_API void (PRO_DEFAULT_UD_DECONSTRUCTOR) (pro_state_ref, void* data);
 
 /**
  * Creates a new user data object with a given size and deconstructor.
