@@ -406,19 +406,42 @@ extern pro_ud_deconstructor* PRO_DEFAULT_UD_DECONSTRUCTOR;
  *
  * @param[out] out_ref A reference to the new user data object with a reference
  *   count of 1.
+ * 
+ * @return
+ *   PRO_OK if successful
+ *   PRO_INVALID_OPERATION if the state is not valid.
+ *   PRO_OUT_OF_MEMORY If memory for the requested object cannot be allocated.
  */
 PRO_API pro_error (pro_ud_create) (pro_state_ref,
     size_t size, pro_ud_deconstructor* deconstructor, PRO_OUT pro_ref* out_ref);
 
 /**
  * Requests access to user data data for reading.
+ *
+ * @param[out] out_data A pointer to the user data memory for reading. Must not 
+ *   be written.
+ *
+ * @return
+ *   PRO_OK if successful
+ *   PRO_INVALID_OPERATION if the state is not valid.
+ *   PRO_INVALID_ARGUMENT if ref is not user data.
  */
-PRO_API pro_error (pro_ud_read) (pro_state_ref, pro_ref, PRO_OUT const void**);
+PRO_API pro_error (pro_ud_read) (pro_state_ref, pro_ref,
+    PRO_OUT const void** out_data);
 
 /**
  * Requests access to user data data for writting.
+ *
+ * @param[out] out_data A pointer to the user data memory for both 
+ *   writing and reading.
+ *
+ * @return
+ *   PRO_OK if successful
+ *   PRO_INVALID_OPERATION if the state is not valid.
+ *   PRO_INVALID_ARGUMENT if ref is not a valid user data object.
  */
-PRO_API pro_error (pro_ud_write) (pro_state_ref, pro_ref, PRO_OUT void**);
+PRO_API pro_error (pro_ud_write) (pro_state_ref, pro_ref,
+    PRO_OUT void** out_data);
 
 
 #pragma mark Actor
