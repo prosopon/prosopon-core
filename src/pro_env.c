@@ -64,7 +64,8 @@ PRO_INTERNAL pro_object** pro_env_lookup_value(pro_state_ref s, pro_ref ref)
 PRO_INTERNAL pro_object* pro_dereference(pro_state_ref s, pro_ref ref)
 {
     pro_env* env = pro_env_dereference(s, ref->env);
-    return *pro_lookup_table_get(s, env->lookups, ref->index);
+    pro_object** obj = pro_lookup_table_get(s, env->lookups, ref->index);
+    return obj ? *obj : 0;
 }
 
 PRO_INTERNAL pro_env* pro_internal_env_retain(pro_state_ref s, pro_env* env)

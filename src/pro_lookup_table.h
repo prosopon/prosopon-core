@@ -35,4 +35,9 @@ PRO_INTERNAL struct pro_object** pro_lookup_table_get(pro_state_ref,
     pro_lookup_table* t, unsigned int index);
 
 
+
+#ifdef DEBUG
+PRO_INTERNAL void pro_lookup_table_print(pro_state_ref, pro_lookup_table* t);
+#endif
+
 #endif

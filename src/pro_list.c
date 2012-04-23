@@ -83,8 +83,8 @@ PRO_API pro_error pro_list_append(pro_state_ref s,
 {
     PRO_API_ASSERT(s, PRO_INVALID_OPERATION);
     PRO_API_ASSERT_TYPE(msg, PRO_LIST_TYPE, PRO_INVALID_ARGUMENT);
-    PRO_API_ASSERT(ref, PRO_INVALID_ARGUMENT);
-    PRO_API_ASSERT(msg != *new_msg_out, PRO_INVALID_ARGUMENT);
+    //PRO_API_ASSERT(ref, PRO_INVALID_ARGUMENT);
+    //PRO_API_ASSERT(msg != *new_msg_out, PRO_INVALID_ARGUMENT);
     
     // retain the appended object
     pro_retain(s, ref);

@@ -2,6 +2,9 @@
 
 #include "pro_object.h"
 
+#ifdef DEBUG
+#include <stdio.h>
+#endif
 
 
 typedef struct pro_internal_lookup pro_internal_lookup;
@@ -128,4 +131,19 @@ PRO_INTERNAL pro_object** pro_lookup_table_get(pro_state_ref s,
             return &(internal->value);
     return 0;
 }
+
+
+#ifdef DEBUG
+
+PRO_INTERNAL void pro_lookup_table_print(pro_state_ref s, pro_lookup_table* t)
+{
+    printf("Lookup Table: %p", t);
+    for (pro_internal_lookup* internal = t->value; internal; internal = internal->next)
+        printf("%d\n", internal->index);
+        
+    fflush(stdout);
+}
+
+#endif
+
 

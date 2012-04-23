@@ -8,19 +8,33 @@ extern "C" {
 #include "prosopon.h"
 
 
+/**
+ * Primitive function implementation for matching between two objects.
+ */
 typedef pro_matching(pro_match_impl)(pro_state_ref,
     pro_ref t, pro_ref tData,
     pro_ref o, pro_ref oData);
 
+/**
+ * Primitive function implementation to get the string representation of an actor.
+ *
+ * @return A reference to a user data object containing a string.
+ */
 typedef pro_ref(pro_to_string_impl)(pro_state_ref, pro_ref t, pro_ref tData);
 
-typedef struct pro_actor_type_info pro_actor_type_info;
-struct pro_actor_type_info
+/**
+ * Information about an actor type.
+ */
+typedef struct 
 {
     pro_match_impl* match;
     pro_to_string_impl* to_string;
-};
+} pro_actor_type_info;
 
+
+/**
+ * 
+ */
 PRO_API void (pro_register_actor_type) (pro_state_ref,
     pro_actor_type, const pro_actor_type_info*);
 

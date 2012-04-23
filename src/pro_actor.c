@@ -28,6 +28,7 @@ PRO_API pro_error pro_actor_create(pro_state_ref s, pro_actor_type type,
     
     // Set actor values
     (*obj)->value.actor.type = type;    
+    
     (*obj)->value.actor.behavior = beh;
     pro_retain(s, data);
     (*obj)->value.actor.data = data;
@@ -58,10 +59,14 @@ PRO_API pro_error pro_get_actor_type(pro_state_ref s, pro_ref actor,
 PRO_API pro_error pro_send(pro_state_ref s, pro_ref actor, pro_ref msg)
 {
     PRO_API_ASSERT(s, PRO_INVALID_OPERATION);
-    PRO_API_ASSERT_TYPE(actor, PRO_ACTOR_TYPE, PRO_INVALID_ARGUMENT);
     PRO_API_ASSERT_TYPE(msg, PRO_LIST_TYPE, PRO_INVALID_ARGUMENT);
+    
+    if (!pro_lookup_equal(s, actor, PRO_EMPTY_REF))
+    {
+        PRO_API_ASSERT_TYPE(actor, PRO_ACTOR_TYPE, PRO_INVALID_ARGUMENT);
+        pro_message_queue_enqueue(s, s->global->message_queue, msg, actor);
+    }
 
-    pro_message_queue_enqueue(s, s->global->message_queue, msg, actor);
     return PRO_OK;
 }
 

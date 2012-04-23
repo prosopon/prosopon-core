@@ -4,6 +4,9 @@
 #include "pro_env.h"
 
 
+#include <stdio.h>
+
+
 PRO_INTERNAL void pro_deliver_message(pro_state_ref s,
     pro_ref actor, pro_ref message)
 {

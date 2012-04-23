@@ -189,6 +189,37 @@ PRO_API pro_error pro_run(pro_state_ref s)
     return PRO_OK;
 }
 
+#if 0
+
+PRO_API pro_error pro_run(pro_state_ref s)
+{
+    dispatch_group_t group = dispatch_group_create();
+    
+    while (!pro_message_queue_is_empty(s, s->global->message_queue))
+    {    
+        pro_ref actor;
+        pro_ref msg = pro_message_queue_dequeue(s, s->global->message_queue, &actor);
+        pro_state_ref exec_state = pro_state_fork(s);
+
+        dispatch_group_async(group, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            pro_deliver_message(exec_state, actor, msg);
+            pro_release(exec_state, msg);
+            pro_release(exec_state, actor);
+            pro_state_release(exec_state);
+        });
+    }
+    
+    dispatch_group_wait(group, DISPATCH_TIME_FOREVER);
+    dispatch_release(group);
+    
+    if (!pro_message_queue_is_empty(s, s->global->message_queue))
+        pro_run(s);
+    
+    return PRO_OK;
+}
+
+#endif
+
 
 PRO_API pro_error pro_get_env(pro_state_ref s, PRO_OUT pro_env_ref* out_env)
 {
