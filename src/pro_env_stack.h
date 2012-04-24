@@ -3,8 +3,6 @@
 
 #include "prosopon.h"
 
-struct pro_env_stack_node;
-
 
 typedef struct pro_env_stack pro_env_stack;
 

@@ -5,6 +5,13 @@
 
 typedef struct pro_message_node pro_message_node;
 
+
+struct pro_message_queue
+{
+    pro_message_node* front;
+};
+
+
 struct pro_message_node
 {
     pro_message_node* next;

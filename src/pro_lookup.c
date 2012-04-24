@@ -42,6 +42,27 @@ PRO_INTERNAL int pro_lookup_equal(pro_state* s,
     return (env1 == env2);
 }
 
+PRO_INTERNAL void pro_lookup_free(pro_state_ref s, pro_lookup* t)
+{
+    pro_alloc* alloc;
+    pro_get_alloc(s, &alloc);
+    
+    // Release the object
+    pro_object* obj = pro_dereference(s, t);
+    pro_object_release(s, obj);
+    
+    // Remove the ref from the env
+    pro_env* env = pro_env_dereference(s, t->env);
+    pro_env_lookup_remove(s, env, t);
+    
+    // Release the held environment
+    pro_env_release(s, t->env);
+
+    // Free the lookup memory
+    alloc(t, 0);
+}
+
+
 
 #pragma mark -
 #pragma mark Public
@@ -59,30 +80,14 @@ PRO_API pro_error pro_retain(pro_state_ref s, pro_ref ref)
 
 PRO_API pro_error pro_release(pro_state_ref s, pro_ref ref)
 {
+    // release PRO_EMPTY_REF is a valid noop
     if (pro_lookup_equal(s, ref, PRO_EMPTY_REF))
         return PRO_OK;
     
     assert(ref->ref_count > 0);
     
     if (--(ref->ref_count) <= 0)
-    {    
-        pro_alloc* alloc;
-        pro_get_alloc(s, &alloc);
-        
-        // Release the object
-        pro_object* obj = pro_dereference(s, ref);
-        pro_object_release(s, obj);
-        
-        // Remove the ref from the env
-        pro_env* env = pro_env_dereference(s, ref->env);
-        pro_env_lookup_remove(s, env, ref);
-        
-        // Release the held environment
-        pro_env_release(s, ref->env);
-
-        // Free the pro_ref memory
-        alloc(ref, 0);
-    }
+        pro_lookup_free(s, ref);
     
     return PRO_OK;
 }

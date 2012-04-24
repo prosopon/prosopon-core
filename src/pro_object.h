@@ -3,7 +3,7 @@
 
 #include "prosopon.h"
 
-#include "pro_lookup_list.h"
+struct pro_lookup_list;
 
 
 /**
@@ -29,7 +29,7 @@ struct pro_object
             pro_constructor* constructor;
             pro_ref data;
         } constructor;
-        pro_ref_list message;
+        struct pro_lookup_list* message;
         struct
         {
             void* data;

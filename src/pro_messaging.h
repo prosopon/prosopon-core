@@ -3,7 +3,6 @@
 
 #include "prosopon.h"
 
-struct pro_object;
 
 
 PRO_INTERNAL void pro_deliver_message(pro_state_ref,

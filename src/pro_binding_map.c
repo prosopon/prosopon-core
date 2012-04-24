@@ -7,6 +7,13 @@
 
 typedef struct pro_lookup_binding pro_lookup_binding;
 
+
+struct pro_binding_map
+{
+    pro_lookup_binding* value;
+};
+
+
 /**
  *
  */
@@ -45,10 +52,10 @@ static void pro_lookup_binding_free(pro_state_ref s,
 {
     pro_alloc* alloc;
     pro_get_alloc(s, &alloc);
-    
     alloc(t->identifier, 0);
     alloc(t, 0);
 }
+
 
 #pragma mark -
 #pragma mark Internal
@@ -66,10 +73,7 @@ PRO_INTERNAL pro_binding_map* pro_binding_map_new(pro_state_ref s)
 
 
 PRO_INTERNAL void pro_binding_map_free(pro_state_ref s, pro_binding_map* t)
-{
-    pro_alloc* alloc;
-    pro_get_alloc(s, &alloc);
-    
+{    
     for (pro_lookup_binding* binding = t->value; binding; )
     {
         pro_lookup_binding* next = binding->next;
@@ -78,6 +82,8 @@ PRO_INTERNAL void pro_binding_map_free(pro_state_ref s, pro_binding_map* t)
         binding = next;
     }
     
+    pro_alloc* alloc;
+    pro_get_alloc(s, &alloc);
     alloc(t, 0);
 }
 
@@ -100,7 +106,9 @@ PRO_INTERNAL pro_ref pro_binding_map_get(pro_state_ref s, pro_binding_map* t, co
 
 PRO_INTERNAL void pro_binding_map_put(pro_state_ref s, pro_binding_map* t, const char* name, pro_ref ref)
 {
+    // create new node
     pro_lookup_binding* binding = pro_lookup_binding_new(s, name, ref, 0);
+    
     pro_lookup_binding* parent = t->value;
     if (!parent)
         t->value = binding;

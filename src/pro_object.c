@@ -24,10 +24,7 @@ PRO_INTERNAL pro_object* pro_object_new(pro_state_ref s,
 
 
 PRO_INTERNAL void pro_object_free(pro_state_ref s, pro_object* t)
-{
-    pro_alloc* alloc;
-    pro_get_alloc(s, &alloc);
-    
+{    
     // Free object data
     switch (t->type)
     {
@@ -40,6 +37,7 @@ PRO_INTERNAL void pro_object_free(pro_state_ref s, pro_object* t)
         pro_lookup_list_free(s, t->value.message);
         break;
     case PRO_UD_TYPE:
+        // call the ud deconstructor
         t->value.ud.deconstructor(s, t->value.ud.data);
         break;
     case PRO_CONSTRUCTOR_TYPE:
@@ -49,6 +47,8 @@ PRO_INTERNAL void pro_object_free(pro_state_ref s, pro_object* t)
     }
     
     // Free the pro_object
+    pro_alloc* alloc;
+    pro_get_alloc(s, &alloc);
     alloc(t, 0);
 }
 
@@ -90,22 +90,39 @@ PRO_API pro_error pro_get_type(pro_state_ref s, pro_ref ref,
 PRO_API pro_error pro_match(pro_state_ref s, pro_ref l1, pro_ref l2, PRO_OUT pro_matching* out)
 {
     PRO_API_ASSERT(s, PRO_INVALID_OPERATION);
-
+    PRO_API_ASSERT_TYPE(l1, PRO_ACTOR_TYPE, PRO_INVALID_ARGUMENT);
+    PRO_API_ASSERT_TYPE(l2, PRO_ACTOR_TYPE, PRO_INVALID_ARGUMENT);
+        
+    // first check if the two lookups are equal
     if (pro_lookup_equal(s, l1, l2))
     {
-        *out = 1;
+        *out = PRO_MATCH_SUCCEED;
         return PRO_OK;
     }
+    else
+    {
+        // get the type info for the first object
+        pro_actor_type type;
+        pro_get_actor_type(s, l1, &type);
+        const pro_actor_type_info* info = pro_get_actor_type_info(s, type);
         
-    pro_actor_type type;
-    pro_get_actor_type(s, l1, &type);
-    const pro_actor_type_info* info = pro_get_actor_type_info(s, type);
-    pro_object* o1 = pro_dereference(s, l1);
-    pro_object* o2 = pro_dereference(s, l2);
-    *out = info->match(s,
-        l1, o1->value.actor.data,
-        l2, o2->value.actor.data);
-    return PRO_OK;
+        // if no match function, matched fail
+        if (!info->match)
+        {
+            *out = PRO_MATCH_FAIL;
+            return PRO_OK;
+        }
+        
+        // get both objects
+        pro_object* o1 = pro_dereference(s, l1);
+        pro_object* o2 = pro_dereference(s, l2);
+        
+        // call the actual match function
+        *out = info->match(s,
+            l1, o1->value.actor.data,
+            l2, o2->value.actor.data);
+        return PRO_OK;
+    }
 }
 
 
