@@ -137,9 +137,6 @@ PRO_API pro_error pro_state_release(pro_state_ref s)
 {
     PRO_API_ASSERT(s, PRO_INVALID_OPERATION);
     
-    pro_alloc* alloc;
-    pro_get_alloc(s, &alloc);
-    
     // Relase all environments execept root
     pro_env_stack_free(s, s->stack);
     
@@ -147,18 +144,17 @@ PRO_API pro_error pro_state_release(pro_state_ref s)
     pro_env* root_env = pro_env_dereference(s, s->root_env);
     pro_env_release(s, s->root_env);
     
-    // If we a releasing the main env,  free it.
-    if (s == s->global->main)
-    {
-        //pro_env_free(s, root_env);
+    // If we a releasing the main env, unbind all items in it.
+    if (s->global->main == s)
         pro_env_unbind_all(s, root_env);
-    }
     
     // Free global state
     if (s == s->global->main)
         pro_global_state_free(s, s->global);
     
     // Free state structure memory
+    pro_alloc* alloc;
+    pro_get_alloc(s, &alloc);
     alloc(s, 0);
     
     return PRO_OK;

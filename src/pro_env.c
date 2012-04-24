@@ -11,6 +11,24 @@
 
 #pragma mark PRO_INTERNAL
 
+
+typedef struct pro_internal_lookup pro_internal_lookup;
+typedef struct pro_lookup_binding pro_lookup_binding;
+
+/**
+ * A structure that holds scope information. 
+ */
+struct pro_env
+{
+    unsigned int ref_count;
+    
+    pro_env_ref parent; /**< The parent environment used for delegation. */
+    
+    struct pro_lookup_table* lookups;
+    struct pro_binding_map* bindings;
+};
+
+
 PRO_INTERNAL pro_env* pro_env_new(pro_state_ref s,
     pro_env_ref parent, unsigned int ref_count)
 {
@@ -165,7 +183,7 @@ PRO_API pro_error pro_get_binding(pro_state_ref s,
         *ref = val;
         return PRO_OK;
     }
-    else if (env->parent) // check parent
+    else if (env->parent) // try to check parent
         return pro_get_binding(s, env->parent, name, ref);
     else // no binding found, return empty ref
     {

@@ -4,27 +4,12 @@
 #include "prosopon.h"
 
 struct pro_object;
-struct pro_lookup_table;
-struct pro_binding_map;
 
-typedef struct pro_env pro_env;
-
-
-typedef struct pro_internal_lookup pro_internal_lookup;
-typedef struct pro_lookup_binding pro_lookup_binding;
 
 /**
- * A structure that holds scope information. 
+ * Internal data structure that holds scope information.
  */
-struct pro_env
-{
-    unsigned int ref_count;
-    
-    pro_env_ref parent; /**< The parent environment used for delegation. */
-    
-    struct pro_lookup_table* lookups;
-    struct pro_binding_map* bindings;
-};
+typedef struct pro_env pro_env;
 
 
 /**
@@ -35,7 +20,20 @@ struct pro_env
 PRO_INTERNAL pro_env* pro_env_new(pro_state_ref,
     pro_env_ref parent, unsigned int ref_count);
 
+/**
+ * Frees the memory for an env.
+ */
 PRO_INTERNAL void pro_env_free(pro_state_ref, pro_env*);
+
+/**
+ * Retains an pro_env for further use.
+ */
+PRO_INTERNAL pro_env* pro_internal_env_retain(pro_state_ref s, pro_env*);
+
+/**
+ * Releases a pro_env.
+ */
+PRO_INTERNAL void pro_internal_env_release(pro_state_ref s, pro_env*);
 
 /**
  * @return An empty lookup in a environment.
@@ -54,17 +52,14 @@ PRO_INTERNAL struct pro_object** pro_env_lookup_value(pro_state_ref,
  */
 PRO_INTERNAL struct pro_object* pro_dereference(pro_state_ref, pro_ref);
 
-
-
-
-PRO_INTERNAL pro_env* pro_internal_env_retain(pro_state_ref s, pro_env*);
-
-PRO_INTERNAL void pro_internal_env_release(pro_state_ref s, pro_env*);
-
-
+/**
+ * Removes a lookup from an environment.
+ */
 PRO_INTERNAL void pro_env_lookup_remove(pro_state_ref, pro_env*, pro_ref ref);
 
-
+/**
+ * Releases all of an env's bindings.
+ */
 PRO_INTERNAL void pro_env_unbind_all(pro_state_ref, pro_env*);
 
 #endif

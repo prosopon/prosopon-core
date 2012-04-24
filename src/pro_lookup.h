@@ -10,9 +10,9 @@
 typedef struct pro_lookup pro_lookup;
 struct pro_lookup
 {
-    unsigned ref_count;
-    pro_env_ref env;
-    unsigned int index;
+    unsigned ref_count; /**< The lookup's reference count */
+    pro_env_ref env; /**< The environment holding the referenced object */
+    unsigned int index; /**< The internal identifier for the referenced object */
 };
 
 
@@ -23,7 +23,7 @@ PRO_INTERNAL pro_lookup* pro_lookup_new(pro_state_ref,
     pro_env_ref env, unsigned int index, unsigned int ref_count);
 
 /**
- * Frees the memory for.
+ * Frees the memory for a lookup.
  */
 PRO_INTERNAL void pro_lookup_free(pro_state_ref, pro_lookup*);
 
