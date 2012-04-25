@@ -24,8 +24,8 @@ struct pro_env
     
     pro_env_ref parent; /**< The parent environment used for delegation. */
     
-    struct pro_lookup_table* lookups;
-    struct pro_binding_map* bindings;
+    pro_lookup_table* lookups;
+    pro_binding_map* bindings;
 };
 
 
@@ -92,7 +92,7 @@ PRO_INTERNAL pro_ref pro_env_next_lookup(pro_state_ref s,
     pro_env_retain(s, env_ref);
     pro_env* env = pro_env_dereference(s, env_ref);
     
-    unsigned int index = pro_lookup_table_append(s, env->lookups);
+    unsigned int index = pro_lookup_table_add(s, env->lookups);
     return pro_lookup_new(s, env_ref, index, 1);
 }
 

@@ -7,7 +7,18 @@
 #endif
 
 
+#pragma mark Private
+
 typedef struct pro_internal_lookup pro_internal_lookup;
+
+
+struct pro_lookup_table
+{
+    pro_internal_lookup* value;
+    unsigned int size;
+};
+
+
 
 /**
  * A structure used to store a list of lookups internally.
@@ -38,7 +49,6 @@ static pro_internal_lookup* pro_internal_lookup_new(pro_state_ref s,
     internal->index = index;
     return internal;
 }
-
 
 
 #pragma mark -
@@ -73,23 +83,17 @@ PRO_INTERNAL void pro_lookup_table_free(pro_state_ref s, pro_lookup_table* t)
 }
 
 
-PRO_INTERNAL unsigned int pro_lookup_table_append(pro_state_ref s, pro_lookup_table* t)
+PRO_INTERNAL unsigned int pro_lookup_table_add(pro_state_ref s, pro_lookup_table* t)
 {
+    pro_internal_lookup* next = t->value;
     unsigned int index = t->size;
-    pro_internal_lookup* internal = pro_internal_lookup_new(s, 0, 0, index);
+    
+    pro_internal_lookup* internal = pro_internal_lookup_new(s, 0, next, index);
     if (!internal) return 0;
     
-    pro_internal_lookup* parent = t->value;
-    if (!parent)
-        t->value = internal;
-    else
-    {
-        while (parent->next)
-            parent = parent->next;
-        parent->next = internal;
-    }
-        
+    t->value = internal;
     (t->size)++;
+    
     return index;
 }
 

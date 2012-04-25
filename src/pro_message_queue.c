@@ -102,5 +102,5 @@ PRO_INTERNAL pro_ref pro_message_queue_dequeue(pro_state_ref s,
 PRO_INTERNAL int pro_message_queue_is_empty(pro_state_ref s,
     pro_message_queue* t)
 {
-    return t->front == 0;
+    return (t->front == 0);
 }
