@@ -8,7 +8,8 @@
 #########
 bin
 build
-libprosopon.so.*
+libprosopon*
+.libs
 
 # Doc Files #
 #############

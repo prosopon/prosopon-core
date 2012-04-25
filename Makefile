@@ -1,7 +1,7 @@
 SHELL=/bin/bash
 
 CC = gcc
-LINK = gcc
+LINK = glibtool --tag="junk"
 DOC = doxygen
 
 CFLAGS = -std=c99 -g -I./include
@@ -11,30 +11,40 @@ SRC_DIR = src
 TEST_DIR = test
 OUT_DIR = build
 
-OBJS = pro_actor.o pro_list.o pro_env.o pro_lookup.o pro_object.o pro_state.o pro_constructor.o pro_library.o pro_message_queue.o pro_type.o pro_env_stack.o pro_user_data.o pro_messaging.o pro_lookup_list.o pro_lookup_table.o pro_binding_map.o pro_env_lookup.o
+
+
+OBJS = pro_actor pro_list pro_env pro_lookup pro_object pro_state pro_constructor pro_library pro_message_queue pro_type pro_env_stack pro_user_data pro_messaging pro_lookup_list pro_lookup_table pro_binding_map pro_env_lookup
+
 OUT_OBJS = $(addprefix $(OUT_DIR)/,$(OBJS))
 
+TEST_OBJS = test test-pro_alloc test-pro_constructor test-pro_env test-pro_message test-pro_state test-user_data
 
-all : $(OUT_OBJS) 
-	$(LINK) -shared $^ -lc -Wl,-install_name,libprosopon.so.1 -o libprosopon.so.1
-
-$(OUT_DIR)/%.o : $(SRC_DIR)/%.c
-	$(CC) $(CFLAGS) -fPIC -c $^ -o $@
+OUT_TEST_OBJS = $(addprefix $(OUT_DIR)/,$(TEST_OBJS))
 
 
-test : $(OUT_OBJS) $(OUT_DIR)/test.o
+all : libprosopon.la
+
+libprosopon.la : $(addsuffix .lo,$(OUT_OBJS))
+	glibtool --tag="junk" --mode=link gcc -g -O -o libprosopon.la  $^ -rpath /usr/local/lib
+
+$(OUT_DIR)/%.lo : $(SRC_DIR)/%.c
+	glibtool --tag="junk" --mode=compile gcc $(CFLAGS) -fPIC -c $^ -o $@
+
+
+test : $(addsuffix .o,$(OUT_OBJS)) $(addsuffix .o,$(OUT_TEST_OBJS))
 	# Link test
 	$(CC) $(CFLAGS) -lcunit -o $(OUT_DIR)/test $^ 
 	
 	# Run test
 	./$(OUT_DIR)/test
 
-$(OUT_DIR)/test.o : $(TEST_DIR)/test.c
-	$(CC) $(CFLAGS) -c -fPIC $< -o $@
+$(OUT_DIR)/%.o : $(TEST_DIR)/%.c
+	$(CC) $(CFLAGS) -I./$(SRC_DIR) -c -fPIC $< -o $@
 
 
 install:
-	cp libprosopon.so.1 /usr/local/lib/
+	glibtool --mode=install cp libprosopon.la /usr/local/lib/libprosopon.la
+
 
 .PHONY : doc
 doc :
