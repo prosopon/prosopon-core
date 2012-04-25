@@ -226,8 +226,8 @@ PRO_API pro_error pro_get_env(pro_state_ref s, PRO_OUT pro_env_ref* out_env)
     PRO_API_ASSERT(s, PRO_INVALID_OPERATION);
     
     pro_env_ref env_ref = pro_env_stack_top(s, s->stack);
-    pro_env* env = pro_env_dereference(s, env_ref);
-    *out_env = pro_env_lookup_new(s, pro_internal_env_retain(s, env), 1);
+    pro_env_retain(s, env_ref);
+    *out_env = env_ref;
     return PRO_OK;
 }
 
