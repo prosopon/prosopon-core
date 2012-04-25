@@ -90,8 +90,6 @@ PRO_API pro_error pro_get_type(pro_state_ref s, pro_ref ref,
 PRO_API pro_error pro_match(pro_state_ref s, pro_ref l1, pro_ref l2, PRO_OUT pro_matching* out)
 {
     PRO_API_ASSERT(s, PRO_INVALID_OPERATION);
-    PRO_API_ASSERT_TYPE(l1, PRO_ACTOR_TYPE, PRO_INVALID_ARGUMENT);
-    PRO_API_ASSERT_TYPE(l2, PRO_ACTOR_TYPE, PRO_INVALID_ARGUMENT);
         
     // first check if the two lookups are equal
     if (pro_lookup_equal(s, l1, l2))
@@ -101,6 +99,15 @@ PRO_API pro_error pro_match(pro_state_ref s, pro_ref l1, pro_ref l2, PRO_OUT pro
     }
     else
     {
+        if (pro_lookup_equal(s, l1, PRO_EMPTY_REF) || pro_lookup_equal(s, l2, PRO_EMPTY_REF))
+        {
+            *out = PRO_MATCH_FAIL;
+            return PRO_OK;
+        }
+        
+        PRO_API_ASSERT_TYPE(l1, PRO_ACTOR_TYPE, PRO_INVALID_ARGUMENT);
+        PRO_API_ASSERT_TYPE(l2, PRO_ACTOR_TYPE, PRO_INVALID_ARGUMENT);
+    
         // get the type info for the first object
         pro_actor_type type;
         pro_get_actor_type(s, l1, &type);

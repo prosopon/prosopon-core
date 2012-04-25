@@ -46,6 +46,7 @@ $(LIBPROSOPON) : $(addsuffix .lo,$(OUT_OBJS))
 $(BUILD_DIR)/%.lo : $(srcdir)/%.c
 	$(LIBTOOL) --mode=compile gcc $(CFLAGS) -fPIC -c $^ -o $@
 
+
 install: $(LIBPROSOPON) copy_headers	
 	$(LIBTOOL) --mode=install cp $< $(libdir)/$<
 

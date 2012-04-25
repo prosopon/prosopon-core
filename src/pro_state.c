@@ -139,6 +139,9 @@ PRO_API pro_error pro_state_release(pro_state_ref s)
 {
     PRO_API_ASSERT(s, PRO_INVALID_OPERATION);
     
+    pro_alloc* alloc;
+    pro_get_alloc(s, &alloc);
+    
     // Relase all environments execept root
     pro_env_stack_free(s, s->stack);
     
@@ -155,8 +158,6 @@ PRO_API pro_error pro_state_release(pro_state_ref s)
         pro_global_state_free(s, s->global);
     
     // Free state structure memory
-    pro_alloc* alloc;
-    pro_get_alloc(s, &alloc);
     alloc(s, 0);
     
     return PRO_OK;
@@ -169,6 +170,7 @@ PRO_API pro_error pro_get_alloc(pro_state_ref s, PRO_OUT pro_alloc** alloc)
     return PRO_OK;
 }
 
+#if 1
 
 PRO_API pro_error pro_run(pro_state_ref s)
 {
@@ -187,7 +189,7 @@ PRO_API pro_error pro_run(pro_state_ref s)
     return PRO_OK;
 }
 
-#if 0
+#else
 
 PRO_API pro_error pro_run(pro_state_ref s)
 {
