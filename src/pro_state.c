@@ -64,6 +64,8 @@ static void pro_global_state_free(pro_state_ref s, pro_global_state* g)
 #pragma mark -
 #pragma mark Internal
 
+
+
 PRO_INTERNAL pro_state* pro_state_fork(pro_state* s)
 {
     pro_state* n = pro_state_new(s->global);
@@ -221,8 +223,9 @@ PRO_API pro_error pro_get_env(pro_state_ref s, PRO_OUT pro_env_ref* out_env)
 {
     PRO_API_ASSERT(s, PRO_INVALID_OPERATION);
     
-    pro_env_ref env = pro_env_stack_top(s, s->stack);
-    *out_env = pro_env_lookup_new(s, pro_internal_env_retain(s, env->value), 1);
+    pro_env_ref env_ref = pro_env_stack_top(s, s->stack);
+    pro_env* env = pro_env_dereference(s, env_ref);
+    *out_env = pro_env_lookup_new(s, pro_internal_env_retain(s, env), 1);
     return PRO_OK;
 }
 

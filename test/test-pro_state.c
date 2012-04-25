@@ -51,7 +51,7 @@ static void test_get_env(void)
 {
     pro_env_ref current;
     pro_get_env(state, &current);
-    CU_ASSERT(current->value == pro_env_stack_top(state, state->stack)->value);
+    CU_ASSERT(pro_env_lookup_equal(state, current, pro_env_stack_top(state, state->stack)));
     
     pro_error err = pro_get_env(0, &current);
     CU_ASSERT(PRO_INVALID_OPERATION == err);
@@ -65,13 +65,13 @@ static void test_push_pop(void)
     pro_env_ref new;
     pro_env_create(state, old, &new);
     pro_push_env(state, new);
-    CU_ASSERT(new->value == pro_env_stack_top(state, state->stack)->value);
+    CU_ASSERT(pro_env_lookup_equal(state, new, pro_env_stack_top(state, state->stack)));
     
     pro_error err = pro_push_env(0, new);
     CU_ASSERT(PRO_INVALID_OPERATION == err);
     
     pro_pop_env(state);
-    CU_ASSERT(old->value == pro_env_stack_top(state, state->stack)->value);
+    CU_ASSERT(pro_env_lookup_equal(state, old, pro_env_stack_top(state, state->stack)));
     
     err = pro_pop_env(0);
     CU_ASSERT(PRO_INVALID_OPERATION == err);

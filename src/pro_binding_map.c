@@ -47,11 +47,9 @@ static pro_lookup_binding* pro_lookup_binding_new(pro_state_ref s,
     return internal;
 }
 
-static void pro_lookup_binding_free(pro_state_ref s,
+static void pro_lookup_binding_free(pro_alloc* alloc,
     pro_lookup_binding* t)
 {
-    pro_alloc* alloc;
-    pro_get_alloc(s, &alloc);
     alloc(t->identifier, 0);
     alloc(t, 0);
 }
@@ -73,17 +71,18 @@ PRO_INTERNAL pro_binding_map* pro_binding_map_new(pro_state_ref s)
 
 
 PRO_INTERNAL void pro_binding_map_free(pro_state_ref s, pro_binding_map* t)
-{    
+{
+    pro_alloc* alloc;
+    pro_get_alloc(s, &alloc);
+    
     for (pro_lookup_binding* binding = t->value; binding; )
     {
         pro_lookup_binding* next = binding->next;
         pro_release(s, binding->lookup);
-        pro_lookup_binding_free(s, binding);
+        pro_lookup_binding_free(alloc, binding);
         binding = next;
     }
     
-    pro_alloc* alloc;
-    pro_get_alloc(s, &alloc);
     alloc(t, 0);
 }
 
@@ -95,8 +94,9 @@ PRO_INTERNAL pro_ref pro_binding_map_get(pro_state_ref s, pro_binding_map* t, co
         const char* lookup_identifier = binding->identifier;
         if (lookup_identifier && strcmp(name, lookup_identifier) == 0)
         {
-            pro_retain(s, binding->lookup);
-            return binding->lookup;
+            pro_ref val = binding->lookup;
+            pro_retain(s, val);
+            return val;
         }
     }
     
@@ -106,17 +106,6 @@ PRO_INTERNAL pro_ref pro_binding_map_get(pro_state_ref s, pro_binding_map* t, co
 
 PRO_INTERNAL void pro_binding_map_put(pro_state_ref s, pro_binding_map* t, const char* name, pro_ref ref)
 {
-    // create new node
-    pro_lookup_binding* binding = pro_lookup_binding_new(s, name, ref, 0);
-    
-    pro_lookup_binding* parent = t->value;
-    if (!parent)
-        t->value = binding;
-    else
-    {
-        while (parent->next)
-            parent = parent->next;
-        parent->next = binding;
-    }
+    t->value = pro_lookup_binding_new(s, name, ref, t->value);
 }
 

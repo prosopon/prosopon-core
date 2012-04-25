@@ -40,6 +40,7 @@ static void add_loaded_library(pro_state_ref s, const char* file)
     }
 }
 
+#pragma mark -
 #pragma mark Internal
 
 PRO_INTERNAL pro_library_list* pro_library_list_new(pro_state_ref s,

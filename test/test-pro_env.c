@@ -34,12 +34,12 @@ static void test_new(void)
 {
     pro_env* env1 = pro_env_new(state, 0, 1);
     CU_ASSERT(0 != env1);
-    CU_ASSERT(0 == env1->parent);
+    CU_ASSERT(0 == pro_env_get_parent(state, env1));
     
     pro_internal_env_retain(state, env1);
     pro_env* env2 = pro_env_new(state, pro_env_lookup_new(state, env1, 1), 1);
     CU_ASSERT(0 != env2);
-    CU_ASSERT(env1 == env2->parent->value);
+    CU_ASSERT(env1 == pro_env_dereference(state, pro_env_get_parent(state, env2)));
 }
 
 
@@ -51,7 +51,7 @@ static void test_create(void)
     pro_env_ref new;
     pro_env_create(state, old, &new);
     CU_ASSERT(0 != new);
-    CU_ASSERT(new->value->parent == old);
+    CU_ASSERT(pro_env_get_parent(state, pro_env_dereference(state, new)) == old);
 }
 
 

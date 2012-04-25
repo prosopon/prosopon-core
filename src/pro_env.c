@@ -40,7 +40,7 @@ PRO_INTERNAL pro_env* pro_env_new(pro_state_ref s,
     e->parent = parent;
     e->ref_count = ref_count;
     e->lookups = pro_lookup_table_new(s);
-    e->bindings = pro_binding_map_new(s);
+    e->bindings = 0; // allocated when needed.
     return e;
 }
 
@@ -63,6 +63,26 @@ PRO_INTERNAL void pro_env_free(pro_state_ref s, pro_env* t)
     
     // free env structure memory
     alloc(t, 0);
+}
+
+
+PRO_INTERNAL pro_env* pro_internal_env_retain(pro_state_ref s, pro_env* t)
+{
+    (t->ref_count)++;
+    return t;
+}
+
+
+PRO_INTERNAL void pro_internal_env_release(pro_state_ref s, pro_env* t)
+{
+    if (--(t->ref_count) == 0)
+        pro_env_free(s, t);
+}
+
+
+PRO_INTERNAL pro_env_ref pro_env_get_parent(pro_state_ref s, pro_env* t)
+{
+    return t->parent;
 }
 
 
@@ -91,18 +111,7 @@ PRO_INTERNAL pro_object* pro_dereference(pro_state_ref s, pro_ref ref)
     return obj ? *obj : 0;
 }
 
-PRO_INTERNAL pro_env* pro_internal_env_retain(pro_state_ref s, pro_env* env)
-{
-    (env->ref_count)++;
-    return env;
-}
 
-
-PRO_INTERNAL void pro_internal_env_release(pro_state_ref s, pro_env* env)
-{
-    if (--(env->ref_count) == 0)
-        pro_env_free(s, env);
-}
 
 
 PRO_INTERNAL void pro_env_lookup_remove(pro_state_ref s, pro_env* env, pro_ref ref)
@@ -159,6 +168,8 @@ PRO_API pro_error pro_bind(pro_state_ref s, pro_ref ref, const char* id)
     pro_env* env = pro_env_dereference(s, env_ref);
 
     // bind the ref in the current environment
+    if (!env->bindings)
+        env->bindings = pro_binding_map_new(s);
     pro_binding_map_put(s, env->bindings, id, ref);
     
     // release hold on current environment
@@ -177,13 +188,18 @@ PRO_API pro_error pro_get_binding(pro_state_ref s,
     pro_env* env = pro_env_dereference(s, env_ref);
     
     // attempt to get value from binding map
-    pro_ref val = pro_binding_map_get(s, env->bindings, name);
-    if (!pro_lookup_equal(s, val, PRO_EMPTY_REF))
+    pro_binding_map* binding_map = env->bindings;
+    if (binding_map)
     {
-        *ref = val;
-        return PRO_OK;
+        pro_ref val = pro_binding_map_get(s, binding_map, name);
+        if (!pro_lookup_equal(s, val, PRO_EMPTY_REF))
+        {
+            *ref = val;
+            return PRO_OK;
+        }
     }
-    else if (env->parent) // try to check parent
+    
+    if (env->parent) // try to check parent
         return pro_get_binding(s, env->parent, name, ref);
     else // no binding found, return empty ref
     {

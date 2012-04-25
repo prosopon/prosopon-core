@@ -36,6 +36,11 @@ PRO_INTERNAL pro_env* pro_internal_env_retain(pro_state_ref s, pro_env*);
 PRO_INTERNAL void pro_internal_env_release(pro_state_ref s, pro_env*);
 
 /**
+ * @return A env's parent or null if none.
+ */
+PRO_INTERNAL pro_env_ref pro_env_get_parent(pro_state_ref s, pro_env*);
+
+/**
  * @return An empty lookup in a environment.
  */
 PRO_INTERNAL pro_ref pro_env_next_lookup(pro_state_ref,
