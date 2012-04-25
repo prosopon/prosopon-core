@@ -1,7 +1,8 @@
 SHELL=/bin/bash
 
+LIBTOOL = glibtool --tag="junk"
 CC = gcc
-LINK = glibtool --tag="junk"
+
 DOC = doxygen
 
 CFLAGS = -std=c99 -g -I./include
@@ -12,6 +13,8 @@ TEST_DIR = test
 OUT_DIR = build
 
 
+OUT_LIB = libprosopon.la
+RPATH = /usr/local/lib\
 
 OBJS = pro_actor pro_list pro_env pro_lookup pro_object pro_state pro_constructor pro_library pro_message_queue pro_type pro_env_stack pro_user_data pro_messaging pro_lookup_list pro_lookup_table pro_binding_map pro_env_lookup
 
@@ -22,13 +25,13 @@ TEST_OBJS = test test-pro_alloc test-pro_constructor test-pro_env test-pro_messa
 OUT_TEST_OBJS = $(addprefix $(OUT_DIR)/,$(TEST_OBJS))
 
 
-all : libprosopon.la
+all : $(OUT_LIB)
 
-libprosopon.la : $(addsuffix .lo,$(OUT_OBJS))
-	glibtool --tag="junk" --mode=link gcc -g -O -o libprosopon.la  $^ -rpath /usr/local/lib
+$(OUT_LIB) : $(addsuffix .lo,$(OUT_OBJS))
+	$(LIBTOOL) --mode=link gcc -g -O -o $(OUT_LIB)  $^ -rpath $(RPATH)
 
 $(OUT_DIR)/%.lo : $(SRC_DIR)/%.c
-	glibtool --tag="junk" --mode=compile gcc $(CFLAGS) -fPIC -c $^ -o $@
+	$(LIBTOOL) --mode=compile gcc $(CFLAGS) -fPIC -c $^ -o $@
 
 
 test : $(addsuffix .o,$(OUT_OBJS)) $(addsuffix .o,$(OUT_TEST_OBJS))
@@ -43,7 +46,7 @@ $(OUT_DIR)/%.o : $(TEST_DIR)/%.c
 
 
 install:
-	glibtool --mode=install cp libprosopon.la /usr/local/lib/libprosopon.la
+	$(LIBTOOL) --mode=install cp $(OUT_LIB) /usr/local/lib/$(OUT_LIB)
 
 
 .PHONY : doc
