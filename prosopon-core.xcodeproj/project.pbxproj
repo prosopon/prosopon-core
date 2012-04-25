@@ -76,7 +76,7 @@
 		890024CF1511A3070012E749 /* pro_object.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pro_object.h; sourceTree = "<group>"; };
 		890024D01511A3070012E749 /* pro_state.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = pro_state.c; sourceTree = "<group>"; };
 		890024D11511A3070012E749 /* pro_state.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pro_state.h; sourceTree = "<group>"; };
-		890024E81511A3430012E749 /* libprosopon.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libprosopon.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
+		890024E81511A3430012E749 /* libprosopon-core.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = "libprosopon-core.dylib"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8993E271152B5E180077EE0A /* pro_common.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = pro_common.h; sourceTree = "<group>"; };
 		899936F2154383490066F40A /* test-user_data.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "test-user_data.c"; sourceTree = "<group>"; };
 		89A98186152136EF00C405FE /* pro_library.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pro_library.h; sourceTree = "<group>"; };
@@ -188,7 +188,7 @@
 		89DD609A14FC755D0072ADE5 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				890024E81511A3430012E749 /* libprosopon.dylib */,
+				890024E81511A3430012E749 /* libprosopon-core.dylib */,
 				89F1111B151CC40100317A20 /* test */,
 			);
 			name = Products;
@@ -250,12 +250,12 @@
 			);
 			name = prosopon;
 			productName = prosopon;
-			productReference = 890024E81511A3430012E749 /* libprosopon.dylib */;
+			productReference = 890024E81511A3430012E749 /* libprosopon-core.dylib */;
 			productType = "com.apple.product-type.library.dynamic";
 		};
-		89F1111A151CC40100317A20 /* test */ = {
+		89F1111A151CC40100317A20 /* prosopon-tests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 89F11122151CC40100317A20 /* Build configuration list for PBXNativeTarget "test" */;
+			buildConfigurationList = 89F11122151CC40100317A20 /* Build configuration list for PBXNativeTarget "prosopon-tests" */;
 			buildPhases = (
 				89F11117151CC40100317A20 /* Sources */,
 				89F11118151CC40100317A20 /* Frameworks */,
@@ -265,7 +265,7 @@
 			);
 			dependencies = (
 			);
-			name = test;
+			name = "prosopon-tests";
 			productName = test;
 			productReference = 89F1111B151CC40100317A20 /* test */;
 			productType = "com.apple.product-type.tool";
@@ -278,7 +278,7 @@
 			attributes = {
 				LastUpgradeCheck = 0420;
 			};
-			buildConfigurationList = 89DD609314FC755C0072ADE5 /* Build configuration list for PBXProject "prosopon" */;
+			buildConfigurationList = 89DD609314FC755C0072ADE5 /* Build configuration list for PBXProject "prosopon-core" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -291,7 +291,7 @@
 			projectRoot = "";
 			targets = (
 				890024E71511A3430012E749 /* prosopon */,
-				89F1111A151CC40100317A20 /* test */,
+				89F1111A151CC40100317A20 /* prosopon-tests */,
 			);
 		};
 /* End PBXProject section */
@@ -360,7 +360,7 @@
 			buildSettings = {
 				EXECUTABLE_PREFIX = lib;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "prosopon-core";
 				SYMROOT = "$(PROSOPON_ROOT_DIR)/build";
 			};
 			name = Debug;
@@ -370,7 +370,7 @@
 			buildSettings = {
 				EXECUTABLE_PREFIX = lib;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "prosopon-core";
 				SYMROOT = "$(PROSOPON_ROOT_DIR)/build";
 			};
 			name = Release;
@@ -469,7 +469,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		89DD609314FC755C0072ADE5 /* Build configuration list for PBXProject "prosopon" */ = {
+		89DD609314FC755C0072ADE5 /* Build configuration list for PBXProject "prosopon-core" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				89DD60A114FC755D0072ADE5 /* Debug */,
@@ -478,7 +478,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		89F11122151CC40100317A20 /* Build configuration list for PBXNativeTarget "test" */ = {
+		89F11122151CC40100317A20 /* Build configuration list for PBXNativeTarget "prosopon-tests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				89F11123151CC40100317A20 /* Debug */,
