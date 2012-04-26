@@ -39,7 +39,7 @@ PRO_INTERNAL pro_env* pro_env_new(pro_state_ref s,
     
     e->parent = parent;
     e->ref_count = ref_count;
-    e->lookups = pro_lookup_table_new(s);
+    e->lookups = 0; // allocated when needed
     e->bindings = 0; // allocated when needed.
     return e;
 }
@@ -92,6 +92,8 @@ PRO_INTERNAL pro_ref pro_env_next_lookup(pro_state_ref s,
     pro_env_retain(s, env_ref);
     pro_env* env = pro_env_dereference(s, env_ref);
     
+    if (!env->lookups)
+        env->lookups = pro_lookup_table_new(s);
     unsigned int index = pro_lookup_table_add(s, env->lookups);
     return pro_lookup_new(s, env_ref, index, 1);
 }
