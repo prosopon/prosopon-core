@@ -11,16 +11,15 @@
 #pragma mark Internal
 
 PRO_INTERNAL pro_lookup* pro_lookup_new(pro_state* s,
-    pro_env_ref env, unsigned int index, unsigned int ref_count)
+    struct pro_object* obj, unsigned int ref_count)
 {
     pro_alloc* alloc;
     pro_get_alloc(s, &alloc);
     pro_lookup* t = alloc(0, sizeof(*t));
     if (!t) return 0;
     
-    t->env = env;
-    t->index = index;
     t->ref_count = ref_count;
+    t->obj = obj;
     return t;
 }
 
@@ -34,12 +33,7 @@ PRO_INTERNAL int pro_lookup_equal(pro_state* s,
     if (PRO_EMPTY_REF == o1 || PRO_EMPTY_REF == o2)
         return 0;
     
-    if (o1->index != o2->index)
-        return 0;
-    
-    const pro_env* env1 = pro_env_dereference(s, o1->env);
-    const pro_env* env2 = pro_env_dereference(s, o2->env);
-    return (env1 == env2);
+    return (o1->obj == o2->obj);
 }
 
 PRO_INTERNAL void pro_lookup_free(pro_state_ref s, pro_lookup* t)
@@ -50,13 +44,6 @@ PRO_INTERNAL void pro_lookup_free(pro_state_ref s, pro_lookup* t)
     // Release the object
     pro_object* obj = pro_dereference(s, t);
     pro_object_release(s, obj);
-    
-    // Remove the ref from the env
-    pro_env* env = pro_env_dereference(s, t->env);
-    pro_env_lookup_remove(s, env, t);
-    
-    // Release the held environment
-    pro_env_release(s, t->env);
 
     // Free the lookup memory
     alloc(t, 0);

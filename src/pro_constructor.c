@@ -17,21 +17,20 @@ PRO_API pro_error pro_constructor_create(pro_state_ref s,
     pro_get_env(s, &current_env);
     
     // Create a new object
-    pro_ref lookup = pro_env_next_lookup(s, current_env);
-    pro_object** obj = pro_env_lookup_value(s, lookup);
-    *obj = pro_object_new(s, PRO_CONSTRUCTOR_TYPE, 1);
+    pro_object* obj = pro_object_new(s, PRO_CONSTRUCTOR_TYPE, 1);
 
     // Set the implementation
-    (*obj)->value.constructor.constructor = c;
+    obj->value.constructor.constructor = c;
    
     // Set the user data
     pro_retain(s, ud);
-    (*obj)->value.constructor.data = ud;
+    obj->value.constructor.data = ud;
     
     // Set the environment
-    (*obj)->value.constructor.env = current_env;
+    obj->value.constructor.env = current_env;
     
     // Return the result
+    pro_ref lookup = pro_lookup_new(s, obj, 1);
     *constructor = lookup;
     return PRO_OK;
 }

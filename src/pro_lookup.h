@@ -3,6 +3,8 @@
 
 #include "prosopon.h"
 
+struct pro_object;
+
 
 /**
  * Internal structure for pro_ref. 
@@ -11,8 +13,7 @@ typedef struct pro_lookup pro_lookup;
 struct pro_lookup
 {
     unsigned ref_count; /**< The lookup's reference count */
-    pro_env_ref env; /**< The environment holding the referenced object */
-    unsigned int index; /**< The internal identifier for the referenced object */
+    struct pro_object* obj;   
 };
 
 
@@ -20,7 +21,7 @@ struct pro_lookup
  * @return A new lookup.
  */
 PRO_INTERNAL pro_lookup* pro_lookup_new(pro_state_ref,
-    pro_env_ref env, unsigned int index, unsigned int ref_count);
+    struct pro_object* obj, unsigned int ref_count);
 
 /**
  * Frees the memory for a lookup.

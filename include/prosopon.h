@@ -17,8 +17,31 @@ extern "C" {
  * @version 0.1.0
  *
  * @section intro_sec Introduction
- */ 
+ */
+ 
+/**
+ * @section memory_sec Memory Management
+ *
+ * All Prosopon objects (pro_state_ref, pro_env_ref, pro_ref), are memory 
+ * managed using manual reference counting. It is the programmer's responsibility
+ * to correctly manage memory in order to prevent memory leaks and memory
+ * access bugs.
+ *
+ * API functions involving memory management make not of how they change reference
+ * counts or the reference count of objects they return.
+ *
+ * The following general points are good guidelines for manageing memory: 
+ * * Any object that will be used further must be retained. Many API functions
+ *   return retained objects.
+ * * Any object you are done using should be released.
+ * * Every retaining statement should have a matching release. Returned parementers
+ *   must always be released if not used.
+ * * Release != Free, memory may not be freed when release is called even if the
+ *   reference count is zero. It will always eventually be freed.
+ */
 
+
+#pragma mark Utility
 
 
 /**
@@ -29,10 +52,25 @@ extern "C" {
 
 
 #pragma mark Error
+/**
+ * @section error_sec Error Handling
+ *
+ * Every API call returns an error code to report problems. This is PRO_OK when
+ * no errors occur. Instead of crashing API functions will return error codes.
+ *
+ * It is the programmer's responsibilty to check the returned error codes and
+ * handle any error appropriately. Failure to handle an error for one call
+ * may effect later calls and the exected behavior of the program.
+ */
 
+/**
+ * Information about the error an API call generated.
+ */
 typedef enum
 {
-    PRO_OK = 0,
+    PRO_OK = 0 /**<
+    
+    */,
     PRO_OUT_OF_MEMORY,
     PRO_LIBRARY_LOAD_ERROR,
     PRO_INVALID_ARGUMENT,
@@ -43,6 +81,9 @@ typedef enum
     PRO_ERROR_MAX
 } pro_error;
 
+
+
+#pragma mark Structures
 
 /**
  * An opaque reference to state of the prosopon machine.

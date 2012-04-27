@@ -5,7 +5,6 @@
 #include "pro_object.h"
 #include "pro_lookup.h"
 #include "pro_env_lookup.h"
-#include "pro_lookup_table.h"
 #include "pro_binding_map.h"
 
 
@@ -24,7 +23,6 @@ struct pro_env
     
     pro_env_ref parent; /**< The parent environment used for delegation. */
     
-    pro_lookup_table* lookups;
     pro_binding_map* bindings;
 };
 
@@ -39,7 +37,6 @@ PRO_INTERNAL pro_env* pro_env_new(pro_state_ref s,
     
     e->parent = parent;
     e->ref_count = ref_count;
-    e->lookups = 0; // allocated when needed
     e->bindings = 0; // allocated when needed.
     return e;
 }
@@ -49,11 +46,6 @@ PRO_INTERNAL void pro_env_free(pro_state_ref s, pro_env* t)
 {
     pro_alloc* alloc;
     pro_get_alloc(s, &alloc);
-    
-    // if we have a valid lookup table, free it
-    pro_lookup_table* lookup_table = t->lookups;
-    if (lookup_table)
-        pro_lookup_table_free(s, lookup_table);
     
     // free the binding table
     pro_env_unbind_all(s, t);
@@ -86,41 +78,10 @@ PRO_INTERNAL pro_env_ref pro_env_get_parent(pro_state_ref s, pro_env* t)
 }
 
 
-PRO_INTERNAL pro_ref pro_env_next_lookup(pro_state_ref s,
-    pro_env_ref env_ref)
-{
-    pro_env_retain(s, env_ref);
-    pro_env* env = pro_env_dereference(s, env_ref);
-    
-    if (!env->lookups)
-        env->lookups = pro_lookup_table_new(s);
-    unsigned int index = pro_lookup_table_add(s, env->lookups);
-    return pro_lookup_new(s, env_ref, index, 1);
-}
-
-
-PRO_INTERNAL pro_object** pro_env_lookup_value(pro_state_ref s, pro_ref ref)
-{
-    pro_env* env = pro_env_dereference(s, ref->env);
-    return pro_lookup_table_get(s, env->lookups, ref->index);
-}
-
-
 PRO_INTERNAL pro_object* pro_dereference(pro_state_ref s, pro_ref ref)
 {
-    pro_env* env = pro_env_dereference(s, ref->env);
-    pro_object** obj = pro_lookup_table_get(s, env->lookups, ref->index);
-    return obj ? *obj : 0;
+    return pro_lookup_equal(s, ref, PRO_EMPTY_REF) ? 0 : ref->obj;
 }
-
-
-
-
-PRO_INTERNAL void pro_env_lookup_remove(pro_state_ref s, pro_env* env, pro_ref ref)
-{
-    pro_lookup_table_remove(s, env->lookups, ref->index);
-}
-
 
 PRO_INTERNAL void pro_env_unbind_all(pro_state_ref s, pro_env* t)
 {

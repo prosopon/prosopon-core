@@ -20,16 +20,13 @@
 PRO_API pro_error pro_list_create(pro_state_ref s, PRO_OUT pro_ref* msg)
 {
     PRO_API_ASSERT(s, PRO_INVALID_OPERATION);
-    pro_env_ref env;
-    pro_get_env(s, &env);
-    pro_ref ref = pro_env_next_lookup(s, env);
-    pro_env_release(s, env);
     
-    pro_object** obj = pro_env_lookup_value(s, ref);
-    *obj = pro_object_new(s, PRO_LIST_TYPE, 1);
-    PRO_API_ASSERT(*obj, PRO_OUT_OF_MEMORY);
-    (*obj)->value.message = 0;
+    pro_object* obj = pro_object_new(s, PRO_LIST_TYPE, 1);
+    PRO_API_ASSERT(obj, PRO_OUT_OF_MEMORY);
+    obj->value.message = 0;
     
+    pro_ref ref = pro_lookup_new(s, obj, 1);
+
     *msg = ref;
     return PRO_OK;
 }
