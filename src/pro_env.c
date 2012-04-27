@@ -78,11 +78,6 @@ PRO_INTERNAL pro_env_ref pro_env_get_parent(pro_state_ref s, pro_env* t)
 }
 
 
-PRO_INTERNAL pro_object* pro_dereference(pro_state_ref s, pro_ref ref)
-{
-    return pro_lookup_equal(s, ref, PRO_EMPTY_REF) ? 0 : ref->obj;
-}
-
 PRO_INTERNAL void pro_env_unbind_all(pro_state_ref s, pro_env* t)
 {
     pro_binding_map* bindings = t->bindings;

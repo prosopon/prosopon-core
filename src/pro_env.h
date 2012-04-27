@@ -3,8 +3,6 @@
 
 #include "prosopon.h"
 
-struct pro_object;
-
 
 /**
  * Internal data structure that holds scope information.
@@ -39,11 +37,6 @@ PRO_INTERNAL void pro_internal_env_release(pro_state_ref s, pro_env*);
  * @return A env's parent or null if none.
  */
 PRO_INTERNAL pro_env_ref pro_env_get_parent(pro_state_ref s, pro_env*);
-
-/**
- * Dereferenaces a pro_ref
- */
-PRO_INTERNAL struct pro_object* pro_dereference(pro_state_ref, pro_ref);
 
 /**
  * Releases all of an env's bindings.

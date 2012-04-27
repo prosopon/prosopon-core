@@ -50,6 +50,11 @@ PRO_INTERNAL void pro_lookup_free(pro_state_ref s, pro_lookup* t)
 }
 
 
+PRO_INTERNAL pro_object* pro_dereference(pro_state_ref s, pro_ref ref)
+{
+    return pro_lookup_equal(s, ref, PRO_EMPTY_REF) ? 0 : ref->obj;
+}
+
 
 #pragma mark -
 #pragma mark Public

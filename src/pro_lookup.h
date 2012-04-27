@@ -37,5 +37,10 @@ PRO_INTERNAL int pro_lookup_equal(pro_state_ref,
     const pro_lookup*, const pro_lookup*);
     
 
+/**
+ * Dereferenaces a pro_ref to the pro_object it references
+ */
+PRO_INTERNAL struct pro_object* pro_dereference(pro_state_ref, pro_ref);
+
 
 #endif
