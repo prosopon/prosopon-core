@@ -26,7 +26,6 @@ PRO_API pro_error pro_list_create(pro_state_ref s, PRO_OUT pro_ref* msg)
     obj->value.message = 0;
     
     pro_ref ref = pro_lookup_new(s, obj, 1);
-
     *msg = ref;
     return PRO_OK;
 }

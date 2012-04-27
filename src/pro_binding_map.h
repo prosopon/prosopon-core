@@ -16,6 +16,11 @@ typedef struct pro_binding_map pro_binding_map;
 PRO_INTERNAL pro_binding_map* pro_binding_map_new(pro_state_ref s);
 
 /**
+ * @return A new binding map or null if alloc failed.
+ */
+PRO_INTERNAL pro_binding_map* pro_binding_map_copy(pro_state_ref s, pro_binding_map*);
+
+/**
  * Releases a binding map.
  */
 PRO_INTERNAL void pro_binding_map_free(pro_state_ref s, pro_binding_map*);

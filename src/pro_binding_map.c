@@ -69,6 +69,26 @@ PRO_INTERNAL pro_binding_map* pro_binding_map_new(pro_state_ref s)
     return t;
 }
 
+/**
+ * @return A new binding map or null if alloc failed.
+ */
+PRO_INTERNAL pro_binding_map* pro_binding_map_copy(pro_state_ref s, pro_binding_map* c)
+{
+    pro_binding_map* t = pro_binding_map_new(s);
+        
+    if (c)
+    {
+        for (pro_lookup_binding* binding = c->value; binding; binding = binding->next)
+        {
+            pro_retain(s, binding->lookup);
+            pro_binding_map_put(s, t, binding->identifier, binding->lookup);
+        }
+    }
+    
+    return t;
+}
+
+
 
 PRO_INTERNAL void pro_binding_map_free(pro_state_ref s, pro_binding_map* t)
 {

@@ -1,8 +1,7 @@
 #include "pro_messaging.h"
 
 #include "pro_object.h"
-#include "pro_env.h"
-
+#include "pro_lookup.h"
 
 
 PRO_INTERNAL void pro_deliver_message(pro_state_ref s,
