@@ -11,10 +11,10 @@
 		890024ED1511A3590012E749 /* pro_object.c in Sources */ = {isa = PBXBuildFile; fileRef = 890024CE1511A3070012E749 /* pro_object.c */; };
 		890024EE1511A35B0012E749 /* pro_env.c in Sources */ = {isa = PBXBuildFile; fileRef = 890024CA1511A3070012E749 /* pro_env.c */; };
 		890024EF1511A35C0012E749 /* pro_actor.c in Sources */ = {isa = PBXBuildFile; fileRef = 890024C61511A3070012E749 /* pro_actor.c */; };
-		8972965F154CEE2F00771769 /* actor_type.h in Headers */ = {isa = PBXBuildFile; fileRef = 8972965B154CEE2F00771769 /* actor_type.h */; };
-		89729660154CEE2F00771769 /* config.h in Headers */ = {isa = PBXBuildFile; fileRef = 8972965C154CEE2F00771769 /* config.h */; };
-		89729661154CEE2F00771769 /* core.h in Headers */ = {isa = PBXBuildFile; fileRef = 8972965D154CEE2F00771769 /* core.h */; };
-		89729662154CEE2F00771769 /* prosopon.h in Headers */ = {isa = PBXBuildFile; fileRef = 8972965E154CEE2F00771769 /* prosopon.h */; };
+		8972965F154CEE2F00771769 /* actor_type.h in Headers */ = {isa = PBXBuildFile; fileRef = 8972965B154CEE2F00771769 /* actor_type.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		89729660154CEE2F00771769 /* config.h in Headers */ = {isa = PBXBuildFile; fileRef = 8972965C154CEE2F00771769 /* config.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		89729661154CEE2F00771769 /* core.h in Headers */ = {isa = PBXBuildFile; fileRef = 8972965D154CEE2F00771769 /* core.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		89729662154CEE2F00771769 /* prosopon.h in Headers */ = {isa = PBXBuildFile; fileRef = 8972965E154CEE2F00771769 /* prosopon.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		899936F3154383490066F40A /* test-user_data.c in Sources */ = {isa = PBXBuildFile; fileRef = 899936F2154383490066F40A /* test-user_data.c */; };
 		89A9818A152136FD00C405FE /* pro_library.c in Sources */ = {isa = PBXBuildFile; fileRef = 89A98189152136FD00C405FE /* pro_library.c */; };
 		89A9818B152136FD00C405FE /* pro_library.c in Sources */ = {isa = PBXBuildFile; fileRef = 89A98189152136FD00C405FE /* pro_library.c */; };
@@ -419,6 +419,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				ONLY_ACTIVE_ARCH = YES;
 				PROSOPON_ROOT_DIR = ..;
+				PUBLIC_HEADERS_FOLDER_PATH = /usr/local/include/prosopon;
 				SDKROOT = macosx;
 				SYMROOT = "$(PROSOPON_ROOT_DIR)/build";
 			};
@@ -449,6 +450,7 @@
 				HEADER_SEARCH_PATHS = include;
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				PROSOPON_ROOT_DIR = ..;
+				PUBLIC_HEADERS_FOLDER_PATH = /usr/local/include/prosopon;
 				SDKROOT = macosx;
 				SYMROOT = "$(PROSOPON_ROOT_DIR)/build";
 			};
