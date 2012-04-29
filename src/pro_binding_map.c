@@ -84,7 +84,6 @@ PRO_INTERNAL pro_binding_map* pro_binding_map_copy(pro_state_ref s, pro_binding_
         pro_retain(s, binding->lookup);
         pro_binding_map_put(s, t, binding->identifier, binding->lookup);
     }
-    
     return t;
 }
 

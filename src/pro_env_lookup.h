@@ -1,7 +1,7 @@
 #ifndef prosopon_pro_env_lookup_h
 #define prosopon_pro_env_lookup_h
 
-#include "prosopon.h"
+#include "prosopon/core.h"
 
 struct pro_env;
 

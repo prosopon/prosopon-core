@@ -5,7 +5,7 @@
 extern "C" {
 #endif
 
-#include "prosopon.h"
+#include <prosopon/core.h>
 
 
 /**

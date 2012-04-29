@@ -1,6 +1,6 @@
 #include "pro_library.h"
 
-#include "prosopon.h"
+#include "prosopon/core.h"
 #include "pro_state.h"
 
 #include <dlfcn.h>

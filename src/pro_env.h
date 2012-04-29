@@ -1,7 +1,7 @@
 #ifndef prosopon_pro_env_h
 #define prosopon_pro_env_h
 
-#include "prosopon.h"
+#include "prosopon/core.h"
 
 
 /**

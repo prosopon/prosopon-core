@@ -7,7 +7,6 @@
 #include "pro_env_lookup.h"
 
 
-
 #pragma mark Internal
 
 PRO_INTERNAL pro_lookup* pro_lookup_new(pro_state* s,

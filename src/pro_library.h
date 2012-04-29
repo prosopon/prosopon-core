@@ -1,7 +1,7 @@
 #ifndef prosopon_pro_library_h
 #define prosopon_pro_library_h
 
-#include "prosopon.h"
+#include "prosopon/core.h"
 
 
 typedef struct pro_library_list pro_library_list;

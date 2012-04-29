@@ -11,6 +11,10 @@
 		890024ED1511A3590012E749 /* pro_object.c in Sources */ = {isa = PBXBuildFile; fileRef = 890024CE1511A3070012E749 /* pro_object.c */; };
 		890024EE1511A35B0012E749 /* pro_env.c in Sources */ = {isa = PBXBuildFile; fileRef = 890024CA1511A3070012E749 /* pro_env.c */; };
 		890024EF1511A35C0012E749 /* pro_actor.c in Sources */ = {isa = PBXBuildFile; fileRef = 890024C61511A3070012E749 /* pro_actor.c */; };
+		8972965F154CEE2F00771769 /* actor_type.h in Headers */ = {isa = PBXBuildFile; fileRef = 8972965B154CEE2F00771769 /* actor_type.h */; };
+		89729660154CEE2F00771769 /* config.h in Headers */ = {isa = PBXBuildFile; fileRef = 8972965C154CEE2F00771769 /* config.h */; };
+		89729661154CEE2F00771769 /* core.h in Headers */ = {isa = PBXBuildFile; fileRef = 8972965D154CEE2F00771769 /* core.h */; };
+		89729662154CEE2F00771769 /* prosopon.h in Headers */ = {isa = PBXBuildFile; fileRef = 8972965E154CEE2F00771769 /* prosopon.h */; };
 		899936F3154383490066F40A /* test-user_data.c in Sources */ = {isa = PBXBuildFile; fileRef = 899936F2154383490066F40A /* test-user_data.c */; };
 		89A9818A152136FD00C405FE /* pro_library.c in Sources */ = {isa = PBXBuildFile; fileRef = 89A98189152136FD00C405FE /* pro_library.c */; };
 		89A9818B152136FD00C405FE /* pro_library.c in Sources */ = {isa = PBXBuildFile; fileRef = 89A98189152136FD00C405FE /* pro_library.c */; };
@@ -35,8 +39,6 @@
 		89F1112F151CD14200317A20 /* pro_lookup.c in Sources */ = {isa = PBXBuildFile; fileRef = 890024CC1511A3070012E749 /* pro_lookup.c */; };
 		89F11130151CD14200317A20 /* pro_object.c in Sources */ = {isa = PBXBuildFile; fileRef = 890024CE1511A3070012E749 /* pro_object.c */; };
 		89F11131151CD14200317A20 /* pro_state.c in Sources */ = {isa = PBXBuildFile; fileRef = 890024D01511A3070012E749 /* pro_state.c */; };
-		89F11135151CD28E00317A20 /* prosopon.h in Headers */ = {isa = PBXBuildFile; fileRef = 89F11133151CD28E00317A20 /* prosopon.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		89F11136151CD28E00317A20 /* prosopon_config.h in Headers */ = {isa = PBXBuildFile; fileRef = 89F11134151CD28E00317A20 /* prosopon_config.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		89F11139151CEF7D00317A20 /* test-pro_env.c in Sources */ = {isa = PBXBuildFile; fileRef = 89F11138151CEF7D00317A20 /* test-pro_env.c */; };
 		89F1113C151CF41600317A20 /* test-pro_state.c in Sources */ = {isa = PBXBuildFile; fileRef = 89F1113B151CF41600317A20 /* test-pro_state.c */; };
 		89F9542F152E6FE30060B211 /* pro_message_queue.c in Sources */ = {isa = PBXBuildFile; fileRef = 89F9542E152E6FE30060B211 /* pro_message_queue.c */; };
@@ -45,7 +47,6 @@
 		89F95433152E862D0060B211 /* pro_messaging.c in Sources */ = {isa = PBXBuildFile; fileRef = 89F95431152E862D0060B211 /* pro_messaging.c */; };
 		89F9543F152EA5310060B211 /* pro_env_stack.c in Sources */ = {isa = PBXBuildFile; fileRef = 89F9543E152EA5310060B211 /* pro_env_stack.c */; };
 		89F95440152EA5310060B211 /* pro_env_stack.c in Sources */ = {isa = PBXBuildFile; fileRef = 89F9543E152EA5310060B211 /* pro_env_stack.c */; };
-		89F95442152F43E80060B211 /* prosopon_actor_type.h in Headers */ = {isa = PBXBuildFile; fileRef = 89F95441152F43E80060B211 /* prosopon_actor_type.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		89F95446152F9EA30060B211 /* pro_user_data.c in Sources */ = {isa = PBXBuildFile; fileRef = 89F95445152F9EA20060B211 /* pro_user_data.c */; };
 		89F95447152F9EA30060B211 /* pro_user_data.c in Sources */ = {isa = PBXBuildFile; fileRef = 89F95445152F9EA20060B211 /* pro_user_data.c */; };
 		89FCC669153B64AF006C6FFF /* pro_lookup_table.c in Sources */ = {isa = PBXBuildFile; fileRef = 89FCC668153B64AF006C6FFF /* pro_lookup_table.c */; };
@@ -77,6 +78,10 @@
 		890024D01511A3070012E749 /* pro_state.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = pro_state.c; sourceTree = "<group>"; };
 		890024D11511A3070012E749 /* pro_state.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pro_state.h; sourceTree = "<group>"; };
 		890024E81511A3430012E749 /* libprosopon-core.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = "libprosopon-core.dylib"; sourceTree = BUILT_PRODUCTS_DIR; };
+		8972965B154CEE2F00771769 /* actor_type.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = actor_type.h; sourceTree = "<group>"; };
+		8972965C154CEE2F00771769 /* config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = config.h; sourceTree = "<group>"; };
+		8972965D154CEE2F00771769 /* core.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = core.h; sourceTree = "<group>"; };
+		8972965E154CEE2F00771769 /* prosopon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = prosopon.h; sourceTree = "<group>"; };
 		8993E271152B5E180077EE0A /* pro_common.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = pro_common.h; sourceTree = "<group>"; };
 		899936F2154383490066F40A /* test-user_data.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "test-user_data.c"; sourceTree = "<group>"; };
 		89A98186152136EF00C405FE /* pro_library.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pro_library.h; sourceTree = "<group>"; };
@@ -95,11 +100,9 @@
 		89E63057153A5CD000C88C05 /* pro_env_lookup.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = pro_env_lookup.c; sourceTree = "<group>"; };
 		89E6305A153A5D8A00C88C05 /* pro_lookup_list.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = pro_lookup_list.h; sourceTree = "<group>"; };
 		89E6305B153A5DA000C88C05 /* pro_lookup_list.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = pro_lookup_list.c; sourceTree = "<group>"; };
-		89F1111B151CC40100317A20 /* test */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = test; sourceTree = BUILT_PRODUCTS_DIR; };
+		89F1111B151CC40100317A20 /* test */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; name = test; path = "prosopon-tests"; sourceTree = BUILT_PRODUCTS_DIR; };
 		89F11126151CC62800317A20 /* libcunit.1.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libcunit.1.dylib; path = ../../../../../usr/local/lib/libcunit.1.dylib; sourceTree = "<group>"; };
 		89F11129151CC90C00317A20 /* test.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = test.c; sourceTree = "<group>"; };
-		89F11133151CD28E00317A20 /* prosopon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = prosopon.h; sourceTree = "<group>"; };
-		89F11134151CD28E00317A20 /* prosopon_config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = prosopon_config.h; sourceTree = "<group>"; };
 		89F11138151CEF7D00317A20 /* test-pro_env.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "test-pro_env.c"; sourceTree = "<group>"; };
 		89F1113B151CF41600317A20 /* test-pro_state.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "test-pro_state.c"; sourceTree = "<group>"; };
 		89F9542B152E6F820060B211 /* pro_message_queue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pro_message_queue.h; sourceTree = "<group>"; };
@@ -108,7 +111,6 @@
 		89F95434152E863F0060B211 /* pro_messaging.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pro_messaging.h; sourceTree = "<group>"; };
 		89F9543C152EA5230060B211 /* pro_env_stack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pro_env_stack.h; sourceTree = "<group>"; };
 		89F9543E152EA5310060B211 /* pro_env_stack.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = pro_env_stack.c; sourceTree = "<group>"; };
-		89F95441152F43E80060B211 /* prosopon_actor_type.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = prosopon_actor_type.h; sourceTree = "<group>"; };
 		89F95445152F9EA20060B211 /* pro_user_data.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = pro_user_data.c; sourceTree = "<group>"; };
 		89FCC666153B64A5006C6FFF /* pro_lookup_table.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = pro_lookup_table.h; sourceTree = "<group>"; };
 		89FCC668153B64AF006C6FFF /* pro_lookup_table.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = pro_lookup_table.c; sourceTree = "<group>"; };
@@ -173,6 +175,17 @@
 			path = src;
 			sourceTree = "<group>";
 		};
+		8972965A154CEE2F00771769 /* prosopon */ = {
+			isa = PBXGroup;
+			children = (
+				8972965B154CEE2F00771769 /* actor_type.h */,
+				8972965C154CEE2F00771769 /* config.h */,
+				8972965D154CEE2F00771769 /* core.h */,
+				8972965E154CEE2F00771769 /* prosopon.h */,
+			);
+			path = prosopon;
+			sourceTree = "<group>";
+		};
 		89DD608E14FC755C0072ADE5 = {
 			isa = PBXGroup;
 			children = (
@@ -213,9 +226,7 @@
 		89F11132151CD28E00317A20 /* include */ = {
 			isa = PBXGroup;
 			children = (
-				89F11133151CD28E00317A20 /* prosopon.h */,
-				89F11134151CD28E00317A20 /* prosopon_config.h */,
-				89F95441152F43E80060B211 /* prosopon_actor_type.h */,
+				8972965A154CEE2F00771769 /* prosopon */,
 			);
 			path = include;
 			sourceTree = "<group>";
@@ -227,9 +238,10 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				89F11135151CD28E00317A20 /* prosopon.h in Headers */,
-				89F11136151CD28E00317A20 /* prosopon_config.h in Headers */,
-				89F95442152F43E80060B211 /* prosopon_actor_type.h in Headers */,
+				8972965F154CEE2F00771769 /* actor_type.h in Headers */,
+				89729660154CEE2F00771769 /* config.h in Headers */,
+				89729661154CEE2F00771769 /* core.h in Headers */,
+				89729662154CEE2F00771769 /* prosopon.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -403,6 +415,7 @@
 				GCC_WARN_UNUSED_LABEL = YES;
 				GCC_WARN_UNUSED_PARAMETER = NO;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = include;
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				ONLY_ACTIVE_ARCH = YES;
 				PROSOPON_ROOT_DIR = ..;
@@ -433,6 +446,7 @@
 				GCC_WARN_UNUSED_LABEL = YES;
 				GCC_WARN_UNUSED_PARAMETER = NO;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = include;
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				PROSOPON_ROOT_DIR = ..;
 				SDKROOT = macosx;

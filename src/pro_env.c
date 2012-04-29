@@ -1,8 +1,6 @@
 #include "pro_env.h"
 
-#include "pro_state.h"
 #include "pro_common.h"
-#include "pro_object.h"
 #include "pro_lookup.h"
 #include "pro_env_lookup.h"
 #include "pro_binding_map.h"
@@ -20,7 +18,6 @@ typedef struct pro_lookup_binding pro_lookup_binding;
 struct pro_env
 {
     unsigned int ref_count;
-        
     pro_binding_map* bindings;
 };
 
@@ -34,7 +31,9 @@ PRO_INTERNAL pro_env* pro_env_new(pro_state_ref s,
     if (!e) return 0;
     
     e->ref_count = ref_count;
-    if (parent)
+    
+    // copy parent's bindinds
+    if (parent != PRO_EMPTY_ENV_REF)
     {
         pro_env* parent_env = pro_env_dereference(s, parent);
         e->bindings = pro_binding_map_copy(s, parent_env->bindings);

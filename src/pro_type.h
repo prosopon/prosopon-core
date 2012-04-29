@@ -1,8 +1,8 @@
 #ifndef prosopon_pro_type_h
 #define prosopon_pro_type_h
 
-#include "prosopon.h"
-#include "prosopon_actor_type.h"
+#include "prosopon/core.h"
+#include <prosopon/actor_type.h>
 
 
 typedef struct pro_actor_type_info_list pro_actor_type_info_list;

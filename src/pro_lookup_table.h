@@ -1,7 +1,7 @@
 #ifndef prosopon_pro_lookup_table_h
 #define prosopon_pro_lookup_table_h
 
-#include "prosopon.h"
+#include "prosopon/core.h"
 
 struct pro_object;
 

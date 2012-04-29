@@ -1,7 +1,7 @@
 #ifndef prosopon_pro_common_h
 #define prosopon_pro_common_h
 
-#include "prosopon.h"
+#include "prosopon/core.h"
 
 #include <assert.h>
 

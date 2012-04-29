@@ -1,7 +1,7 @@
 #ifndef prosopon_pro_env_stack_h
 #define prosopon_pro_env_stack_h
 
-#include "prosopon.h"
+#include "prosopon/core.h"
 
 
 typedef struct pro_env_stack pro_env_stack;

@@ -1,24 +1,14 @@
-#ifndef prosopon_h
-#define prosopon_h
+#ifndef prosopon_core_h
+#define prosopon_core_h
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-#include "prosopon_config.h"
+#include <prosopon/config.h>
 
 #include <stddef.h>
 
-
-/**
- * @mainpage
- *
- * @author Matt Bierner
- * @version 0.1.0
- *
- * @section intro_sec Introduction
- */
- 
 /**
  * @section memory_sec Memory Management
  *
@@ -39,9 +29,6 @@ extern "C" {
  * * Release != Free, memory may not be freed when release is called even if the
  *   reference count is zero. It will always eventually be freed.
  */
-
-
-#pragma mark Utility
 
 
 /**

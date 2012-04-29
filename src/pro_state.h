@@ -1,7 +1,7 @@
 #ifndef prosopon_pro_state_h
 #define prosopon_pro_state_h
 
-#include "prosopon.h"
+#include "prosopon/core.h"
 
 struct pro_message_queue;
 struct pro_env_stack;

@@ -1,6 +1,6 @@
 #include "test.h"
 
-#include "prosopon.h"
+#include "prosopon/core.h"
 #include "pro_state.h"
 #include "pro_lookup.h"
 #include "test-pro_alloc.h"

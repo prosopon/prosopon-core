@@ -1,7 +1,7 @@
 #ifndef prosopon_pro_binding_map_h
 #define prosopon_pro_binding_map_h
 
-#include "prosopon.h"
+#include "prosopon/core.h"
 
 
 /**

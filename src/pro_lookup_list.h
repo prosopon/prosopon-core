@@ -1,7 +1,7 @@
 #ifndef prosopon_pro_lookup_list_h
 #define prosopon_pro_lookup_list_h
 
-#include "prosopon.h"
+#include "prosopon/core.h"
 
 
 
