@@ -3,8 +3,9 @@
 
 #include "prosopon/core.h"
 
+#ifdef DEBUG
 #include <assert.h>
-
+#endif
 
 
 /**

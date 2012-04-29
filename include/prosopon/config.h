@@ -1,15 +1,17 @@
 #ifndef prosopon_config_h
 #define prosopon_config_h
 
-#ifdef __cplusplus
-extern "C" {
-#endif
 
 #if __llvm__ || __GNUC__ >= 4
     /**
      * Marks a symbol as part of the public prosopon API. 
      */
     #define PRO_API	extern __attribute__ ((visibility ("default")))
+   
+    /**
+     * Marks a data symbol as part of the public prosopon API. 
+     */
+    #define PRO_API_DATA extern __attribute__ ((visibility ("default")))
 
     /**
      * Marks a symbol as part of the public prosopon core library API. 
@@ -35,9 +37,5 @@ extern "C" {
 
 #define PRO_DYNAMIC_LIBRARY_LOADING 1
 
-
-#ifdef __cplusplus
-}
-#endif
 
 #endif

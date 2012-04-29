@@ -82,14 +82,14 @@ typedef struct pro_state* pro_state_ref;
  */
 typedef struct pro_env_lookup* pro_env_ref; 
 
-extern pro_env_ref PRO_EMPTY_ENV_REF;
+PRO_API_DATA pro_env_ref PRO_EMPTY_ENV_REF;
 
 /**
  * An opaque reference to an object.
  */
 typedef struct pro_lookup* pro_ref;
 
-extern pro_ref PRO_EMPTY_REF;
+PRO_API_DATA pro_ref PRO_EMPTY_REF;
 
 
 /**
@@ -129,7 +129,7 @@ typedef enum
  *
  */
 typedef const char* pro_actor_type;
-extern pro_actor_type PRO_DEFAULT_ACTOR_TYPE;
+PRO_API_DATA pro_actor_type PRO_DEFAULT_ACTOR_TYPE;
 
 
 #pragma mark State
