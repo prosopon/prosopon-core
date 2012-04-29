@@ -1,6 +1,5 @@
 #include "prosopon/core.h"
 
-#include "pro_env.h"
 #include "pro_common.h"
 #include "pro_object.h"
 #include "pro_lookup.h"
@@ -19,7 +18,8 @@ pro_error pro_constructor_create(pro_state_ref s,
     
     // Create a new object
     pro_object* obj = pro_object_new(s, PRO_CONSTRUCTOR_TYPE, 1);
-
+    PRO_API_ASSERT(obj, PRO_OUT_OF_MEMORY);
+    
     // Set the implementation
     obj->value.constructor.constructor = c;
    
@@ -32,6 +32,8 @@ pro_error pro_constructor_create(pro_state_ref s,
     
     // Return the result
     pro_ref lookup = pro_lookup_new(s, obj, 1);
+    PRO_API_ASSERT(lookup, PRO_OUT_OF_MEMORY);
+
     *constructor = lookup;
     return PRO_OK;
 }

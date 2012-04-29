@@ -1,6 +1,5 @@
 #include "pro_state.h"
 
-#include "prosopon/core.h"
 #include "pro_type.h"
 #include "pro_common.h"
 #include "pro_messaging.h"

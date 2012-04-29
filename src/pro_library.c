@@ -23,7 +23,10 @@ struct pro_library_list
 static void initialize_library(pro_state_ref s, void* lib_handle)
 {
     assert(lib_handle);
-    pro_library_init* init = dlsym(lib_handle, "prosopon_library_initialization");
+    
+    union { void* d; pro_library_init* f; } u;
+    u.d = dlsym(lib_handle, "prosopon_library_initialization");
+    pro_library_init* init = u.f;
     if (!init)
     {
         fprintf(stderr, "%s\n", dlerror());
