@@ -21,6 +21,11 @@
 #endif
 
 /**
+ *
+ */
+#define PRO_API_ASSERT_STATE(s) PRO_API_ASSERT((s), PRO_INVALID_STATE)
+
+/**
  * Asserts a reference is of a given type.
  *
  * Breaks if false in debug mode, else returns the resulting error. Should only

@@ -69,7 +69,7 @@ pro_env_ref PRO_EMPTY_ENV_REF = 0;
 PRO_API
 pro_error pro_env_retain(pro_state_ref s, pro_env_ref env_ref)
 {
-    PRO_API_ASSERT(s, PRO_INVALID_STATE);
+    PRO_API_ASSERT_STATE(s);
     env_ref->ref_count++;
     return PRO_OK;
 }

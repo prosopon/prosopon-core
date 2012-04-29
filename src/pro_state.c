@@ -144,7 +144,7 @@ pro_error pro_state_create(pro_alloc* alloc, PRO_OUT pro_state_ref* out_state)
 PRO_API
 pro_error pro_state_release(pro_state_ref s)
 {
-    PRO_API_ASSERT(s, PRO_INVALID_STATE);
+    PRO_API_ASSERT_STATE(s);
     
     pro_alloc* alloc;
     pro_get_alloc(s, &alloc);
@@ -233,7 +233,7 @@ pro_error pro_run(pro_state_ref s)
 PRO_API
 pro_error pro_get_env(pro_state_ref s, PRO_OUT pro_env_ref* out_env)
 {
-    PRO_API_ASSERT(s, PRO_INVALID_STATE);
+    PRO_API_ASSERT_STATE(s);
     
     pro_env_ref env_ref = pro_env_stack_top(s, s->stack);
     pro_env_retain(s, env_ref);
@@ -245,7 +245,7 @@ pro_error pro_get_env(pro_state_ref s, PRO_OUT pro_env_ref* out_env)
 PRO_API
 pro_error pro_push_env(pro_state_ref s, pro_env_ref env)
 {
-    PRO_API_ASSERT(s, PRO_INVALID_STATE);
+    PRO_API_ASSERT_STATE(s);
     PRO_API_ASSERT(PRO_EMPTY_ENV_REF != env, PRO_INVALID_STATE);
    
     // error if pushing env onto self.
@@ -262,7 +262,7 @@ pro_error pro_push_env(pro_state_ref s, pro_env_ref env)
 PRO_API
 pro_error pro_pop_env(pro_state_ref s)
 {
-    PRO_API_ASSERT(s, PRO_INVALID_STATE);
+    PRO_API_ASSERT_STATE(s);
     // Dont allow popping the root.
     PRO_API_ASSERT(!(pro_env_lookup_equal(s, pro_env_stack_top(s, s->stack), s->root_env)),
         PRO_INVALID_OPERATION);

@@ -81,7 +81,7 @@ PRO_API
 pro_error pro_get_type(pro_state_ref s, pro_ref ref,
     PRO_OUT pro_type* type)
 {
-    PRO_API_ASSERT(s, PRO_INVALID_STATE);
+    PRO_API_ASSERT_STATE(s);
     PRO_API_ASSERT(!pro_lookup_equal(s, ref, PRO_EMPTY_REF), PRO_INVALID_OPERATION);
     
     pro_object* obj = pro_dereference(s, ref);
@@ -93,7 +93,7 @@ pro_error pro_get_type(pro_state_ref s, pro_ref ref,
 PRO_API
 pro_error pro_match(pro_state_ref s, pro_ref l1, pro_ref l2, PRO_OUT pro_matching* out)
 {
-    PRO_API_ASSERT(s, PRO_INVALID_STATE);
+    PRO_API_ASSERT_STATE(s);
         
     // first check if the two lookups are equal
     if (pro_lookup_equal(s, l1, l2))

@@ -95,7 +95,7 @@ PRO_API
 pro_error pro_env_create(pro_state_ref s, pro_env_ref parent,
     PRO_OUT pro_env_ref* env_out)
 {
-    PRO_API_ASSERT(s, PRO_INVALID_STATE);
+    PRO_API_ASSERT_STATE(s);
     
     // create the new env
     pro_env* env = pro_env_new(s, parent, 1);
@@ -113,7 +113,7 @@ pro_error pro_env_create(pro_state_ref s, pro_env_ref parent,
 PRO_API
 pro_error pro_bind(pro_state_ref s, pro_ref ref, const char* id)
 {
-    PRO_API_ASSERT(s, PRO_INVALID_STATE);
+    PRO_API_ASSERT_STATE(s);
     PRO_API_ASSERT(id, PRO_INVALID_OPERATION);
 
     // retain bound value
@@ -140,7 +140,7 @@ PRO_API
 pro_error pro_get_binding(pro_state_ref s,
     pro_env_ref env_ref, const char* name,  PRO_OUT pro_ref* ref)
 {
-    PRO_API_ASSERT(s, PRO_INVALID_STATE);
+    PRO_API_ASSERT_STATE(s);
     PRO_API_ASSERT(PRO_EMPTY_ENV_REF != env_ref, PRO_INVALID_OPERATION);
 
     pro_env* env = pro_env_dereference(s, env_ref);

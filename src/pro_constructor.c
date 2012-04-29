@@ -10,7 +10,7 @@ PRO_API
 pro_error pro_constructor_create(pro_state_ref s,
     pro_constructor* c, pro_ref ud, PRO_OUT pro_ref* constructor)
 {
-    PRO_API_ASSERT(s, PRO_INVALID_STATE);
+    PRO_API_ASSERT_STATE(s);
     PRO_API_ASSERT(c, PRO_INVALID_OPERATION);
 
     // Get the current environment
@@ -41,7 +41,7 @@ PRO_API
 pro_error pro_constructor_call(pro_state_ref s,
     pro_ref constructor, pro_ref arguments, PRO_OUT pro_ref* result)
 {
-    PRO_API_ASSERT(s, PRO_INVALID_STATE);
+    PRO_API_ASSERT_STATE(s);
     PRO_API_ASSERT_TYPE(constructor, PRO_CONSTRUCTOR_TYPE, PRO_INVALID_OPERATION);
     
     pro_object* obj = pro_dereference(s, constructor);

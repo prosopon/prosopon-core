@@ -24,7 +24,7 @@ PRO_API
 pro_error pro_ud_create(pro_state_ref s,
     size_t size, pro_ud_deconstructor* deconstructor, PRO_OUT pro_ref* t)
 {
-    PRO_API_ASSERT(s, PRO_INVALID_STATE);
+    PRO_API_ASSERT_STATE(s);
 
     pro_alloc* alloc;
     pro_get_alloc(s, &alloc);
@@ -44,7 +44,7 @@ PRO_API
 pro_error pro_ud_read(pro_state_ref s, pro_ref t,
     PRO_OUT const void** ptr)
 {
-    PRO_API_ASSERT(s, PRO_INVALID_STATE);
+    PRO_API_ASSERT_STATE(s);
     PRO_API_ASSERT_TYPE(t, PRO_UD_TYPE, PRO_INVALID_OPERATION);
     
     pro_object* obj = pro_dereference(s, t);
@@ -56,7 +56,7 @@ pro_error pro_ud_read(pro_state_ref s, pro_ref t,
 PRO_API
 pro_error pro_ud_write(pro_state_ref s, pro_ref t, PRO_OUT void** ptr)
 {
-    PRO_API_ASSERT(s, PRO_INVALID_STATE);
+    PRO_API_ASSERT_STATE(s);
     PRO_API_ASSERT_TYPE(t, PRO_UD_TYPE, PRO_INVALID_OPERATION);
 
     pro_object* obj = pro_dereference(s, t);

@@ -16,7 +16,7 @@ PRO_API
 pro_error pro_actor_create(pro_state_ref s, pro_actor_type type,
     pro_behavior beh, pro_ref data, PRO_OUT pro_ref* out_ref)
 {
-    PRO_API_ASSERT(s, PRO_INVALID_STATE);
+    PRO_API_ASSERT_STATE(s);
     
     // Get the current environment
     pro_env_ref current_env;
@@ -48,7 +48,7 @@ PRO_API
 pro_error pro_get_actor_type(pro_state_ref s, pro_ref actor,
     PRO_OUT pro_actor_type* out_type)
 {
-    PRO_API_ASSERT(s, PRO_INVALID_STATE);
+    PRO_API_ASSERT_STATE(s);
     PRO_API_ASSERT_TYPE(actor, PRO_ACTOR_TYPE, PRO_INVALID_OPERATION);
 
     pro_object* obj = pro_dereference(s, actor);
@@ -60,7 +60,7 @@ pro_error pro_get_actor_type(pro_state_ref s, pro_ref actor,
 PRO_API
 pro_error pro_send(pro_state_ref s, pro_ref actor, pro_ref msg)
 {
-    PRO_API_ASSERT(s, PRO_INVALID_STATE);
+    PRO_API_ASSERT_STATE(s);
     
     if (pro_lookup_equal(s, msg, PRO_EMPTY_REF))
         return PRO_OK;
@@ -81,7 +81,7 @@ PRO_API
 pro_error pro_become(pro_state_ref s,
     pro_ref actor, pro_ref new_beh)
 {
-    PRO_API_ASSERT(s, PRO_INVALID_STATE);
+    PRO_API_ASSERT_STATE(s);
     PRO_API_ASSERT_TYPE(actor, PRO_ACTOR_TYPE, PRO_INVALID_OPERATION);
     PRO_API_ASSERT_TYPE(new_beh, PRO_ACTOR_TYPE, PRO_INVALID_OPERATION);
 
@@ -99,7 +99,7 @@ PRO_API
 pro_error pro_actor_request_ud(pro_state_ref s,
     pro_ref actor, PRO_OUT pro_ref* ud)
 {
-    PRO_API_ASSERT(s, PRO_INVALID_STATE);
+    PRO_API_ASSERT_STATE(s);
     PRO_API_ASSERT_TYPE(actor, PRO_ACTOR_TYPE, PRO_INVALID_OPERATION);
     
     pro_object* obj = pro_dereference(s, actor);

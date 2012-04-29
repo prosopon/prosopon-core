@@ -20,7 +20,7 @@
 PRO_API
 pro_error pro_list_create(pro_state_ref s, PRO_OUT pro_ref* msg)
 {
-    PRO_API_ASSERT(s, PRO_INVALID_STATE);
+    PRO_API_ASSERT_STATE(s);
     
     pro_object* obj = pro_object_new(s, PRO_LIST_TYPE, 1);
     PRO_API_ASSERT(obj, PRO_OUT_OF_MEMORY);
@@ -36,7 +36,7 @@ PRO_API
 pro_error pro_list_length(pro_state_ref s, pro_ref ref,
     PRO_OUT unsigned int* length)
 {
-    PRO_API_ASSERT(s, PRO_INVALID_STATE);
+    PRO_API_ASSERT_STATE(s);
     PRO_API_ASSERT_TYPE(ref, PRO_LIST_TYPE, PRO_INVALID_OPERATION);
     
     pro_object* obj = pro_dereference(s, ref);
@@ -52,7 +52,7 @@ PRO_API
 pro_error pro_list_get(pro_state_ref s,
     pro_ref msg, unsigned int idx, PRO_OUT pro_ref* result)
 {
-    PRO_API_ASSERT(s, PRO_INVALID_STATE);
+    PRO_API_ASSERT_STATE(s);
     PRO_API_ASSERT_TYPE(msg, PRO_LIST_TYPE, PRO_INVALID_OPERATION);
 
     pro_object* obj = pro_dereference(s, msg);
@@ -81,7 +81,7 @@ PRO_API
 pro_error pro_list_append(pro_state_ref s,
     pro_ref msg, pro_ref ref, PRO_OUT pro_ref* new_msg_out)
 {
-    PRO_API_ASSERT(s, PRO_INVALID_STATE);
+    PRO_API_ASSERT_STATE(s);
     PRO_API_ASSERT_TYPE(msg, PRO_LIST_TYPE, PRO_INVALID_OPERATION);
     //PRO_API_ASSERT(ref, );
     //PRO_API_ASSERT(msg != *new_msg_out, );
