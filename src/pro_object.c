@@ -82,7 +82,7 @@ pro_error pro_get_type(pro_state_ref s, pro_ref ref,
     PRO_OUT pro_type* type)
 {
     PRO_API_ASSERT(s, PRO_INVALID_STATE);
-    PRO_API_ASSERT(pro_lookup_equal(s, ref, PRO_EMPTY_REF), PRO_INVALID_OPERATION);
+    PRO_API_ASSERT(!pro_lookup_equal(s, ref, PRO_EMPTY_REF), PRO_INVALID_OPERATION);
     
     pro_object* obj = pro_dereference(s, ref);
     *type = obj->type;

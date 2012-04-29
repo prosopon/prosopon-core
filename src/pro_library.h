@@ -5,11 +5,6 @@
 
 
 typedef struct pro_library_list pro_library_list;
-struct pro_library_list
-{
-    pro_library_list* next;
-    const char* file;
-};
 
 
 /**

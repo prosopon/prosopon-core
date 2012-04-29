@@ -13,6 +13,13 @@
 
 #pragma mark Private
 
+struct pro_library_list
+{
+    pro_library_list* next;
+    const char* file;
+    void* handle;
+};
+
 static void initialize_library(pro_state_ref s, void* lib_handle)
 {
     assert(lib_handle);
@@ -25,7 +32,7 @@ static void initialize_library(pro_state_ref s, void* lib_handle)
     init(s);
 }
 
-static void add_loaded_library(pro_state_ref s, const char* file)
+static void add_loaded_library(pro_state_ref s, const char* file, void* handle)
 {
     pro_library_list* libraries = pro_state_get_libraries(s);
     pro_state_set_libraries(s, pro_library_list_new(s, file, libraries));
@@ -67,6 +74,7 @@ void pro_library_list_free(pro_state_ref s, pro_library_list* libraries)
     for (pro_library_list* lib = libraries; lib; )
     {
         pro_library_list* next = lib->next;
+        dlclose(lib->handle);
         alloc(lib, 0);
         lib = next;
     }
@@ -86,7 +94,7 @@ pro_error pro_library_load(pro_state_ref s, const char* file)
     if (handle)
     {
         initialize_library(s, handle);
-        add_loaded_library(s, file);
+        add_loaded_library(s, file, handle);
     }
     else
         return PRO_LIBRARY_LOAD_ERROR;

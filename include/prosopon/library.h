@@ -6,6 +6,9 @@ extern "C" {
 #endif
 
 
+/**
+ * Function that is called when a library is loaded.
+ */
 typedef void(pro_library_init)(pro_state_ref);
 
 /** 
