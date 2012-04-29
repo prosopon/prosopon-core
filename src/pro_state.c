@@ -64,26 +64,6 @@ static void pro_global_state_free(pro_state_ref s, pro_global_state* g)
 #pragma mark -
 #pragma mark Internal
 
-
-
-PRO_INTERNAL
-pro_state* pro_state_fork(pro_state* s)
-{
-    pro_state* n = pro_state_new(s->global);
-    
-    pro_env_ref root_env;
-    pro_get_env(s, &root_env);
-    
-    pro_env_stack* stack = pro_env_stack_new(n);
-    pro_env_stack_push(n, stack, root_env);
-    
-    n->root_env = root_env;
-    n->stack = stack;
-    
-    return n;
-}
-
-
 PRO_INTERNAL
 struct pro_library_list* pro_state_get_libraries(pro_state* s)
 {
@@ -177,12 +157,11 @@ pro_error pro_get_alloc(pro_state_ref s, PRO_OUT pro_alloc** alloc)
     return PRO_OK;
 }
 
-#if 1
 
 PRO_API
 pro_error pro_run(pro_state_ref s)
 {
-    pro_state_ref exec_state = s; //pro_state_fork(s);
+    pro_state_ref exec_state = s;
 
     while (!pro_message_queue_is_empty(s, s->global->message_queue))
     {    
@@ -191,43 +170,9 @@ pro_error pro_run(pro_state_ref s)
         pro_deliver_message(exec_state, actor, msg);
         pro_release(exec_state, msg);
         pro_release(exec_state, actor);
-        
-        //pro_state_release(exec_state);
     }
     return PRO_OK;
 }
-
-#else
-
-PRO_API
-pro_error pro_run(pro_state_ref s)
-{
-    dispatch_group_t group = dispatch_group_create();
-    
-    while (!pro_message_queue_is_empty(s, s->global->message_queue))
-    {    
-        pro_ref actor;
-        pro_ref msg = pro_message_queue_dequeue(s, s->global->message_queue, &actor);
-        pro_state_ref exec_state = pro_state_fork(s);
-
-        dispatch_group_async(group, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-            pro_deliver_message(exec_state, actor, msg);
-            pro_release(exec_state, msg);
-            pro_release(exec_state, actor);
-            pro_state_release(exec_state);
-        });
-    }
-    
-    dispatch_group_wait(group, DISPATCH_TIME_FOREVER);
-    dispatch_release(group);
-    
-    if (!pro_message_queue_is_empty(s, s->global->message_queue))
-        pro_run(s);
-    
-    return PRO_OK;
-}
-
-#endif
 
 
 PRO_API

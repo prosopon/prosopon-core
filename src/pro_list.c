@@ -40,9 +40,7 @@ pro_error pro_list_length(pro_state_ref s, pro_ref ref,
     PRO_API_ASSERT_TYPE(ref, PRO_LIST_TYPE, PRO_INVALID_OPERATION);
     
     pro_object* obj = pro_dereference(s, ref);
-    unsigned int l = 0;
-    for (pro_ref_list msg = obj->value.message; msg; msg = msg->next)
-        ++l;
+    unsigned int l = pro_lookup_list_length(s, obj->value.message);
     *length = l;
     return PRO_OK;
 }
@@ -56,22 +54,10 @@ pro_error pro_list_get(pro_state_ref s,
     PRO_API_ASSERT_TYPE(msg, PRO_LIST_TYPE, PRO_INVALID_OPERATION);
 
     pro_object* obj = pro_dereference(s, msg);
-    pro_ref_list list = obj->value.message;
-    while (idx)
-    {
-        if (!list)
-            break;
-        idx--;
-        list = list->next;
-    }
-        
-    if (list)
-    {
-        pro_retain(s, list->value);
-        *result = list->value;
-    }
-    else
-        *result = PRO_EMPTY_REF;
+    pro_ref val = pro_lookup_list_get(s, obj->value.message, idx);
+
+    pro_retain(s, val);
+    *result = val;
     return PRO_OK;
 }
 
@@ -83,7 +69,6 @@ pro_error pro_list_append(pro_state_ref s,
 {
     PRO_API_ASSERT_STATE(s);
     PRO_API_ASSERT_TYPE(msg, PRO_LIST_TYPE, PRO_INVALID_OPERATION);
-    //PRO_API_ASSERT(ref, );
     //PRO_API_ASSERT(msg != *new_msg_out, );
     
     // retain the appended object
@@ -93,25 +78,14 @@ pro_error pro_list_append(pro_state_ref s,
     pro_ref new_msg;
     pro_list_create(s, &new_msg);
     
+    // build the new list
     pro_object* obj = pro_dereference(s, msg);
     pro_object* new_obj = pro_dereference(s, new_msg);
-
-    pro_ref_list val = obj->value.message;
-    if (!val)
-        new_obj->value.message = pro_lookup_list_new(s, ref, 0);
-    else
-    {
-        pro_retain(s, val->value);
-        new_obj->value.message = pro_lookup_list_new(s, val->value, 0);
+    new_obj->value.message = pro_lookup_list_copy(s, obj->value.message);
+    if (!new_obj->value.message)
+        new_obj->value.message = pro_lookup_list_new(s);
+    pro_lookup_list_append(s, new_obj->value.message, ref);
         
-        while ((val = val->next))
-        {
-            pro_retain(s, val->value);
-            pro_lookup_list_append(s, new_obj->value.message, val->value);
-        }
-        pro_lookup_list_append(s, new_obj->value.message, ref);
-    }
-    
     *new_msg_out = new_msg;
     return PRO_OK;
 }

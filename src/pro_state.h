@@ -63,7 +63,4 @@ PRO_INTERNAL
 void pro_state_set_actor_type_info(pro_state*,
     struct pro_actor_type_info_list* val);
 
-PRO_INTERNAL
-pro_state* pro_state_fork(pro_state*);
-
 #endif

@@ -16,7 +16,7 @@ DOC_FLAGS =
 srcdir = src
 TEST_DIR = test
 BUILD_DIR = build
-SRC_INCLUDE_DIR = include
+SRC_INCLUDE_DIR = include/prosopon
 
 LIBPROSOPON = libprosopon.la
 PROSOPON_HEADER_DIR = $(includedir)/prosopon
@@ -26,7 +26,7 @@ OBJS = pro_actor pro_list pro_env pro_lookup pro_object pro_state pro_constructo
 
 OUT_OBJS = $(addprefix $(BUILD_DIR)/,$(OBJS))
 
-HEADERS = prosopon.h prosopon_actor_type.h prosopon_config.h
+HEADERS = prosopon.h actor_type.h config.h library.h core.h
 OUT_HEADERS = $(addprefix $(SRC_INCLUDE_DIR)/,$(HEADERS))
 
 
