@@ -40,7 +40,7 @@ pro_env* pro_env_new(pro_state_ref s,
         e->bindings = pro_binding_map_copy(s, parent_env->bindings);
     }
     else
-        e->bindings = 0;
+        e->bindings = 0; // alloced when needed.
     
     return e;
 }
@@ -150,11 +150,8 @@ pro_error pro_get_binding(pro_state_ref s,
     if (binding_map)
     {
         pro_ref val = pro_binding_map_get(s, binding_map, name);
-        if (!pro_lookup_equal(s, val, PRO_EMPTY_REF))
-        {
-            *ref = val;
-            return PRO_OK;
-        }
+        *ref = val;
+        return PRO_OK;
     }
     
     *ref = PRO_EMPTY_REF;

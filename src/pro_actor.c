@@ -63,15 +63,15 @@ pro_error pro_send(pro_state_ref s, pro_ref actor, pro_ref msg)
     PRO_API_ASSERT_STATE(s);
     
     if (pro_lookup_equal(s, msg, PRO_EMPTY_REF))
-        return PRO_OK;
+        return PRO_OK; // TODO, is this the expected behavior?
     
     PRO_API_ASSERT_TYPE(msg, PRO_LIST_TYPE, PRO_INVALID_OPERATION);
     
-    if (!pro_lookup_equal(s, actor, PRO_EMPTY_REF))
-    {
-        PRO_API_ASSERT_TYPE(actor, PRO_ACTOR_TYPE, PRO_INVALID_OPERATION);
-        pro_message_queue_enqueue(s, s->global->message_queue, msg, actor);
-    }
+    if (pro_lookup_equal(s, actor, PRO_EMPTY_REF))
+        return PRO_OK; // sends to PRO_EMPTY_REF act as a sink
+        
+    PRO_API_ASSERT_TYPE(actor, PRO_ACTOR_TYPE, PRO_INVALID_OPERATION);
+    pro_message_queue_enqueue(s, s->global->message_queue, msg, actor);
 
     return PRO_OK;
 }
@@ -87,7 +87,7 @@ pro_error pro_become(pro_state_ref s,
 
     pro_object* current_obj = pro_dereference(s, actor);
     pro_object_release(s, current_obj);
-     
+    
     pro_object* new_actor_obj = pro_dereference(s, new_beh);
     actor->obj = pro_object_retain(s, new_actor_obj);
     

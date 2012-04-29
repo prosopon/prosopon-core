@@ -553,7 +553,8 @@ pro_error (pro_get_actor_type) (pro_state_ref, pro_ref,
 /**
  * Sends a message to an actor asynchronously.
  *
- * @param actor A reference to the actor that is sent the message.
+ * @param actor A reference to the actor that is sent the message or PRO_EMPTY_REF.
+ *     PRO_EMPTY_REF acts as a message sink.
  * @param msg A reference to be sent to the actor. May be a reference for any type
  *   or PRO_EMPTY_TYPE.
  *
