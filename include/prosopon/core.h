@@ -585,22 +585,6 @@ pro_error (pro_become) (pro_state_ref, pro_ref actor, pro_ref new_beh);
 
 
 
-#pragma mark Library Loading
-
-#ifdef PRO_DYNAMIC_LIBRARY_LOADING
-
-typedef void(pro_library_init)(pro_state_ref);
-
-/** 
- *
- */
-PRO_API
-pro_error (pro_library_load) (pro_state_ref, const char* file);
-
-#endif
-
-
-
 #ifdef __cplusplus
 }
 #endif

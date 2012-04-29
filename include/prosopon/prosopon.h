@@ -11,6 +11,7 @@
  */
 #include <prosopon/core.h>
 #include <prosopon/actor_type.h>
+#include <prosopon/library.h>
 
 
 
