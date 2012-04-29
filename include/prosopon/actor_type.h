@@ -38,7 +38,8 @@ typedef struct
 PRO_API void (pro_register_actor_type) (pro_state_ref,
     pro_actor_type, const pro_actor_type_info*);
 
-PRO_API pro_error (pro_actor_request_ud) (pro_state_ref,
+PRO_API
+pro_error (pro_actor_request_ud) (pro_state_ref,
     pro_ref, PRO_OUT pro_ref* ud);
 
 

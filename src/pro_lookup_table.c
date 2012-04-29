@@ -54,7 +54,8 @@ static pro_internal_lookup* pro_internal_lookup_new(pro_state_ref s,
 #pragma mark -
 #pragma mark Internal
 
-PRO_INTERNAL pro_lookup_table* pro_lookup_table_new(pro_state_ref s)
+PRO_INTERNAL
+pro_lookup_table* pro_lookup_table_new(pro_state_ref s)
 {
     pro_alloc* alloc;
     pro_get_alloc(s, &alloc);
@@ -67,7 +68,8 @@ PRO_INTERNAL pro_lookup_table* pro_lookup_table_new(pro_state_ref s)
 }
 
 
-PRO_INTERNAL void pro_lookup_table_free(pro_state_ref s, pro_lookup_table* t)
+PRO_INTERNAL
+void pro_lookup_table_free(pro_state_ref s, pro_lookup_table* t)
 {
     pro_alloc* alloc;
     pro_get_alloc(s, &alloc);
@@ -83,7 +85,8 @@ PRO_INTERNAL void pro_lookup_table_free(pro_state_ref s, pro_lookup_table* t)
 }
 
 
-PRO_INTERNAL unsigned int pro_lookup_table_add(pro_state_ref s, pro_lookup_table* t)
+PRO_INTERNAL
+unsigned int pro_lookup_table_add(pro_state_ref s, pro_lookup_table* t)
 {
     pro_internal_lookup* next = t->value;
     unsigned int index = t->size;
@@ -98,7 +101,8 @@ PRO_INTERNAL unsigned int pro_lookup_table_add(pro_state_ref s, pro_lookup_table
 }
 
 
-PRO_INTERNAL void pro_lookup_table_remove(pro_state_ref s, pro_lookup_table* t,
+PRO_INTERNAL
+void pro_lookup_table_remove(pro_state_ref s, pro_lookup_table* t,
     unsigned int index)
 {
     pro_internal_lookup* parent = 0;
@@ -127,7 +131,8 @@ PRO_INTERNAL void pro_lookup_table_remove(pro_state_ref s, pro_lookup_table* t,
 
 
 
-PRO_INTERNAL pro_object** pro_lookup_table_get(pro_state_ref s,
+PRO_INTERNAL
+pro_object** pro_lookup_table_get(pro_state_ref s,
     pro_lookup_table* t, unsigned int index)
 {
     for (pro_internal_lookup* internal = t->value; internal; internal = internal->next)
@@ -139,7 +144,8 @@ PRO_INTERNAL pro_object** pro_lookup_table_get(pro_state_ref s,
 
 #ifdef DEBUG
 
-PRO_INTERNAL void pro_lookup_table_print(pro_state_ref s, pro_lookup_table* t)
+PRO_INTERNAL
+void pro_lookup_table_print(pro_state_ref s, pro_lookup_table* t)
 {
     printf("Lookup Table: %p", t);
     for (pro_internal_lookup* internal = t->value; internal; internal = internal->next)

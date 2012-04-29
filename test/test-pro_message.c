@@ -90,11 +90,11 @@ static void test_append_invalid(void)
     
     // bad value
     err = pro_list_append(state, msg, PRO_EMPTY_REF, &msg);
-    CU_ASSERT(PRO_INVALID_ARGUMENT == err);
+    CU_ASSERT( == err);
     
     // bad msg
     err = pro_list_append(state, PRO_EMPTY_REF, actor, &msg);
-    CU_ASSERT(PRO_INVALID_ARGUMENT == err);
+    CU_ASSERT( == err);
 }
 
 static void test_length_invalid(void)
@@ -111,7 +111,7 @@ static void test_length_invalid(void)
     
     // bad msg
     err = pro_list_length(state, PRO_EMPTY_REF, &len);
-    CU_ASSERT(PRO_INVALID_ARGUMENT == err);
+    CU_ASSERT( == err);
 }
 
 static void test_get_invalid(void)
@@ -128,7 +128,7 @@ static void test_get_invalid(void)
     
     // bad msg
     err = pro_list_get(state, PRO_EMPTY_REF, 0, &result);
-    CU_ASSERT(PRO_INVALID_ARGUMENT == err);
+    CU_ASSERT( == err);
 }
 
 static void test_get_out_of_bounds(void)

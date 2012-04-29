@@ -22,7 +22,8 @@ struct pro_env
 };
 
 
-PRO_INTERNAL pro_env* pro_env_new(pro_state_ref s,
+PRO_INTERNAL
+pro_env* pro_env_new(pro_state_ref s,
     pro_env_ref parent, unsigned int ref_count)
 {
     pro_alloc* alloc;
@@ -45,7 +46,8 @@ PRO_INTERNAL pro_env* pro_env_new(pro_state_ref s,
 }
 
 
-PRO_INTERNAL void pro_env_free(pro_state_ref s, pro_env* t)
+PRO_INTERNAL
+void pro_env_free(pro_state_ref s, pro_env* t)
 {
     pro_alloc* alloc;
     pro_get_alloc(s, &alloc);
@@ -58,21 +60,24 @@ PRO_INTERNAL void pro_env_free(pro_state_ref s, pro_env* t)
 }
 
 
-PRO_INTERNAL pro_env* pro_internal_env_retain(pro_state_ref s, pro_env* t)
+PRO_INTERNAL
+pro_env* pro_internal_env_retain(pro_state_ref s, pro_env* t)
 {
     (t->ref_count)++;
     return t;
 }
 
 
-PRO_INTERNAL void pro_internal_env_release(pro_state_ref s, pro_env* t)
+PRO_INTERNAL
+void pro_internal_env_release(pro_state_ref s, pro_env* t)
 {
     if (--(t->ref_count) == 0)
         pro_env_free(s, t);
 }
 
 
-PRO_INTERNAL void pro_env_unbind_all(pro_state_ref s, pro_env* t)
+PRO_INTERNAL
+void pro_env_unbind_all(pro_state_ref s, pro_env* t)
 {
     pro_binding_map* bindings = t->bindings;
     if (bindings)
@@ -86,10 +91,11 @@ PRO_INTERNAL void pro_env_unbind_all(pro_state_ref s, pro_env* t)
 #pragma mark -
 #pragma mark PRO_API
 
-PRO_API pro_error pro_env_create(pro_state_ref s, pro_env_ref parent,
+PRO_API
+pro_error pro_env_create(pro_state_ref s, pro_env_ref parent,
     PRO_OUT pro_env_ref* env_out)
 {
-    PRO_API_ASSERT(s, PRO_INVALID_OPERATION);
+    PRO_API_ASSERT(s, PRO_INVALID_STATE);
     
     // create the new env
     pro_env* env = pro_env_new(s, parent, 1);
@@ -104,9 +110,10 @@ PRO_API pro_error pro_env_create(pro_state_ref s, pro_env_ref parent,
 }
 
 
-PRO_API pro_error pro_bind(pro_state_ref s, pro_ref ref, const char* id)
+PRO_API
+pro_error pro_bind(pro_state_ref s, pro_ref ref, const char* id)
 {
-    PRO_API_ASSERT(s, PRO_INVALID_OPERATION);
+    PRO_API_ASSERT(s, PRO_INVALID_STATE);
     PRO_API_ASSERT(id, PRO_INVALID_OPERATION);
 
     // retain bound value
@@ -129,11 +136,12 @@ PRO_API pro_error pro_bind(pro_state_ref s, pro_ref ref, const char* id)
 }
 
 
-PRO_API pro_error pro_get_binding(pro_state_ref s,
+PRO_API
+pro_error pro_get_binding(pro_state_ref s,
     pro_env_ref env_ref, const char* name,  PRO_OUT pro_ref* ref)
 {
-    PRO_API_ASSERT(s, PRO_INVALID_OPERATION);
-    PRO_API_ASSERT(PRO_EMPTY_ENV_REF != env_ref, PRO_INVALID_ARGUMENT);
+    PRO_API_ASSERT(s, PRO_INVALID_STATE);
+    PRO_API_ASSERT(PRO_EMPTY_ENV_REF != env_ref, PRO_INVALID_OPERATION);
 
     pro_env* env = pro_env_dereference(s, env_ref);
     

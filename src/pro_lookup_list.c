@@ -1,7 +1,8 @@
 #include "pro_lookup_list.h"
 
 
-PRO_INTERNAL pro_ref_list pro_lookup_list_new(pro_state_ref s,
+PRO_INTERNAL
+pro_ref_list pro_lookup_list_new(pro_state_ref s,
     pro_ref value, pro_ref_list next)
 {
     pro_alloc* alloc;
@@ -15,7 +16,8 @@ PRO_INTERNAL pro_ref_list pro_lookup_list_new(pro_state_ref s,
 }
 
 
-PRO_INTERNAL void pro_lookup_list_append(pro_state_ref s,
+PRO_INTERNAL
+void pro_lookup_list_append(pro_state_ref s,
     pro_ref_list t, pro_ref value)
 {
     pro_ref_list parent = t;
@@ -25,7 +27,8 @@ PRO_INTERNAL void pro_lookup_list_append(pro_state_ref s,
 }
 
 
-PRO_INTERNAL void pro_lookup_list_free(pro_state_ref s, pro_ref_list t)
+PRO_INTERNAL
+void pro_lookup_list_free(pro_state_ref s, pro_ref_list t)
 {
     pro_alloc* alloc;
     pro_get_alloc(s, &alloc);

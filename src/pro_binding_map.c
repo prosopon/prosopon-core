@@ -58,7 +58,8 @@ static void pro_lookup_binding_free(pro_alloc* alloc,
 #pragma mark -
 #pragma mark Internal
 
-PRO_INTERNAL pro_binding_map* pro_binding_map_new(pro_state_ref s)
+PRO_INTERNAL
+pro_binding_map* pro_binding_map_new(pro_state_ref s)
 {
     pro_alloc* alloc;
     pro_get_alloc(s, &alloc);
@@ -72,7 +73,8 @@ PRO_INTERNAL pro_binding_map* pro_binding_map_new(pro_state_ref s)
 /**
  * @return A new binding map or null if alloc failed.
  */
-PRO_INTERNAL pro_binding_map* pro_binding_map_copy(pro_state_ref s, pro_binding_map* c)
+PRO_INTERNAL
+pro_binding_map* pro_binding_map_copy(pro_state_ref s, pro_binding_map* c)
 {        
     if (!c)
         return 0;
@@ -89,7 +91,8 @@ PRO_INTERNAL pro_binding_map* pro_binding_map_copy(pro_state_ref s, pro_binding_
 
 
 
-PRO_INTERNAL void pro_binding_map_free(pro_state_ref s, pro_binding_map* t)
+PRO_INTERNAL
+void pro_binding_map_free(pro_state_ref s, pro_binding_map* t)
 {
     pro_alloc* alloc;
     pro_get_alloc(s, &alloc);
@@ -106,7 +109,8 @@ PRO_INTERNAL void pro_binding_map_free(pro_state_ref s, pro_binding_map* t)
 }
 
 
-PRO_INTERNAL pro_ref pro_binding_map_get(pro_state_ref s, pro_binding_map* t, const char* name)
+PRO_INTERNAL
+pro_ref pro_binding_map_get(pro_state_ref s, pro_binding_map* t, const char* name)
 {
     for (pro_lookup_binding* binding = t->value; binding; binding = binding->next)
     {
@@ -123,7 +127,8 @@ PRO_INTERNAL pro_ref pro_binding_map_get(pro_state_ref s, pro_binding_map* t, co
 }
 
 
-PRO_INTERNAL void pro_binding_map_put(pro_state_ref s, pro_binding_map* t, const char* name, pro_ref ref)
+PRO_INTERNAL
+void pro_binding_map_put(pro_state_ref s, pro_binding_map* t, const char* name, pro_ref ref)
 {
     t->value = pro_lookup_binding_new(s, name, ref, t->value);
 }

@@ -36,7 +36,8 @@ static pro_message_node* pro_message_node_new(pro_state_ref s,
 #pragma mark -
 #pragma mark Internal
 
-PRO_INTERNAL pro_message_queue* pro_message_queue_new(pro_state_ref s)
+PRO_INTERNAL
+pro_message_queue* pro_message_queue_new(pro_state_ref s)
 {
     pro_alloc* alloc;
     pro_get_alloc(s, &alloc);
@@ -48,7 +49,8 @@ PRO_INTERNAL pro_message_queue* pro_message_queue_new(pro_state_ref s)
 }
 
 
-PRO_INTERNAL void pro_message_queue_free(pro_state_ref s, pro_message_queue* t)
+PRO_INTERNAL
+void pro_message_queue_free(pro_state_ref s, pro_message_queue* t)
 {
     pro_alloc* alloc;
     pro_get_alloc(s, &alloc);
@@ -60,7 +62,8 @@ PRO_INTERNAL void pro_message_queue_free(pro_state_ref s, pro_message_queue* t)
 }
 
 
-PRO_INTERNAL void pro_message_queue_enqueue(pro_state_ref s,
+PRO_INTERNAL
+void pro_message_queue_enqueue(pro_state_ref s,
     pro_message_queue* t, pro_ref msg, pro_ref actor) 
 {    
     pro_retain(s, msg);
@@ -78,7 +81,8 @@ PRO_INTERNAL void pro_message_queue_enqueue(pro_state_ref s,
 }
 
 
-PRO_INTERNAL pro_ref pro_message_queue_dequeue(pro_state_ref s,
+PRO_INTERNAL
+pro_ref pro_message_queue_dequeue(pro_state_ref s,
     pro_message_queue* t, PRO_OUT pro_ref* actor)
 {
     if (!t->front)
@@ -99,7 +103,8 @@ PRO_INTERNAL pro_ref pro_message_queue_dequeue(pro_state_ref s,
 }
 
 
-PRO_INTERNAL int pro_message_queue_is_empty(pro_state_ref s,
+PRO_INTERNAL
+int pro_message_queue_is_empty(pro_state_ref s,
     pro_message_queue* t)
 {
     return (t->front == 0);

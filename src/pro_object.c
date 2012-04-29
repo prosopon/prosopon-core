@@ -9,7 +9,8 @@
 #include "pro_lookup_list.h"
 
 
-PRO_INTERNAL pro_object* pro_object_new(pro_state_ref s,
+PRO_INTERNAL
+pro_object* pro_object_new(pro_state_ref s,
     pro_type type, unsigned int ref_count)
 {
     pro_alloc* alloc;
@@ -23,7 +24,8 @@ PRO_INTERNAL pro_object* pro_object_new(pro_state_ref s,
 }
 
 
-PRO_INTERNAL void pro_object_free(pro_state_ref s, pro_object* t)
+PRO_INTERNAL
+void pro_object_free(pro_state_ref s, pro_object* t)
 {    
     // Free object data
     switch (t->type)
@@ -53,14 +55,16 @@ PRO_INTERNAL void pro_object_free(pro_state_ref s, pro_object* t)
 }
 
 
-PRO_INTERNAL pro_object* pro_object_retain(pro_state_ref s, pro_object* t)
+PRO_INTERNAL
+pro_object* pro_object_retain(pro_state_ref s, pro_object* t)
 {
     t->ref_count++;
     return t;
 }
 
 
-PRO_INTERNAL void pro_object_release(pro_state_ref s, pro_object* t)
+PRO_INTERNAL
+void pro_object_release(pro_state_ref s, pro_object* t)
 {
     if (!t) return;
     assert(t->ref_count > 0);
@@ -73,13 +77,12 @@ PRO_INTERNAL void pro_object_release(pro_state_ref s, pro_object* t)
 #pragma mark -
 #pragma mark Public
 
-PRO_API pro_error pro_get_type(pro_state_ref s, pro_ref ref,
+PRO_API
+pro_error pro_get_type(pro_state_ref s, pro_ref ref,
     PRO_OUT pro_type* type)
 {
-    PRO_API_ASSERT(s, PRO_INVALID_OPERATION);
-    
-    if (PRO_EMPTY_REF == ref)
-        return PRO_INVALID_ARGUMENT;
+    PRO_API_ASSERT(s, PRO_INVALID_STATE);
+    PRO_API_ASSERT(pro_lookup_equal(s, ref, PRO_EMPTY_REF), PRO_INVALID_OPERATION);
     
     pro_object* obj = pro_dereference(s, ref);
     *type = obj->type;
@@ -87,9 +90,10 @@ PRO_API pro_error pro_get_type(pro_state_ref s, pro_ref ref,
 }
 
 
-PRO_API pro_error pro_match(pro_state_ref s, pro_ref l1, pro_ref l2, PRO_OUT pro_matching* out)
+PRO_API
+pro_error pro_match(pro_state_ref s, pro_ref l1, pro_ref l2, PRO_OUT pro_matching* out)
 {
-    PRO_API_ASSERT(s, PRO_INVALID_OPERATION);
+    PRO_API_ASSERT(s, PRO_INVALID_STATE);
         
     // first check if the two lookups are equal
     if (pro_lookup_equal(s, l1, l2))
@@ -105,8 +109,8 @@ PRO_API pro_error pro_match(pro_state_ref s, pro_ref l1, pro_ref l2, PRO_OUT pro
             return PRO_OK;
         }
         
-        PRO_API_ASSERT_TYPE(l1, PRO_ACTOR_TYPE, PRO_INVALID_ARGUMENT);
-        PRO_API_ASSERT_TYPE(l2, PRO_ACTOR_TYPE, PRO_INVALID_ARGUMENT);
+        PRO_API_ASSERT_TYPE(l1, PRO_ACTOR_TYPE, PRO_INVALID_OPERATION);
+        PRO_API_ASSERT_TYPE(l2, PRO_ACTOR_TYPE, PRO_INVALID_OPERATION);
     
         // get the type info for the first object
         pro_actor_type type;
@@ -133,7 +137,8 @@ PRO_API pro_error pro_match(pro_state_ref s, pro_ref l1, pro_ref l2, PRO_OUT pro
 }
 
 
-PRO_API pro_error pro_to_string(pro_state_ref s,
+PRO_API
+pro_error pro_to_string(pro_state_ref s,
     pro_ref t, PRO_OUT pro_ref* ud)
 {
     pro_actor_type type;

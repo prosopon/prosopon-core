@@ -31,7 +31,8 @@
     #define PRO_API	extern
     #define PRO_LIBCORE extern
     #define PRO_INTERPRETER extern
-    #define PRO_INTERNAL extern
+    #define PRO_INTERNAL
+extern
 #endif
 
 

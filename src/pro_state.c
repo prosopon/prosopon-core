@@ -66,7 +66,8 @@ static void pro_global_state_free(pro_state_ref s, pro_global_state* g)
 
 
 
-PRO_INTERNAL pro_state* pro_state_fork(pro_state* s)
+PRO_INTERNAL
+pro_state* pro_state_fork(pro_state* s)
 {
     pro_state* n = pro_state_new(s->global);
     
@@ -83,23 +84,27 @@ PRO_INTERNAL pro_state* pro_state_fork(pro_state* s)
 }
 
 
-PRO_INTERNAL struct pro_library_list* pro_state_get_libraries(pro_state* s)
+PRO_INTERNAL
+struct pro_library_list* pro_state_get_libraries(pro_state* s)
 {
     return s->global->libraries;
 }
 
-PRO_INTERNAL void pro_state_set_libraries(pro_state* s,
+PRO_INTERNAL
+void pro_state_set_libraries(pro_state* s,
     struct pro_library_list* val)
 {
     s->global->libraries = val;
 }
 
-PRO_INTERNAL struct pro_actor_type_info_list* pro_state_get_actor_type_info(pro_state* s)
+PRO_INTERNAL
+struct pro_actor_type_info_list* pro_state_get_actor_type_info(pro_state* s)
 {
     return s->global->actor_types;
 }
 
-PRO_INTERNAL void pro_state_set_actor_type_info(pro_state* s,
+PRO_INTERNAL
+void pro_state_set_actor_type_info(pro_state* s,
     struct pro_actor_type_info_list* val)
 {
     s->global->actor_types = val;
@@ -109,7 +114,8 @@ PRO_INTERNAL void pro_state_set_actor_type_info(pro_state* s,
 #pragma mark -
 #pragma mark Public
 
-PRO_API pro_error pro_state_create(pro_alloc* alloc, PRO_OUT pro_state_ref* out_state)
+PRO_API
+pro_error pro_state_create(pro_alloc* alloc, PRO_OUT pro_state_ref* out_state)
 {
     // Allocate and setup the global state
     pro_global_state* g = pro_global_state_new(alloc);
@@ -135,9 +141,10 @@ PRO_API pro_error pro_state_create(pro_alloc* alloc, PRO_OUT pro_state_ref* out_
 }
 
 
-PRO_API pro_error pro_state_release(pro_state_ref s)
+PRO_API
+pro_error pro_state_release(pro_state_ref s)
 {
-    PRO_API_ASSERT(s, PRO_INVALID_OPERATION);
+    PRO_API_ASSERT(s, PRO_INVALID_STATE);
     
     pro_alloc* alloc;
     pro_get_alloc(s, &alloc);
@@ -163,7 +170,8 @@ PRO_API pro_error pro_state_release(pro_state_ref s)
 }
 
 
-PRO_API pro_error pro_get_alloc(pro_state_ref s, PRO_OUT pro_alloc** alloc)
+PRO_API
+pro_error pro_get_alloc(pro_state_ref s, PRO_OUT pro_alloc** alloc)
 {
     *alloc = s->global->alloc;
     return PRO_OK;
@@ -171,7 +179,8 @@ PRO_API pro_error pro_get_alloc(pro_state_ref s, PRO_OUT pro_alloc** alloc)
 
 #if 1
 
-PRO_API pro_error pro_run(pro_state_ref s)
+PRO_API
+pro_error pro_run(pro_state_ref s)
 {
     pro_state_ref exec_state = s; //pro_state_fork(s);
 
@@ -190,7 +199,8 @@ PRO_API pro_error pro_run(pro_state_ref s)
 
 #else
 
-PRO_API pro_error pro_run(pro_state_ref s)
+PRO_API
+pro_error pro_run(pro_state_ref s)
 {
     dispatch_group_t group = dispatch_group_create();
     
@@ -220,9 +230,10 @@ PRO_API pro_error pro_run(pro_state_ref s)
 #endif
 
 
-PRO_API pro_error pro_get_env(pro_state_ref s, PRO_OUT pro_env_ref* out_env)
+PRO_API
+pro_error pro_get_env(pro_state_ref s, PRO_OUT pro_env_ref* out_env)
 {
-    PRO_API_ASSERT(s, PRO_INVALID_OPERATION);
+    PRO_API_ASSERT(s, PRO_INVALID_STATE);
     
     pro_env_ref env_ref = pro_env_stack_top(s, s->stack);
     pro_env_retain(s, env_ref);
@@ -231,10 +242,11 @@ PRO_API pro_error pro_get_env(pro_state_ref s, PRO_OUT pro_env_ref* out_env)
 }
 
 
-PRO_API pro_error pro_push_env(pro_state_ref s, pro_env_ref env)
+PRO_API
+pro_error pro_push_env(pro_state_ref s, pro_env_ref env)
 {
-    PRO_API_ASSERT(s, PRO_INVALID_OPERATION);
-    PRO_API_ASSERT(PRO_EMPTY_ENV_REF != env, PRO_INVALID_ARGUMENT);
+    PRO_API_ASSERT(s, PRO_INVALID_STATE);
+    PRO_API_ASSERT(PRO_EMPTY_ENV_REF != env, PRO_INVALID_STATE);
    
     // error if pushing env onto self.
     pro_env_ref current_env = pro_env_stack_top(s, s->stack);
@@ -247,9 +259,10 @@ PRO_API pro_error pro_push_env(pro_state_ref s, pro_env_ref env)
 }
 
 
-PRO_API pro_error pro_pop_env(pro_state_ref s)
+PRO_API
+pro_error pro_pop_env(pro_state_ref s)
 {
-    PRO_API_ASSERT(s, PRO_INVALID_OPERATION);
+    PRO_API_ASSERT(s, PRO_INVALID_STATE);
     // Dont allow popping the root.
     PRO_API_ASSERT(!(pro_env_lookup_equal(s, pro_env_stack_top(s, s->stack), s->root_env)),
         PRO_INVALID_OPERATION);

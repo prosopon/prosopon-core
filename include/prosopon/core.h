@@ -48,6 +48,9 @@ extern "C" {
  * It is the programmer's responsibilty to check the returned error codes and
  * handle any error appropriately. Failure to handle an error for one call
  * may effect later calls and the exected behavior of the program.
+ *
+ * Unless otherwise noted, each API call returns PRO_OK if successful or
+ * PRO_INVALID_STATE if the state was not valid.
  */
 
 /**
@@ -55,16 +58,32 @@ extern "C" {
  */
 typedef enum
 {
-    PRO_OK = 0 /**<
+    /**<
+     * The API call completed as expected
+     */
+    PRO_OK = 0 ,
     
-    */,
+    /**<
+     * The library failed to allocate more memory to complete the call.
+     */
     PRO_OUT_OF_MEMORY,
+    
     PRO_LIBRARY_LOAD_ERROR,
-    PRO_INVALID_ARGUMENT,
+    
+    /**<
+     * The referenced state is not valid.
+     */
+    PRO_INVALID_STATE,
+    
+    /**<
+     * The requested operation is not valid.
+     */
     PRO_INVALID_OPERATION,
-    PRO_INVALID_VALUE,
+    
     PRO_CONSTRUCTOR_ERROR,
+    
     PRO_BEHAVIOR_ERROR,
+    
     PRO_ERROR_MAX
 } pro_error;
 
@@ -82,13 +101,20 @@ typedef struct pro_state* pro_state_ref;
  */
 typedef struct pro_env_lookup* pro_env_ref; 
 
+/**
+ * Null environment reference.
+ */
 PRO_API_DATA pro_env_ref PRO_EMPTY_ENV_REF;
+
 
 /**
  * An opaque reference to an object.
  */
 typedef struct pro_lookup* pro_ref;
 
+/**
+ * Null object reference.
+ */
 PRO_API_DATA pro_ref PRO_EMPTY_REF;
 
 
@@ -96,6 +122,7 @@ PRO_API_DATA pro_ref PRO_EMPTY_REF;
  * Function representing the behavior of an actor.
  * 
  * @param t A lookup for self.
+ * @param t The message being processed.
  * @param data Additional user defined data passed to the behavior.
  */
 typedef void(pro_behavior)(pro_state_ref,
@@ -137,71 +164,72 @@ PRO_API_DATA pro_actor_type PRO_DEFAULT_ACTOR_TYPE;
 /**
  * Function to allocate and deallocate memory
  * 
- * Based on lua_Alloc
+ * Based on lua_Alloc and similar to realloc.
+ *
+ * @param ptr A pointer to memory allocated by the pro_alloc function to reallocate.
+ *     If null, new memory is allocated.
+ * @param size The size of the new memory block after reallocation. If zero,
+ *     The memory is deallocated.
  */
-typedef void*(pro_alloc)(void* ptr, size_t nsize);
+typedef void*(pro_alloc)(void* ptr, size_t size);
 
 /**
  * Creates a new execution state.
  *
  * @param[out] state The newly created state.
  *
- * @return
- *   PRO_OK if successful
+ * @return Does not return PRO_INVALID_STATE
  *   PRO_OUT_OF_MEMORY if a new state cannot be allocated.
  */
-PRO_API pro_error (pro_state_create) (pro_alloc* alloc, PRO_OUT pro_state_ref* state);
+PRO_API
+pro_error (pro_state_create) (pro_alloc* alloc,
+    PRO_OUT pro_state_ref* state);
 
 /**
  * Releases a state for future collection.
- *
- * @return
- *   PRO_OK if successful
- *   PRO_INVALID_OPERATION if the state is not valid.
  */
-PRO_API pro_error (pro_state_release) (pro_state_ref);
+PRO_API
+pro_error (pro_state_release) (pro_state_ref);
 
 /**
  * 
  */
-PRO_API pro_error (pro_run) (pro_state_ref);
+PRO_API
+pro_error (pro_run) (pro_state_ref);
 
 /**
  * @param[out] alloc The memory allocator used for the given state.
- *
- * @return
- *   PRO_OK if successful
- *   PRO_INVALID_OPERATION if the state is not valid.
  */
-PRO_API pro_error (pro_get_alloc) (pro_state_ref, PRO_OUT pro_alloc** alloc);
+PRO_API
+pro_error (pro_get_alloc) (pro_state_ref,
+    PRO_OUT pro_alloc** alloc);
 
 /**
  * @param[out] env The reference to the current environment with a referance count
  *     of 1.
- *
- * @return
- *   PRO_OK if successful
- *   PRO_INVALID_OPERATION if the state is not valid.
  */
-PRO_API pro_error (pro_get_env) (pro_state_ref, PRO_OUT pro_env_ref* env);
+PRO_API
+pro_error (pro_get_env) (pro_state_ref,
+    PRO_OUT pro_env_ref* env);
 
 /**
  * Pushes an environment onto the environment stack.
  *
  * @return
- *   PRO_OK if successful
- *   PRO_INVALID_OPERATION if state is not valid or pushing an env onto itself.
+ *   PRO_INVALID_OPERATION If pushing an env onto itself.
+ *   PRO_OUT_OF_MEMORY If memory cannot be alocated.
  */
-PRO_API pro_error (pro_push_env) (pro_state_ref, pro_env_ref);
+PRO_API
+pro_error (pro_push_env) (pro_state_ref, pro_env_ref);
 
 /**
  * Pops an environment off the environment stack.
  *
  * @return
- *   PRO_OK if successful
- *   PRO_INVALID_OPERATION if state is not valid or popping the root environment.
+ *   PRO_INVALID_OPERATION If popping the root environment.
  */
-PRO_API pro_error (pro_pop_env) (pro_state_ref);
+PRO_API
+pro_error (pro_pop_env) (pro_state_ref);
 
 
 #pragma mark Environment
@@ -212,84 +240,89 @@ PRO_API pro_error (pro_pop_env) (pro_state_ref);
  * @param[out] env A reference to the new environment.
  *
  * @return
- *   PRO_OK if successful
  *   PRO_OUT_OF_MEMORY if memory cannot be alocated.
  */
-PRO_API pro_error (pro_env_create) (pro_state_ref, pro_env_ref parent,
+PRO_API
+pro_error (pro_env_create) (pro_state_ref, pro_env_ref parent,
     PRO_OUT pro_env_ref* env);
 
 /**
  * Retains a env reference for further use. 
  *
- * @see memory management.
+ * @see memory_management.
  */
-PRO_API pro_error (pro_env_retain) (pro_state_ref, pro_env_ref);
+PRO_API
+pro_error (pro_env_retain) (pro_state_ref, pro_env_ref);
 
 /**
  * Release an environment for future collection.
  * 
- * The env_ref must not be used after it has been released.
- * 
- * @see memory management.
+ * @see memory_management.
  */
-PRO_API pro_error (pro_env_release) (pro_state_ref, pro_env_ref);
+PRO_API
+pro_error (pro_env_release) (pro_state_ref, pro_env_ref);
 
 /**
  * Retains a reference for further use.
  *
- * @see memory management.
+ * @see memory_management.
  */
-PRO_API pro_error (pro_retain) (pro_state_ref, pro_ref);
+PRO_API
+pro_error (pro_retain) (pro_state_ref, pro_ref);
 
 /**
  * Release an referenced object for future collection.
  *
- * Ref must not be used after it has been released.
- *
- * @see memory management.
+ * @see memory_management.
  */
-PRO_API pro_error (pro_release) (pro_state_ref, pro_ref);
+PRO_API
+pro_error (pro_release) (pro_state_ref, pro_ref);
 
 /**
+ * Resolves an identifier to a object.
+ *
  * @param[out] ref The highest resolved reference or PRO_EMPTY_REF if none. 
  *     Increments the reference count of the ref.
- *
- * @return
- *   PRO_OK if successful
  */
-PRO_API pro_error (pro_get_binding) (pro_state_ref,
+PRO_API
+pro_error (pro_get_binding) (pro_state_ref,
     pro_env_ref env, const char* name, PRO_OUT pro_ref* ref);
 
 /**
  * @param[out] type The type value of a lookup.
- * 
- * @return 
  */
-PRO_API pro_error (pro_get_type) (pro_state_ref,
+PRO_API
+pro_error (pro_get_type) (pro_state_ref,
     pro_ref lookup, PRO_OUT pro_type* type);
 
 /**
  * Binds a lookup to an identifier name.
  *
  * @return
- *   PRO_OK if successful
- *   PRO_INVALID_OPERATION if the state is not valid or id is null.
+ *   PRO_INVALID_OPERATION if ref is PRO_EMPTY_REF.
  *   PRO_OUT_OF_MEMORY if memory cannot be allocated.
- *   PRO_INVALID_ARGUMENT If ref is invalid.
  */
-PRO_API pro_error (pro_bind) (pro_state_ref, pro_ref ref, const char* id);
+PRO_API
+pro_error (pro_bind) (pro_state_ref, pro_ref ref, const char* id);
 
 /**
- * Enum for status of a match.
- *
- * PRO_MATCH_FAIL - The match failed and is complete.
- * PRO_MATCH_SUCCEED - The match succeed and is complete.
- * PRO_MATCH_CONTINUE - The match succeed and will continue.
+ * Enum for status of a match. operation
  */
 typedef enum 
 {
+    /**<
+     * The match failed and is complete.
+     */
     PRO_MATCH_FAIL = 0,
+    
+    /**<
+     * The match succeed and is complete.
+     */
     PRO_MATCH_SUCCEED,
+    
+    /**
+     * The match succeed and will continue.
+     */
     PRO_MATCH_CONTINUE
 } pro_matching;
 
@@ -302,15 +335,18 @@ typedef enum
  *   PRO_OK if successful
  *   PRO_INVALID_OPERATION if the state is not valid or id is null.
  */
-PRO_API pro_error (pro_match) (pro_state_ref, pro_ref, pro_ref, PRO_OUT pro_matching* match);
+PRO_API
+pro_error (pro_match) (pro_state_ref, pro_ref, pro_ref ref,
+    PRO_OUT pro_matching* match);
 
 /**
  * Gets the string representation of an object.
  *
  * @param[out] ud User data with a reference count of one to store the object.
  */
-PRO_API pro_error (pro_to_string) (pro_state_ref,
-    pro_ref, PRO_OUT pro_ref* ud);
+PRO_API
+pro_error (pro_to_string) (pro_state_ref, pro_ref,
+    PRO_OUT pro_ref* ud);
 
 
 #pragma mark Constructor
@@ -330,27 +366,29 @@ PRO_API pro_error (pro_to_string) (pro_state_ref,
  * @return
  *   PRO_OK if successful
  *   PRO_INVALID_OPERATION if the state is not valid or id is null.
- *   PRO_INVALID_ARGUMENT if impl is null.
+ *    if impl is null.
  */
-PRO_API pro_error (pro_constructor_create) (pro_state_ref,
-    pro_constructor* impl, pro_ref ud, PRO_OUT pro_ref* out_ref);
+PRO_API
+pro_error (pro_constructor_create) (pro_state_ref, pro_constructor* impl, pro_ref ud,
+    PRO_OUT pro_ref* out_ref);
 
 /**
  * Calls a constructor with a list of arguments.
  * 
  * @param constructor The reference to the constructor to call.
- * @param arguments A list of lookups to pass to the constructor.
+ * @param args A list of lookups to pass to the constructor.
  *
  * @param[out] result The result from the constructor.
  *
  * @return
  *   PRO_OK if successful
- *   PRO_INVALID_OPERATION if the state is not valid.
- *   PRO_INVALID_ARGUMENT if constructor does reference a constructor.
+ *   PRO_INVALID_STATE
+ *    if constructor does reference a constructor.
  *   PRO_CONSTRUCTOR_ERROR if the constructor call fails.
  */
-PRO_API pro_error (pro_constructor_call) (pro_state_ref,
-    pro_ref constructor, pro_ref arguments, PRO_OUT pro_ref* result);
+PRO_API
+pro_error (pro_constructor_call) (pro_state_ref, pro_ref constructor, pro_ref args,
+    PRO_OUT pro_ref* result);
 
 
 #pragma mark List
@@ -362,10 +400,12 @@ PRO_API pro_error (pro_constructor_call) (pro_state_ref,
  *
  * @return
  *   PRO_OK if successful
- *   PRO_INVALID_OPERATION if the state is not valid.
+ *   PRO_INVALID_STATE
  *   PRO_OUT_OF_MEMORY if memory allocation fails.
  */
-PRO_API pro_error (pro_list_create) (pro_state_ref, PRO_OUT pro_ref* msg);
+PRO_API
+pro_error (pro_list_create) (pro_state_ref,
+    PRO_OUT pro_ref* msg);
 
 /**
  * Get the number of objects in a list.
@@ -374,10 +414,11 @@ PRO_API pro_error (pro_list_create) (pro_state_ref, PRO_OUT pro_ref* msg);
  *
  * @return
  *   PRO_OK if successful
- *   PRO_INVALID_OPERATION if the state is not valid.
- *   PRO_INVALID_ARGUMENT if msg does not reference a list.
+ *   PRO_INVALID_STATE
+ *    if msg does not reference a list.
  */
-PRO_API pro_error (pro_list_length) (pro_state_ref, pro_ref msg,
+PRO_API
+pro_error (pro_list_length) (pro_state_ref, pro_ref msg,
     PRO_OUT unsigned int* length);
 
 /**
@@ -388,11 +429,11 @@ PRO_API pro_error (pro_list_length) (pro_state_ref, pro_ref msg,
  *
  * @return
  *   PRO_OK if successful
- *   PRO_INVALID_OPERATION if the state is not valid.
- *   PRO_INVALID_ARGUMENT if msg does not reference a list.
+ *   PRO_INVALID_STATE If msg does not reference a list.
  */
-PRO_API pro_error (pro_list_get) (pro_state_ref,
-    pro_ref msg, unsigned int index, PRO_OUT pro_ref* result);
+PRO_API
+pro_error (pro_list_get) (pro_state_ref, pro_ref msg, unsigned int index,
+    PRO_OUT pro_ref* result);
 
 /**
  * Appends an value to a list to create a new list.
@@ -405,12 +446,13 @@ PRO_API pro_error (pro_list_get) (pro_state_ref,
  *
  * @return
  *   PRO_OK if successful
- *   PRO_INVALID_OPERATION if the state is not valid.
- *   PRO_INVALID_ARGUMENT if msg does not reference a list or value does
+ *   PRO_INVALID_STATE
+ *    if msg does not reference a list or value does
  *     not reference a valid object.
  */
-PRO_API pro_error (pro_list_append) (pro_state_ref,
-    pro_ref msg, pro_ref value, PRO_OUT pro_ref* new_msg);
+PRO_API
+pro_error (pro_list_append) (pro_state_ref, pro_ref msg, pro_ref value,
+    PRO_OUT pro_ref* new_msg);
 
 
 #pragma mark User Data
@@ -427,7 +469,8 @@ typedef void(pro_ud_deconstructor) (pro_state_ref, void* data);
  *
  * Frees the user data pointer.
  */
-PRO_API void (PRO_DEFAULT_UD_DECONSTRUCTOR) (pro_state_ref, void* data);
+PRO_API
+void (PRO_DEFAULT_UD_DECONSTRUCTOR) (pro_state_ref, void* data);
 
 /**
  * Creates a new user data object with a given size and deconstructor.
@@ -437,11 +480,12 @@ PRO_API void (PRO_DEFAULT_UD_DECONSTRUCTOR) (pro_state_ref, void* data);
  * 
  * @return
  *   PRO_OK if successful
- *   PRO_INVALID_OPERATION if the state is not valid.
+ *   PRO_INVALID_STATE
  *   PRO_OUT_OF_MEMORY If memory for the requested object cannot be allocated.
  */
-PRO_API pro_error (pro_ud_create) (pro_state_ref,
-    size_t size, pro_ud_deconstructor* deconstructor, PRO_OUT pro_ref* out_ref);
+PRO_API
+pro_error (pro_ud_create) (pro_state_ref, size_t size, pro_ud_deconstructor* deconstructor,
+    PRO_OUT pro_ref* out_ref);
 
 /**
  * Requests access to user data data for reading.
@@ -451,10 +495,11 @@ PRO_API pro_error (pro_ud_create) (pro_state_ref,
  *
  * @return
  *   PRO_OK if successful
- *   PRO_INVALID_OPERATION if the state is not valid.
- *   PRO_INVALID_ARGUMENT if ref is not user data.
+ *   PRO_INVALID_STATE
+ *    if ref is not user data.
  */
-PRO_API pro_error (pro_ud_read) (pro_state_ref, pro_ref,
+PRO_API
+pro_error (pro_ud_read) (pro_state_ref, pro_ref,
     PRO_OUT const void** out_data);
 
 /**
@@ -465,10 +510,11 @@ PRO_API pro_error (pro_ud_read) (pro_state_ref, pro_ref,
  *
  * @return
  *   PRO_OK if successful
- *   PRO_INVALID_OPERATION if the state is not valid.
- *   PRO_INVALID_ARGUMENT if ref is not a valid user data object.
+ *   PRO_INVALID_STATE
+ *    if ref is not a valid user data object.
  */
-PRO_API pro_error (pro_ud_write) (pro_state_ref, pro_ref,
+PRO_API
+pro_error (pro_ud_write) (pro_state_ref, pro_ref,
     PRO_OUT void** out_data);
 
 
@@ -485,20 +531,23 @@ PRO_API pro_error (pro_ud_write) (pro_state_ref, pro_ref,
  *
  * @return
  *   PRO_OK if successful
- *   PRO_INVALID_OPERATION if the state is not valid.
+ *   PRO_INVALID_STATE
  */
-PRO_API pro_error (pro_actor_create) (pro_state_ref, pro_actor_type type,
-    pro_behavior beh, pro_ref data, PRO_OUT pro_ref* out_ref);
+PRO_API
+pro_error (pro_actor_create) (pro_state_ref, pro_actor_type type,
+    pro_behavior beh, pro_ref data,
+    PRO_OUT pro_ref* out_ref);
 
 /**
  * @param[out] out_type The actor type of a lookup.
  *
  * @return
  *   PRO_OK if successful
- *   PRO_INVALID_OPERATION if the state is not valid.
- *   PRO_INVALID_ARGUMENT if ref is not a valid actor.
+ *   PRO_INVALID_STATE
+ *    if ref is not a valid actor.
  */
-PRO_API pro_error (pro_get_actor_type) (pro_state_ref, pro_ref,
+PRO_API
+pro_error (pro_get_actor_type) (pro_state_ref, pro_ref,
     PRO_OUT pro_actor_type* out_type);
 
 /**
@@ -510,10 +559,11 @@ PRO_API pro_error (pro_get_actor_type) (pro_state_ref, pro_ref,
  *
  * @return
  *   PRO_OK if successful
- *   PRO_INVALID_OPERATION if the state is not valid.
- *   PRO_INVALID_ARGUMENT if actor is not a valid actor.
+ *   PRO_INVALID_STATE
+ *    if actor is not a valid actor.
  */
-PRO_API pro_error (pro_send) (pro_state_ref, pro_ref actor, pro_ref msg);
+PRO_API
+pro_error (pro_send) (pro_state_ref, pro_ref actor, pro_ref msg);
 
 /**
  * Specify the behavior for an actor.
@@ -527,10 +577,12 @@ PRO_API pro_error (pro_send) (pro_state_ref, pro_ref actor, pro_ref msg);
  *
  * @return
  *   PRO_OK if successful
- *   PRO_INVALID_OPERATION if the state is not valid.
- *   PRO_INVALID_ARGUMENT if either actor or new_beh are not valid actors.
+ *   PRO_INVALID_STATE
+ *    if either actor or new_beh are not valid actors.
  */
-PRO_API pro_error (pro_become) (pro_state_ref, pro_ref actor, pro_ref new_beh);
+PRO_API
+pro_error (pro_become) (pro_state_ref, pro_ref actor, pro_ref new_beh);
+
 
 
 #pragma mark Library Loading
@@ -542,7 +594,8 @@ typedef void(pro_library_init)(pro_state_ref);
 /** 
  *
  */
-PRO_API pro_error (pro_library_load) (pro_state_ref, const char* file);
+PRO_API
+pro_error (pro_library_load) (pro_state_ref, const char* file);
 
 #endif
 

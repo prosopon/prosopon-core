@@ -4,7 +4,8 @@
 #include "pro_lookup.h"
 
 
-PRO_INTERNAL void pro_deliver_message(pro_state_ref s,
+PRO_INTERNAL
+void pro_deliver_message(pro_state_ref s,
     pro_ref actor, pro_ref message)
 {
     pro_object* actor_obj = pro_dereference(s, actor);

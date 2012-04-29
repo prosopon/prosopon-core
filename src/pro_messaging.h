@@ -5,7 +5,8 @@
 
 
 
-PRO_INTERNAL void pro_deliver_message(pro_state_ref,
+PRO_INTERNAL
+void pro_deliver_message(pro_state_ref,
     pro_ref actor, pro_ref message);
 
 #endif

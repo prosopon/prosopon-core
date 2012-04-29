@@ -45,18 +45,21 @@ struct pro_object
  *
  * @return The newly allocated object
  */
-PRO_INTERNAL pro_object* pro_object_new(pro_state_ref,
+PRO_INTERNAL
+pro_object* pro_object_new(pro_state_ref,
     pro_type type, unsigned int ref_count);
 
 /**
  * Frees the memory for a pro_object.
  */
-PRO_INTERNAL void pro_object_free(pro_state_ref, pro_object*);
+PRO_INTERNAL
+void pro_object_free(pro_state_ref, pro_object*);
 
 /**
  * Retains a pro_object.
  */
-PRO_INTERNAL pro_object* pro_object_retain(pro_state_ref, pro_object*);
+PRO_INTERNAL
+pro_object* pro_object_retain(pro_state_ref, pro_object*);
 
 /**
  * Releases a pro_object.
@@ -64,7 +67,8 @@ PRO_INTERNAL pro_object* pro_object_retain(pro_state_ref, pro_object*);
  * When ref count is zero, object can be released.
  * Caller must not use the object after calling release.
  */
-PRO_INTERNAL void pro_object_release(pro_state_ref, pro_object*);
+PRO_INTERNAL
+void pro_object_release(pro_state_ref, pro_object*);
 
 
 #endif

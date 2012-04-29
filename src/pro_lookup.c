@@ -9,7 +9,8 @@
 
 #pragma mark Internal
 
-PRO_INTERNAL pro_lookup* pro_lookup_new(pro_state* s,
+PRO_INTERNAL
+pro_lookup* pro_lookup_new(pro_state* s,
     struct pro_object* obj, unsigned int ref_count)
 {
     pro_alloc* alloc;
@@ -23,7 +24,8 @@ PRO_INTERNAL pro_lookup* pro_lookup_new(pro_state* s,
 }
 
 
-PRO_INTERNAL int pro_lookup_equal(pro_state* s,
+PRO_INTERNAL
+int pro_lookup_equal(pro_state* s,
     const pro_lookup* o1, const pro_lookup* o2)
 {
     if (o1 == o2)
@@ -35,7 +37,8 @@ PRO_INTERNAL int pro_lookup_equal(pro_state* s,
     return (o1->obj == o2->obj);
 }
 
-PRO_INTERNAL void pro_lookup_free(pro_state_ref s, pro_lookup* t)
+PRO_INTERNAL
+void pro_lookup_free(pro_state_ref s, pro_lookup* t)
 {
     pro_alloc* alloc;
     pro_get_alloc(s, &alloc);
@@ -49,7 +52,8 @@ PRO_INTERNAL void pro_lookup_free(pro_state_ref s, pro_lookup* t)
 }
 
 
-PRO_INTERNAL pro_object* pro_dereference(pro_state_ref s, pro_ref ref)
+PRO_INTERNAL
+pro_object* pro_dereference(pro_state_ref s, pro_ref ref)
 {
     return pro_lookup_equal(s, ref, PRO_EMPTY_REF) ? 0 : ref->obj;
 }
@@ -61,7 +65,8 @@ PRO_INTERNAL pro_object* pro_dereference(pro_state_ref s, pro_ref ref)
 pro_ref PRO_EMPTY_REF = 0;
 
 
-PRO_API pro_error pro_retain(pro_state_ref s, pro_ref ref)
+PRO_API
+pro_error pro_retain(pro_state_ref s, pro_ref ref)
 {
     if (!pro_lookup_equal(s, ref, PRO_EMPTY_REF))
         ref->ref_count++;
@@ -69,7 +74,8 @@ PRO_API pro_error pro_retain(pro_state_ref s, pro_ref ref)
 }
 
 
-PRO_API pro_error pro_release(pro_state_ref s, pro_ref ref)
+PRO_API
+pro_error pro_release(pro_state_ref s, pro_ref ref)
 {
     // release PRO_EMPTY_REF is a valid noop
     if (pro_lookup_equal(s, ref, PRO_EMPTY_REF))
