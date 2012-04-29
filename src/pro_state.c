@@ -147,11 +147,10 @@ PRO_API pro_error pro_state_release(pro_state_ref s)
     
     // Release the root environment.
     pro_env* root_env = pro_env_dereference(s, s->root_env);
-    pro_env_release(s, s->root_env);
-    
     // If we a releasing the main env, unbind all items in it.
     if (s->global->main == s)
         pro_env_unbind_all(s, root_env);
+    pro_env_release(s, s->root_env);
     
     // Free global state
     if (s == s->global->main)

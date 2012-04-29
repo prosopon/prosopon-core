@@ -329,7 +329,7 @@ PRO_API pro_error (pro_to_string) (pro_state_ref,
 #pragma mark Constructor
 
 /**
- * Creates a new constructor in the current environment.
+ * Creates a new constructor.
  *
  * @param impl A function that constructs an object and returns a referance.
  *   Must not be null. The env that the constructor is created in will be current
@@ -369,7 +369,7 @@ PRO_API pro_error (pro_constructor_call) (pro_state_ref,
 #pragma mark List
 
 /**
- * Creates a new list in the current environment.
+ * Creates a new list.
  *
  * @param[out] msg A referance to the new list with a reference count of 1.
  *
@@ -488,7 +488,7 @@ PRO_API pro_error (pro_ud_write) (pro_state_ref, pro_ref,
 #pragma mark Actor
 
 /**
- * Create a new actor object in the current environment.
+ * Create a new actor.
  * 
  * @param type The actor type of the new actor. Determines primitive functions.
  * @param beh The behavior for the new actor. May be null.

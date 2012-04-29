@@ -12,7 +12,7 @@ struct pro_object;
 typedef struct pro_lookup pro_lookup;
 struct pro_lookup
 {
-    unsigned ref_count; /**< The lookup's reference count */
+    unsigned short ref_count; /**< The lookup's reference count */
     struct pro_object* obj;   
 };
 

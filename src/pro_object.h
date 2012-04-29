@@ -12,7 +12,7 @@ struct pro_lookup_list;
 typedef struct pro_object pro_object;
 struct pro_object
 {
-    unsigned int ref_count;
+    unsigned short ref_count;
     pro_type type;
     union
     {

@@ -8,7 +8,7 @@
 
 struct pro_env_lookup
 {
-    unsigned int ref_count;
+    unsigned short ref_count;
     pro_env* value;
 };
 
