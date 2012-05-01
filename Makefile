@@ -1,12 +1,18 @@
 SHELL=/bin/bash
 
+UNAME := $(shell uname)
+
+
 prefix = /usr/local
 exec_prefix = $(prefix)
 libdir = $(exec_prefix)/lib
 includedir = $(prefix)/include
 
-
-LIBTOOL = glibtool --tag="junk"
+ifeq ($(UNAME), Darwin)
+    LIBTOOL = glibtool --tag="junk"
+else
+    LIBTOOL = libtool
+endif
 CC = gcc
 DOC = doxygen
 
